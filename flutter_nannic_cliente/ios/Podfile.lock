@@ -1,6 +1,4 @@
 PODS:
-  - back_button_behavior (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
     - Flutter
@@ -11,7 +9,6 @@ PODS:
   - Toast (4.1.0)
 
 DEPENDENCIES:
-  - back_button_behavior (from `.symlinks/plugins/back_button_behavior/ios`)
   - Flutter (from `Flutter`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -21,8 +18,6 @@ SPEC REPOS:
     - Toast
 
 EXTERNAL SOURCES:
-  back_button_behavior:
-    :path: ".symlinks/plugins/back_button_behavior/ios"
   Flutter:
     :path: Flutter
   fluttertoast:
@@ -31,7 +26,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
-  back_button_behavior: a0baab50850d4c4869a8c8d0f5ecc4860724d895
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695

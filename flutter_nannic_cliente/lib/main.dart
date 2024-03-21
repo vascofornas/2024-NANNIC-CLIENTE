@@ -1,4 +1,5 @@
 //IMPORTS FLUTTER
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 //IMPORTS PUB DEV
@@ -11,8 +12,13 @@ import 'package:flutter_admin_dashboard/theme/theme_provider.dart';
 import 'package:flutter_admin_dashboard/auth_shared_preferences/auth_manager.dart';
 
 
-void main() {
-  AuthManager authManager = AuthManager();
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await EasyLocalization.ensureInitialized();
+
+
   runApp(
     MultiProvider(
       providers: [
@@ -25,7 +31,14 @@ void main() {
 
 
       ],
-      child: const MyApp(),
+      child: EasyLocalization(
+          path: "idiomas",
+          fallbackLocale: Locale("es", "ES"),
+          saveLocale: true,
+          supportedLocales: [Locale("en", "EN"), Locale("es", "ES"), Locale("fr", "FR"), Locale("nl", "NL"), Locale("de", "DE")],
+
+
+          child: const MyApp()),
     ),
   );
 }
