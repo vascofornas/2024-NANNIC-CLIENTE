@@ -1,0 +1,68 @@
+name: flutter_nannic_cliente
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.1+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Default icons asset for Cupertino widgets based on Apple styled icons
+  cupertino_icons: ^1.0.6
+  # A wrapper around InheritedWidget to make them easier to use and more reusable.
+  provider: ^6.1.2
+  # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
+  flutter_svg: ^2.0.10+1
+  # A composable, Future-based library for making HTTP requests
+  http: ^1.2.1
+  # Flutter plugin for reading and writing simple key-value pairs. Wraps NSUserDefaults on iOS and SharedPreferences on Android.
+  shared_preferences: ^2.2.2
+  # Toast Library for Flutter, Easily create toast messages in single line of code
+  fluttertoast: ^8.2.4
+  # A flutter package which will help you to generate pin code fields. Can be useful for OTP for example.
+  pin_code_fields: ^8.0.1
+  # Simple library for generating random ascii strings by default using Random from 'dart:math
+  random_string: ^2.3.1
+  # Helps you to change or rename your flutter project BundleId and AppName for Ios, Android, MacOS and Linux platforms
+  rename: ^3.0.2
+  # traduccion de textos
+  easy_localization: ^3.0.5
+  # Flutter plugin for querying information about the application package
+  package_info_plus: ^7.0.0
+  #Flutter plugin providing detailed information about the device (make, model, etc.), and Android or iOS version the app is running on.
+  device_info_plus: ^10.1.0
+  #Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera
+  image_picker: ^1.0.8
+  #A 'dart:html' that works in all platforms, including Flutter and server-side. Eases cross-platform development and HTML / XML processing
+  universal_html: ^2.2.4
+  #A Flutter package to use fonts from fonts.google.com. Supports HTTP fetching, caching, and asset bundling.
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - idiomas/
+    - lib/images/
+fonts:
+  - family: Miniver
+    fonts:
+      - asset: fonts/Miniver-Regular.ttf
+      - asset: fonts/Miniver-Bold.ttf
+        weight: 700
