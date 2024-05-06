@@ -19,7 +19,7 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
   late String emailUsuario = '';
   late String idUsuario = '';
   late String nivelUsuario = '';
-  bool usuarioAdministrador = true;
+
   bool usuarioBloqueado = false;
 
   late Timer _timer;
@@ -48,13 +48,7 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
       print(
           'Tipo de userData[\'nivelUsuario\']: ${userData['nivelUsuario'].runtimeType}');
 
-      if (userData['nivelUsuario'] != 2) {
-        usuarioAdministrador = false;
-        print("EL USUARIO NO ES ADMINISTRADOR");
-      } else {
-        usuarioAdministrador = true;
-        print("EL USUARIO ES ADMINISTRADOR");
-      }
+
       if (userData['activo'] != 1) {
         usuarioBloqueado = true;
         print("EL USUARIO ESTA BLOQUEADO");
@@ -66,7 +60,7 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
       print('Error al obtener datos del usuario: $e');
     }
     if (mounted) {
-      if (usuarioBloqueado == false && usuarioAdministrador == true) {
+      if (usuarioBloqueado == false ) {
         setState(() {
 
 
@@ -91,12 +85,7 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
     nivelUsuario = datos.nivel_usuario;
     idUsuario = datos.id;
 
-    print('El nivel del usuario es: ${nivelUsuario}');
-    if (nivelUsuario != "2") {
-      setState(() {
-        usuarioAdministrador = false;
-      });
-    }
+
   }
   @override
   Widget build(BuildContext context) {

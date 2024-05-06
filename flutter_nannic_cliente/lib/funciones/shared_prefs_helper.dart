@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {
+  String nombreClinica = "NoNameClinic";
+  String logoClinica = "logo_clinica.png";
 
   //id
   static Future<String?> getId() async {
@@ -145,6 +147,56 @@ class SharedPrefsHelper {
   static Future<String?> setVersionApp(String versionApp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('version_app', versionApp);
+  }
+
+  //es profesional de clinica
+  static Future<bool?> getProfesionalClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('esProfesionalClinica');
+  }
+  static Future<bool?> setEsProfesionalClinica(bool esProfesionalClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('esProfesionalClinica', esProfesionalClinica);
+  }
+
+  //es administrador de clinica
+  static Future<bool?> getAdministradorClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('esAdministradorClinica');
+  }
+  static Future<bool?> setEsAdministradorClinica(bool esAdministradorClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('esAdministradorClinica', esAdministradorClinica);
+  }
+  //id clinica del usuario de la app
+  static Future<String?> getIdClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('id_clinica');
+  }
+  static Future<String?> setIdClinica(String idClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('id_clinica', idClinica);
+
+  }
+  //nombre clinica del usuario de la app
+  static Future<String?> getNombreClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('nombre_clinica');
+  }
+  static Future<String?> setNombreClinica(String nombreClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('nombre_clinica', nombreClinica);
+
+  }
+  //logo clinica del usuario de la app
+  static Future<String?> getLogoClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('logo_clinica');
+  }
+  static Future<String?> setLogoClinica(String logoClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('logo_clinica', logoClinica);
+
   }
 
 

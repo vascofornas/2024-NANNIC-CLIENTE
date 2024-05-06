@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_nannic_cliente/funciones/actualizar_datos_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/obtener_datos_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/obtener_estado_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/on_will_pop.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_menu.dart';
 import 'package:flutter_nannic_cliente/screens/dashboard/dashboard_content.dart';
@@ -17,6 +21,7 @@ import 'package:flutter_nannic_cliente/screens/dashboard/usuario_bloqueado_no_ad
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -29,13 +34,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   late String emailUsuario = '';
   late String idUsuario = '';
   late String nivelUsuario = '';
-  bool usuarioAdministrador = true;
+
   bool usuarioBloqueado = false;
   String so_dispositivo = "";
   String version_app = "";
   String modelo_dispositivo = "";
   String versionApp = "";
   late Timer _timer;
+
+  List<String> profesionales = [];
+  List<String> administradores = [];
+  String idClinica ="";
+  String tipoUsuario = "";
 
   @override
   void initState() {
@@ -49,6 +59,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       verificarEstadoUsuario(idUsuario);
+
     });
   }
 
@@ -112,14 +123,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     emailUsuario = datos.email;
     nivelUsuario = datos.nivel_usuario;
     idUsuario = datos.id;
+    print("mi id de usuario es ${idUsuario}");
+    SharedPrefsHelper.setId(idUsuario);
+    // get id usuario desde SP
+    String? idUser = await SharedPrefsHelper.getId();
+    print("id user from SP ${idUser}");
 
-    print('El nivel del usuario es: ${nivelUsuario}');
-    if (nivelUsuario != "2") {
-      setState(() {
-        usuarioAdministrador = false;
-      });
-    }
+
   }
+
+
+
+
+
 
   verificarEstadoUsuario(String usuario) async {
     try {
@@ -128,13 +144,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
 
 
-      if (userData['nivelUsuario'] != 2) {
-        usuarioAdministrador = false;
 
-      } else {
-        usuarioAdministrador = true;
-
-      }
       if (userData['activo'] != 1) {
         usuarioBloqueado = true;
 
@@ -146,7 +156,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
     }
     if (mounted) {
-      if (usuarioBloqueado == true || usuarioAdministrador == false) {
+      if (usuarioBloqueado == true ) {
         setState(() {
 
           Navigator.pushAndRemoveUntil(
@@ -163,8 +173,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "Condición usuarioAdministrador == false: ${usuarioAdministrador == false}");
+
 
     return WillPopScope(
         onWillPop: () => onWillPop(context),
