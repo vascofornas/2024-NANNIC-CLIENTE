@@ -14,7 +14,9 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 class ProfesionalesContent extends StatelessWidget {
-  const ProfesionalesContent({Key? key}) : super(key: key);
+  const ProfesionalesContent({Key? key, required this.clinicaId}) : super(key: key);
+
+  final String clinicaId;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class ProfesionalesContent extends StatelessWidget {
                         //abrir pantalla nuevo profesional
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const NuevoProfesionalPage()),
+                          MaterialPageRoute(builder: (context) =>NuevoProfesionalPage(clinicaId: this.clinicaId,)),
                         );
                       },
                       child: Icon(Icons.add),
@@ -64,7 +66,7 @@ class ProfesionalesContent extends StatelessWidget {
                       flex: 5,
                       child: Column(
                         children: [
-                          const ProfesionalesAnalytic(), // Widget para mostrar tarjetas analíticas
+                           ProfesionalesAnalytic(clinicaId: this.clinicaId ,), // Widget para mostrar tarjetas analíticas
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),

@@ -13,8 +13,9 @@ import 'package:flutter_nannic_cliente/screens/profesionales/profesional_card.da
 import 'package:http/http.dart' as http;
 
 class ZonaEquipos extends StatefulWidget {
-  const ZonaEquipos({Key? key, required this.onActualizarEstado,  }) : super(key: key);
+  const ZonaEquipos({Key? key, required this.onActualizarEstado, required this.clinicaId,  }) : super(key: key);
   final VoidCallback onActualizarEstado; // Tipo de la función de actualización
+  final String clinicaId;
 
 
 
@@ -114,7 +115,7 @@ class _ZonaEquiposState extends State<ZonaEquipos> {
                     itemCount: _filteredEquipos.length,
                     itemBuilder: (context, index) {
                       final equipo = _filteredEquipos[index];
-                      return EquipoCard(equipo: equipo,onActualizarEstado: actualizarEquipos,);
+                      return EquipoCard(equipo: equipo,onActualizarEstado: actualizarEquipos,clinicaid: widget.clinicaId,);
                     },
                   ),
           ),

@@ -19,6 +19,19 @@ class ApiService {
       throw Exception('Failed to load users count');
     }
   }
+  static Future<int> obtenerNumeroProfesionalesClinica(String idClinica) async {
+    print("**************id clinica en obtenerNumeroProfesionalesClinica ${idClinica}");
+    final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_clinica.php?id_clinica=$idClinica"));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final count = int.parse(data['count']); // Convertir a entero
+
+      return count;
+    } else {
+      throw Exception('Failed to load users count');
+    }
+  }
   static Future<int> obtenerNumeroPacientes() async {
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_pacientes.php"));
 

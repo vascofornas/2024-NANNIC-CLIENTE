@@ -13,6 +13,10 @@ import 'package:provider/provider.dart';
 
 class EquiposScreen extends StatefulWidget {
 
+  final String clinicaId;
+
+  const EquiposScreen({super.key, required this.clinicaId});
+
 
    // Tipo de la función de actualización
 
@@ -41,15 +45,15 @@ class _EquiposScreenState extends State<EquiposScreen> {
       onWillPop:  () => onWillPop(context),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-          drawer: DrawerMenu(emailUsuario: emailUsuario,),
+          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),
           body: SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario),),
+                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),),
                 Expanded(
                   flex: 5,
-                  child: EquiposContent(),
+                  child: EquiposContent(clinicaId: widget.clinicaId,),
                 )
               ],
             ),

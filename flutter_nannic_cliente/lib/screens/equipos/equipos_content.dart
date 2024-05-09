@@ -20,7 +20,9 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 class EquiposContent extends StatefulWidget {
-  const EquiposContent({Key? key, }) : super(key: key);
+  const EquiposContent({Key? key, required this.clinicaId, }) : super(key: key);
+
+  final String clinicaId;
 
 
   @override
@@ -62,7 +64,7 @@ class _EquiposContentState extends State<EquiposContent> {
                         //abrir pantalla nueva clinica
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => NuevoEquipoPage()),
+                          MaterialPageRoute(builder: (context) => NuevoEquipoPage(clinicaId: widget.clinicaId,)),
                         );
                       },
                       child: Icon(Icons.add),
@@ -92,7 +94,7 @@ class _EquiposContentState extends State<EquiposContent> {
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),
-                          ZonaEquipos(onActualizarEstado: actualizar,), // Widget para mostrar información de usuarios
+                          ZonaEquipos(onActualizarEstado: actualizar,clinicaId: widget.clinicaId,), // Widget para mostrar información de usuarios
                           // Espacio adicional si el dispositivo es móvil y se muestra la sección de discusiones
 
                         ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/api_services/api_services.dart';
@@ -10,7 +12,8 @@ import 'package:flutter_nannic_cliente/screens/components/analytic_info_card.dar
 import 'package:provider/provider.dart';
 
 class ProfesionalesAnalytic extends StatefulWidget {
-  const ProfesionalesAnalytic({super.key});
+   ProfesionalesAnalytic({super.key, required this.clinicaId});
+  final String clinicaId;
 
   @override
   State<ProfesionalesAnalytic> createState() => _ProfesionalesAnalyticState();
@@ -20,17 +23,27 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
 
   int numeroProfesionales = 0;
   int numeroProfesionalesAdministradores = 0;
+  late Timer _timer;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("clinicaId en profesionalesAnalytic ${widget.clinicaId}");
     obtenerNumeroProfesionales ();
     obtenerNumeroProfesionalesAdministradores ();
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+     obtenerNumeroProfesionales();
+     setState(() {
+       
+     });
+
+    });
   }
 
   obtenerNumeroProfesionales () async {
 
-      numeroProfesionales = await ApiService.obtenerNumeroProfesionales();
+      numeroProfesionales = await ApiService.obtenerNumeroProfesionalesClinica(widget.clinicaId);
      print("numero profesionales ${numeroProfesionales}");
 
 

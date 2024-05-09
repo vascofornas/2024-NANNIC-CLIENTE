@@ -23,9 +23,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class DrawerMenu extends StatefulWidget {
-  const DrawerMenu({Key? key, required this.emailUsuario}) : super(key: key);
+  const DrawerMenu({Key? key, required this.emailUsuario, required this.clinicaId}) : super(key: key);
 
   final String emailUsuario;
+  final String clinicaId;
 
   @override
   State<DrawerMenu> createState() => _DrawerMenuState();
@@ -167,7 +168,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   final nextScreen =
                       pantallaSeleccionada.pantallaSeleccionada !=
                               "profesionales"
-                          ? ProfesionalesScreen()
+                          ? ProfesionalesScreen(clinicaId: widget.clinicaId,)
                           : DashBoardScreen();
 
                   Navigator.pushAndRemoveUntil(
@@ -213,7 +214,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   final nextScreen =
                   pantallaSeleccionada.pantallaSeleccionada !=
                       "clinicas"
-                      ? ClinicasScreen()
+                      ? ClinicasScreen(clinicaId: widget.clinicaId,)
                       : DashBoardScreen();
 
                   Navigator.pushAndRemoveUntil(
@@ -259,7 +260,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   final nextScreen =
                   pantallaSeleccionada.pantallaSeleccionada !=
                       "equipos"
-                      ? EquiposScreen()
+                      ? EquiposScreen(clinicaId: widget.clinicaId,)
                       : DashBoardScreen();
 
                   Navigator.pushAndRemoveUntil(
@@ -302,7 +303,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   // Navegar a ProfesionalesScreen o a DashBoardScreen
                   final nextScreen =
                   pantallaSeleccionada.pantallaSeleccionada != "perfil"
-                      ? PerfilScreen()
+                      ? PerfilScreen(clinicaId: widget.clinicaId,)
                       : DashBoardScreen();
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -343,7 +344,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   // Navegar a ProfesionalesScreen o a DashBoardScreen
                   final nextScreen =
                       pantallaSeleccionada.pantallaSeleccionada != "plantilla"
-                          ? PlantillaScreen()
+                          ? PlantillaScreen(clinicaid: widget.clinicaId,)
                           : DashBoardScreen();
                   Navigator.pushAndRemoveUntil(
                     context,

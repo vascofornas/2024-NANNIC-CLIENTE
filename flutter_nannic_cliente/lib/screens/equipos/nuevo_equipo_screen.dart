@@ -16,7 +16,9 @@ import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_c
 import 'package:provider/provider.dart';
 
 class NuevoEquipoPage extends StatefulWidget {
-  const NuevoEquipoPage({Key? key}) : super(key: key);
+  const NuevoEquipoPage({Key? key, required this.clinicaId}) : super(key: key);
+
+  final String clinicaId;
 
   @override
   State<NuevoEquipoPage> createState() => _NuevoEquipoPageState();
@@ -62,7 +64,7 @@ class _NuevoEquipoPageState extends State<NuevoEquipoPage> {
                           child: MiTextoSimple(texto: "detallesnuevodisponannic".tr(), color: Colors.grey, fontWeight: FontWeight.bold, fontsize: 24))
                     ],
                   ),
-                  NuevoEquipoContent(),
+                  NuevoEquipoContent(clinicaId: widget.clinicaId,),
                 ],
               ),
             ),

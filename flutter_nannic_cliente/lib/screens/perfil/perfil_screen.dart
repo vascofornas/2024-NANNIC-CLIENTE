@@ -11,7 +11,8 @@ import 'package:flutter_nannic_cliente/screens/plantilla/plantilla_content.dart'
 import 'package:provider/provider.dart';
 
 class PerfilScreen extends StatefulWidget {
-  const PerfilScreen({Key? key}) : super(key: key);
+  const PerfilScreen({Key? key, required this.clinicaId}) : super(key: key);
+  final String clinicaId;
 
   @override
   State<PerfilScreen> createState() => _PerfilScreenState();
@@ -42,12 +43,12 @@ class _PerfilScreenState extends State<PerfilScreen> {
       onWillPop:  () => onWillPop(context),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-          drawer: DrawerMenu(emailUsuario: emailUsuario,),
+          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),
           body: SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,),),
+                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),),
                 Expanded(
                   flex: 5,
                   child: PerfilContent(),

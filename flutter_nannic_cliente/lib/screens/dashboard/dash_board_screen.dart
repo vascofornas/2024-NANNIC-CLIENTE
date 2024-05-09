@@ -24,7 +24,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
+  const DashBoardScreen({Key? key, }) : super(key: key);
+
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
@@ -161,7 +162,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => UsuarioBloqueadoScreen()),
+            MaterialPageRoute(builder: (context) => UsuarioBloqueadoScreen(clinicaId: idClinica,)),
                 (route) => false, // Eliminar todas las rutas anteriores
           );
 
@@ -181,6 +182,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           backgroundColor: Theme.of(context).colorScheme.background,
           drawer: DrawerMenu(
             emailUsuario: emailUsuario,
+            clinicaId: idClinica,
           ),
           body: SafeArea(
             child: Row(
@@ -190,6 +192,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   Expanded(
                     child: DrawerMenu(
                       emailUsuario: emailUsuario,
+                      clinicaId: idClinica,
                     ),
                   ),
                 Expanded(

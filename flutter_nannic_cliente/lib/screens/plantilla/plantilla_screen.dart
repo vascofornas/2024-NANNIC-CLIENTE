@@ -10,7 +10,8 @@ import 'package:flutter_nannic_cliente/screens/plantilla/plantilla_content.dart'
 import 'package:provider/provider.dart';
 
 class PlantillaScreen extends StatefulWidget {
-  const PlantillaScreen({Key? key}) : super(key: key);
+  const PlantillaScreen({Key? key, required this.clinicaid}) : super(key: key);
+  final String clinicaid;
 
   @override
   State<PlantillaScreen> createState() => _PlantillaScreenState();
@@ -38,12 +39,12 @@ class _PlantillaScreenState extends State<PlantillaScreen> {
       onWillPop:  () => onWillPop(context),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-          drawer: DrawerMenu(emailUsuario: emailUsuario,),
+          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaid,),
           body: SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,),),
+                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaid,),),
                 Expanded(
                   flex: 5,
                   child: PlantillaContent(),

@@ -34,7 +34,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 
 class NuevoProfesionalContent extends StatefulWidget {
-  const NuevoProfesionalContent({Key? key}) : super(key: key);
+  const NuevoProfesionalContent({Key? key, required this.clinicaId}) : super(key: key);
+  final String clinicaId;
 
   @override
   State<NuevoProfesionalContent> createState() => _NuevoProfesionalContentState();
@@ -126,7 +127,7 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
           Navigator.of(context).pop();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ProfesionalesScreen()),
+            MaterialPageRoute(builder: (context) =>  ProfesionalesScreen(clinicaId: widget.clinicaId ,)),
           );
         }
 

@@ -238,7 +238,7 @@ class _DashboardContentState extends State<DashboardContent> {
                       flex: 5,
                       child: Column(
                         children: [
-                          ProfesionalesAnalytic(),
+                          ProfesionalesAnalytic(clinicaId: this.idClinica,),
                           SizedBox(height: appPadding,),
                           ClinicasAnalytic(),// Widget para mostrar tarjetas analíticas
                           SizedBox(height: appPadding,),

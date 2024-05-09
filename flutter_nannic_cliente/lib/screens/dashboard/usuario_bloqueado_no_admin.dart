@@ -8,7 +8,8 @@ import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/screens/dashboard/dash_board_screen.dart';
 
 class UsuarioBloqueadoScreen extends StatefulWidget {
-  const UsuarioBloqueadoScreen({Key? key}) : super(key: key);
+  const UsuarioBloqueadoScreen({Key? key, required this.clinicaId}) : super(key: key);
+  final String clinicaId;
 
   @override
   State<UsuarioBloqueadoScreen> createState() => _UsuarioBloqueadoScreenState();

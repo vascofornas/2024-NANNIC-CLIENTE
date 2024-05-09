@@ -17,7 +17,8 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 class ClinicasContent extends StatefulWidget {
-  const ClinicasContent({Key? key}) : super(key: key);
+  const ClinicasContent({Key? key, required this.clinicaId}) : super(key: key);
+  final String clinicaId;
 
   @override
   State<ClinicasContent> createState() => _ClinicasContentState();
@@ -52,7 +53,7 @@ class _ClinicasContentState extends State<ClinicasContent> {
                         //abrir pantalla nueva clinica
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => NuevaClinicaPage()),
+                          MaterialPageRoute(builder: (context) => NuevaClinicaPage(clinicaId: widget.clinicaId,)),
                         );
                       },
                       child: Icon(Icons.add),

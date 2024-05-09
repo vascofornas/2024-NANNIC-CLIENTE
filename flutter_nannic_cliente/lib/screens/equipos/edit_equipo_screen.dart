@@ -18,9 +18,10 @@ import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_c
 import 'package:provider/provider.dart';
 
 class EditEquipoPage extends StatefulWidget {
-  const EditEquipoPage({Key? key, required this.equipo}) : super(key: key);
+  const EditEquipoPage({Key? key, required this.equipo, required this.clinicaId}) : super(key: key);
 
   final Equipo equipo;
+  final String clinicaId;
 
   @override
   State<EditEquipoPage> createState() => _EditEquipoPageState();
@@ -66,7 +67,7 @@ class _EditEquipoPageState extends State<EditEquipoPage> {
                           child: MiTextoSimple(texto: widget.equipo.nombre_equipo!, color: Colors.grey, fontWeight: FontWeight.bold, fontsize: 24))
                     ],
                   ),
-                  EditEquipoContent(equipo: widget.equipo,),
+                  EditEquipoContent(equipo: widget.equipo,clinicaId: widget.clinicaId,),
                 ],
               ),
             ),

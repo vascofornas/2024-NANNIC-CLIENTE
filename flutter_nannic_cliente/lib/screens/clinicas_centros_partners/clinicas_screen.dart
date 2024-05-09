@@ -11,7 +11,8 @@ import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_conte
 import 'package:provider/provider.dart';
 
 class ClinicasScreen extends StatefulWidget {
-  const ClinicasScreen({Key? key}) : super(key: key);
+  const ClinicasScreen({Key? key, required this.clinicaId}) : super(key: key);
+  final String clinicaId;
 
   @override
   State<ClinicasScreen> createState() => _ClinicasScreenState();
@@ -38,15 +39,15 @@ class _ClinicasScreenState extends State<ClinicasScreen> {
       onWillPop:  () => onWillPop(context),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-          drawer: DrawerMenu(emailUsuario: emailUsuario,),
+          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),
           body: SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario),),
+                if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),),
                 Expanded(
                   flex: 5,
-                  child: ClinicasContent(),
+                  child: ClinicasContent(clinicaId: widget.clinicaId,),
                 )
               ],
             ),

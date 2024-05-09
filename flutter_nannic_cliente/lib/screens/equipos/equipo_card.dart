@@ -18,9 +18,10 @@ import 'package:flutter_nannic_cliente/screens/funciones/cambiar_pass_profesiona
 import 'package:provider/provider.dart';
 
 class EquipoCard extends StatefulWidget {
-  const EquipoCard({super.key, required this.equipo, required this.onActualizarEstado});
+  const EquipoCard({super.key, required this.equipo, required this.onActualizarEstado, required this.clinicaid});
 
   final Equipo equipo;
+  final String clinicaid;
 
   final VoidCallback onActualizarEstado; // Tipo de la función de actualización
 
@@ -47,7 +48,7 @@ class _EquipoCardState extends State<EquipoCard> {
       onTap: (){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditEquipoPage(equipo: widget.equipo,)),
+          MaterialPageRoute(builder: (context) => EditEquipoPage(equipo: widget.equipo,clinicaId: widget.clinicaid,)),
         );
 
 
