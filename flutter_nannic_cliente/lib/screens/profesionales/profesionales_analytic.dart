@@ -35,7 +35,7 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
      obtenerNumeroProfesionales();
      setState(() {
-       
+
      });
 
     });
