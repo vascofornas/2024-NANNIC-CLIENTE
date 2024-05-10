@@ -83,9 +83,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           guardarDatosDispositivo(
               so_dispositivo, version_app, modelo_dispositivo, idUsuario);
 
-          print('Running on ${androidInfo.model}'); // e.g. "Moto G (4)"
+
         } else {
-          print('No se pudo obtener información del dispositivo Android.');
+
         }
       } else if (Platform.isIOS) {
         IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
@@ -94,9 +94,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           so_dispositivo = "iOS";
           guardarDatosDispositivo(
               so_dispositivo, version_app, modelo_dispositivo, idUsuario);
-          print('Running on ${iosInfo.utsname.machine}'); // e.g. "iPod7,1"
+
         } else {
-          print('No se pudo obtener información del dispositivo iOS.');
+
         }
       } else if (kIsWeb) {
         WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
@@ -105,26 +105,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           so_dispositivo = "Web";
           guardarDatosDispositivo(
               so_dispositivo, version_app, modelo_dispositivo, idUsuario);
-          print(
-              'Running on ${webBrowserInfo.userAgent}'); // e.g. "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
+          // e.g. "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
         } else {
-          print('No se pudo obtener información del navegador web.');
+
         }
       } else {
-        print('Plataforma no compatible.');
+
       }
     } catch (e) {
-      print('Error al obtener información del dispositivo: $e');
+
     }
   }
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
     nivelUsuario = datos.nivel_usuario;
     idUsuario = datos.id;
-    print("mi id de usuario es ${idUsuario}");
+
     SharedPrefsHelper.setId(idUsuario);
     // get id usuario desde SP
     String? idUser = await SharedPrefsHelper.getId();

@@ -55,10 +55,10 @@ Future<dynamic> buildCambiarImagenEquipoDialog(BuildContext context,
 
         // Verificar si la carga fue exitosa
         if (response.statusCode == 200) {
-          print('Imagen cargada correctamente');
+
 
         } else {
-          print('Error al cargar la imagen: ${response.reasonPhrase}');
+
         }
       }
 
@@ -78,7 +78,7 @@ Future<dynamic> buildCambiarImagenEquipoDialog(BuildContext context,
             uploadImageToServer(
                 _image!); // Llamar a la función para cargar la imagen al servidor
           } else {
-            print('No image selected.');
+
           }
 
       }
@@ -113,10 +113,10 @@ Future<dynamic> buildCambiarImagenEquipoDialog(BuildContext context,
 
             // Verificar si la carga fue exitosa
             if (response.statusCode == 200) {
-              print('Imagen cargada correctamente');
+
               // actualizarAvatar(idUsuario + "_" + nombreArchivo);
             } else {
-              print('Error al cargar la imagen: ${response.reasonPhrase}');
+
             }
           }
         });
@@ -223,8 +223,7 @@ Future<dynamic> buildCambiarImagenEquipoDialog(BuildContext context,
 
           ElevatedButton(
             onPressed: () {
-              print("pulsado cambiar imagen del equipo antes de cambiar nada");
-              print("nombre de la nueva imagen ${nuevaImagen}");
+
 
 
             },

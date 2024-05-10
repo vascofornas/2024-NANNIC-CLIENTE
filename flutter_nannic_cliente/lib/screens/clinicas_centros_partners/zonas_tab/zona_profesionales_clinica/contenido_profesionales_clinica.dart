@@ -44,7 +44,7 @@ class _ContenidoProfesionalesClinicaState
   }
 
   Future<void> _fetchProfesionales() async {
-    print("clinica id ${widget.clinicaId}");
+
     final url = URLProyecto +
         APICarpeta +
         'obtener_profesionales_clinica.php'; // Reemplazar con la URL de tu script PHP
@@ -57,7 +57,7 @@ class _ContenidoProfesionalesClinicaState
       // Si la solicitud fue exitosa, analizar la respuesta
       final List<dynamic> data = json.decode(response.body);
       final List<dynamic> jsonResponse = json.decode(response.body);
-      print("respuesta profesionales clinica ${data.toString()}");
+
       setState(() {
         _profesionales =
             jsonResponse.map((data) => Profesional.fromJson(data)).toList();
@@ -65,14 +65,14 @@ class _ContenidoProfesionalesClinicaState
       });
     } else {
       // Si la solicitud falla, manejar el error
-      print("Error en la solicitud: ${response.body}");
+
       throw Exception('Failed to load data');
     }
   }
 
   void filtrarProfesionales(String query) {
     setState(() {
-      print("buscando pro clinica ${query}");
+
       _filteredProfesionales = _profesionales
           .where((profesionales) =>
               profesionales.nombre!

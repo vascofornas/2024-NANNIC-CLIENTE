@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userData.forEach((key, value) {
       prefs.setString(key, value.toString());
-      print("datos del usuario capturados ${key} ${value.toString()}");
+   ;
     });
 
   }
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
           // Convertir la respuesta JSON a un mapa
           Map<String, dynamic> responseData = json.decode(response.body);
           final Map parsed = json.decode(response.body);
-          print("response body ${response.body}");
+
 
           // Verificar si la respuesta contiene un mensaje de error
           if (responseData.containsKey('error')) {
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             // La autenticación fue exitosa, puedes procesar los datos del usuario aquí
             // Por ejemplo, guardar los datos del usuario en el almacenamiento local
-            print("estoy dentro");
+
 
 
             userData = responseData;

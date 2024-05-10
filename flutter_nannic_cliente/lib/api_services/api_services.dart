@@ -20,7 +20,8 @@ class ApiService {
     }
   }
   static Future<int> obtenerNumeroProfesionalesClinica(String idClinica) async {
-    print("**************id clinica en obtenerNumeroProfesionalesClinica ${idClinica}");
+    print("idCLinica profesionales ${idClinica}");
+
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_clinica.php?id_clinica=$idClinica"));
 
     if (response.statusCode == 200) {
@@ -62,7 +63,7 @@ class ApiService {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final count = int.parse(data['count']); // Convertir a entero
-      print("data count num equipos $count");
+
       return count;
     } else {
       throw Exception('Failed to load users count');
@@ -70,6 +71,22 @@ class ApiService {
   }
   static Future<int> obtenerNumeroProfesionalesAdministradores() async {
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_administradores.php"));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final count = int.parse(data['count']); // Convertir a entero
+
+      return count;
+    } else {
+      throw Exception('Failed to load users count');
+    }
+  }
+  static Future<int> obtenerNumeroProfesionalesAdministradoresClinica(String idClinica) async {
+
+    print("idClinica en obtenerNumeroProfesionalesAdministradoresClinica ${idClinica} ");
+
+
+    final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_administradores_clinica.php?id_clinica=$idClinica"));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -97,7 +114,7 @@ class ApiService {
       // Verifica si la solicitud fue exitosa (código de estado 200)
       if (response.statusCode == 200) {
         // Imprime la respuesta del servidor (para depuración)
-        print('Respuesta del servidor cambio pass profesional: ${response.body}');
+
         Fluttertoast.showToast(
             msg: "passcambiada".tr(),
             toastLength: Toast.LENGTH_LONG,
@@ -111,11 +128,11 @@ class ApiService {
         // Por ejemplo, mostrar un mensaje de éxito al usuario o realizar alguna otra acción.
       } else {
         // Si la solicitud no fue exitosa, muestra un mensaje de error
-        print('Error: ${response.reasonPhrase}');
+
       }
     } catch (e) {
       // Captura cualquier error que ocurra durante la solicitud
-      print('Error: $e');
+
     }
   }
   Future<void> cambiarActivoProfesional(String id, String activo) async {
@@ -135,7 +152,7 @@ class ApiService {
       // Verifica si la solicitud fue exitosa (código de estado 200)
       if (response.statusCode == 200) {
         // Imprime la respuesta del servidor (para depuración)
-        print('Respuesta del servidor cambio pass profesional: ${response.body}');
+
         activo == "0" ? Fluttertoast.showToast(
             msg: "desactivado".tr(),
             toastLength: Toast.LENGTH_LONG,
@@ -157,7 +174,7 @@ class ApiService {
         // Por ejemplo, mostrar un mensaje de éxito al usuario o realizar alguna otra acción.
       } else {
         // Si la solicitud no fue exitosa, muestra un mensaje de error
-        print('Error: ${response.reasonPhrase}');
+
       }
     } catch (e) {
       // Captura cualquier error que ocurra durante la solicitud
@@ -181,7 +198,7 @@ class ApiService {
       // Verifica si la solicitud fue exitosa (código de estado 200)
       if (response.statusCode == 200) {
         // Imprime la respuesta del servidor (para depuración)
-        print('Respuesta del servidor cambio pass profesional: ${response.body}');
+
         disponibilidad== "0" ? Fluttertoast.showToast(
             msg: "dispositivoretirado".tr(),
             toastLength: Toast.LENGTH_LONG,
@@ -227,7 +244,7 @@ class ApiService {
       // Verifica si la solicitud fue exitosa (código de estado 200)
       if (response.statusCode == 200) {
         // Imprime la respuesta del servidor (para depuración)
-        print('Respuesta del servidor cambio pass profesional: ${response.body}');
+
 
 
         // Aquí puedes manejar la respuesta del servidor según sea necesario
@@ -258,7 +275,7 @@ class ApiService {
       // Verifica si la solicitud fue exitosa (código de estado 200)
       if (response.statusCode == 200) {
         // Imprime la respuesta del servidor (para depuración)
-        print('Respuesta del servidor cambio pass profesional: ${response.body}');
+
 
 
         // Aquí puedes manejar la respuesta del servidor según sea necesario

@@ -36,7 +36,6 @@ class _EliminarProfesionalClinicaIconButtonState
 
   @override
   Widget build(BuildContext context) {
-    print("profesional a quitar de clinica ${widget.profesionalNombre} ${widget.profesionalId} ${widget.clinicaId}");
     return IconButton(
       icon: Icon(
         Icons.delete_forever_rounded,

@@ -43,7 +43,7 @@ class _TabProfesionalesClinicaState extends State<TabProfesionalesClinica> {
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
   }
 

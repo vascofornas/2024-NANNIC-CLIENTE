@@ -86,7 +86,7 @@ class _DetalleClinicaScreenState extends State<DetalleClinicaScreen> with Single
         logoClinica = clinicaActual[0].logo_clinica!;
         nombreClinica = clinicaActual[0].nombre_clinica!;
 
-        print("nombre clinica &&&&&&&&&&&&&&&&&&&&&&= ${nombreClinica}");
+
 
       });
     } else {
@@ -96,7 +96,7 @@ class _DetalleClinicaScreenState extends State<DetalleClinicaScreen> with Single
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
   }
 

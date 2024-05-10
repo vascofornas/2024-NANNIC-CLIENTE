@@ -92,7 +92,7 @@ class _NuevoEquipoContentState extends State<NuevoEquipoContent> {
       );
 
       if (response.statusCode == 200) {
-        print("respuesta nuevo equipo ${response.body}");
+
 
           Fluttertoast.showToast(
             msg: "creacionnuevodispositivo".tr(),
@@ -142,10 +142,10 @@ class _NuevoEquipoContentState extends State<NuevoEquipoContent> {
 
     // Verificar si la carga fue exitosa
     if (response.statusCode == 200) {
-      print('Imagen cargada correctamente');
+
 
     } else {
-      print('Error al cargar la imagen: ${response.reasonPhrase}');
+
     }
   }
 
@@ -158,7 +158,7 @@ class _NuevoEquipoContentState extends State<NuevoEquipoContent> {
         uploadImageToServer(
             _image!); // Llamar a la función para cargar la imagen al servidor
       } else {
-        print('No image selected.');
+
       }
     });
   }
@@ -172,7 +172,7 @@ class _NuevoEquipoContentState extends State<NuevoEquipoContent> {
         uploadImageToServer(
             _image!); // Llamar a la función para cargar la imagen al servidor
       } else {
-        print('No image selected.');
+
       }
     });
   }
@@ -208,10 +208,10 @@ class _NuevoEquipoContentState extends State<NuevoEquipoContent> {
 
         // Verificar si la carga fue exitosa
         if (response.statusCode == 200) {
-          print('Imagen cargada correctamente');
+
          // actualizarAvatar(idUsuario + "_" + nombreArchivo);
         } else {
-          print('Error al cargar la imagen: ${response.reasonPhrase}');
+
         }
       }
     });

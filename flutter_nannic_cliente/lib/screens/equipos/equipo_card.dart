@@ -89,17 +89,16 @@ class _EquipoCardState extends State<EquipoCard> {
                               ),
                             )),
                         IconButton(onPressed: () async {
-                          print("pulsado borrar equipo ${widget.equipo.id}");
+
                           ApiService().cambiarEstadoEquipo(widget.equipo.id!, "0");
 
                         var numEquipos =  await Provider.of<UsuarioProvider>(context,listen: false).numeroEquiposNannic;
-                          print("numero equipos nannic antes de borrar ${numEquipos}");
+
 
 
 
                           widget.onActualizarEstado();
-                          print("numero equipos nannic antes de borrar ${numEquipos} mas tarde");
-                       Provider.of<UsuarioProvider>(context,listen: false).cambiarNumEquiposNannicState(numEquipos - 1);
+                             Provider.of<UsuarioProvider>(context,listen: false).cambiarNumEquiposNannicState(numEquipos - 1);
 
 
 

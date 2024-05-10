@@ -31,10 +31,13 @@ class _PacientesAnalyticState extends State<PacientesAnalytic> {
   obtenerNumeroPacientes () async {
 
       numeroPacientes = await ApiService.obtenerNumeroPacientes();
+      if(mounted){
+        Provider.of<UsuarioProvider>(context,listen:false).cambiarNumPacientesState(numeroPacientes);
+      }
 
 
 
-       Provider.of<UsuarioProvider>(context,listen:false).cambiarNumPacientesState(numeroPacientes);
+
   }
 
 

@@ -32,9 +32,12 @@ class _ClinicasAnalyticState extends State<ClinicasAnalytic> {
 
       numeroClinicas = await ApiService.obtenerNumeroClinicas();
      print("numero clinicas ${numeroClinicas}");
-
-
+     if(mounted){
        Provider.of<UsuarioProvider>(context,listen:false).cambiarNumClinicasState(numeroClinicas);
+     }
+
+
+
   }
 
 

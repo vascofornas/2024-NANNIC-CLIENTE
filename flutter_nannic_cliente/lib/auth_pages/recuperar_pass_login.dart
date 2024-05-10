@@ -62,8 +62,6 @@ class _RecuperarPassLoginState extends State<RecuperarPassLogin> {
       final String phpEndPoint = URLProyecto +APICarpeta +'recuperar_pass_usuario.php';
 
 
-      print("email pasado a php ${email}");
-      print("pass pasado a php ${pass}");
       http.post(Uri.parse(phpEndPoint), body: {
         "password": pass,
         "email": email,
@@ -155,8 +153,7 @@ class _RecuperarPassLoginState extends State<RecuperarPassLogin> {
                     SizedBox(height: 25.0,),
                     MyButton(
                       onTap: (){
-                        print("email a enviar ${controlEmail.text}");
-                        print("email a random ${random}");
+
                         if(controlEmail.text.isEmpty){
                           Fluttertoast.showToast(
                               msg:
@@ -172,7 +169,7 @@ class _RecuperarPassLoginState extends State<RecuperarPassLogin> {
                           setState(() {
                             mostrarPin = true;
                           });
-                          print("mostrar ${mostrarPin}");
+
                         }
                       },
                       text: "enviar".tr(),

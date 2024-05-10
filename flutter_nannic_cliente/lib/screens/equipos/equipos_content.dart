@@ -39,7 +39,7 @@ class _EquiposContentState extends State<EquiposContent> {
   }
   actualizar(){
     setState(() {
-      print("actualizando estado en equipos content");
+
 
     });
   }

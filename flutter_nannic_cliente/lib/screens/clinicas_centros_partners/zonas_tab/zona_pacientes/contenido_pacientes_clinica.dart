@@ -42,7 +42,7 @@ class _ContenidoPacientesClinicaState
   }
 
   Future<void> _fetchPacientesClinica() async {
-    print("clinica id ${widget.clinicaId}");
+
     final url = URLProyecto +
         APICarpeta +
         'obtener_pacientes_clinica.php'; // Reemplazar con la URL de tu script PHP
@@ -55,7 +55,7 @@ class _ContenidoPacientesClinicaState
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       final List<dynamic> jsonResponse = json.decode(response.body);
-      print("respuesta profesionales clinica ${data.toString()}");
+
       setState(() {
         _pacientes =
             jsonResponse.map((data) => Paciente.fromJson(data)).toList();
@@ -63,13 +63,13 @@ class _ContenidoPacientesClinicaState
       });
     } else {
       // Si la solicitud falla, manejar el error
-      print("Error en la solicitud: ${response.body}");
+
       throw Exception('Failed to load data');
     }
   }
   void filtrarPacientes(String query) {
     setState(() {
-      print("buscando pacientes clinica ${query}");
+
       _filteredPacientes = _pacientes
           .where((pacientes) =>
       pacientes.nombre!

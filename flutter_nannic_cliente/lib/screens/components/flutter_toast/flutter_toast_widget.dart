@@ -9,7 +9,7 @@ class CustomToastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("estoy en custom toast widget");
+
     return FutureBuilder(
       future: showToast(),
       builder: (context, snapshot) {

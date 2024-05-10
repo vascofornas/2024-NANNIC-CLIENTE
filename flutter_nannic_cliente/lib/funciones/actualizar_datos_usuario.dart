@@ -20,11 +20,11 @@ Future<void> guardarDatosDispositivo(String soDispositivo, String versionApp, St
 
     // Verificar el estado de la respuesta
     if (response.statusCode == 200) {
-      print('Datos del dispositivo guardados correctamente en la base de datos. ${response.body}');
+
     } else {
-      print('Error al guardar los datos del dispositivo. Código de estado: ${response.statusCode}');
+
     }
   } catch (e) {
-    print('Error al enviar los datos del dispositivo al servidor: $e');
+
   }
 }

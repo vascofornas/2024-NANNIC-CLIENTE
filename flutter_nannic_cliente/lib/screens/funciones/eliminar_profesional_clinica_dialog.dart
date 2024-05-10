@@ -54,7 +54,7 @@ Future<dynamic> buildEliminarProfesionalClinicaDialog(BuildContext context,
 
                 //procesos para cambiar password
                 ApiService().quitarProfesionalFromClinica(profesionalId!, clinicaId!);
-                print("profesionalId ${profesionalId} clinicaID ${clinicaId}");
+
 
                 Navigator.of(context).pop();
                 // Llamar al callback onUpdate después de eliminar el profesional

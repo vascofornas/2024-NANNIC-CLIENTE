@@ -368,7 +368,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             color: Colors.red,
             svgSrc: 'assets/icons/Logout.svg',
             tap: () {
-              print("pulsado logout");
+
               _authManager.logout();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (BuildContext ctx) => MiWidget()));

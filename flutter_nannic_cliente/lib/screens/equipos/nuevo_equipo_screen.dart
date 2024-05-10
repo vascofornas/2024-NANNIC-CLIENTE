@@ -36,7 +36,7 @@ class _NuevoEquipoPageState extends State<NuevoEquipoPage> {
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
   }
 

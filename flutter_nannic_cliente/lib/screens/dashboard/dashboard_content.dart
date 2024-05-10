@@ -71,7 +71,7 @@ class _DashboardContentState extends State<DashboardContent> {
     if(mounted){
 
         nombreClinica = (await SharedPrefsHelper.getNombreClinica())!;
-        print("nombre clinica en getDatos ${nombreClinica}");
+
         logoClinica = (await SharedPrefsHelper.getLogoClinica())!;
         if(SharedPrefsHelper.getAdministradorClinica()== true){
           tipoUsuario = "Administrador";
@@ -99,7 +99,6 @@ class _DashboardContentState extends State<DashboardContent> {
     // Realizamos la solicitud HTTP al script PHP
     final response = await http.get(Uri.parse(URLProyecto+APICarpeta+'obtener_clinica_profesional_administrador.php?idUsuario=$userId'));
 
-    print("estamos en fetchDataClinica usuario id ${userId} respuesta ${response.body}");
     // Verificamos si la solicitud fue exitosa (código 200)
     if (response.statusCode == 200) {
       // Convertimos la respuesta JSON en un mapa
@@ -128,20 +127,20 @@ class _DashboardContentState extends State<DashboardContent> {
       if(mounted){
         this.idClinica = idClinicaActual!;
         this.tipoUsuario = tipoUsuarioActual!;
-        print("clinica ${idClinicaActual} tipo usuario ${tipoUsuarioActual}");
+
         //actualizamos SP con los datos obtenidos
         setState(() {
 
 
           if(tipoUsuarioActual == "profesional"){
-            print("soy profesional");
+
             SharedPrefsHelper.setEsProfesionalClinica(true);
             SharedPrefsHelper.setEsAdministradorClinica(false);
             SharedPrefsHelper.setIdClinica(idClinicaActual!);
             obtenerDatosClinica(idClinicaActual!);
           }
           if(tipoUsuarioActual == "administrador"){
-            print("soy administrador");
+
             SharedPrefsHelper.setEsProfesionalClinica(false);
             SharedPrefsHelper.setEsAdministradorClinica(true);
             SharedPrefsHelper.setIdClinica(idClinicaActual!);
@@ -154,17 +153,17 @@ class _DashboardContentState extends State<DashboardContent> {
 
     } else {
       // Si la solicitud falla, puedes manejar el error de alguna manera
-      print('Error al obtener datos del servidor: ${response.statusCode}');
+
     }
   }
   Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
     // URL del script PHP en el servidor remoto
     String url = URLProyecto+APICarpeta+'obtener_datos_clinica.php?idClinica=$idClinica';
-    print("estoy en obtener datos clinica ${idClinica}");
+
 
     // Realizar la solicitud HTTP
     final response = await http.get(Uri.parse(url));
-    print("response body obtener datos clinica ${response.body}");
+
 
     // Verificar si la solicitud fue exitosa
     if (response.statusCode == 200) {
@@ -173,10 +172,10 @@ class _DashboardContentState extends State<DashboardContent> {
 
       // Obtener el nombre y el logo de la clínica
       String nombreClinica = data['nombre_clinica'];
-      print("nombre de la clinica ${nombreClinica}");
+
       SharedPrefsHelper.setNombreClinica(nombreClinica);
       String logoClinica = data['logo_clinica'];
-      print("logo de la clinica ${logoClinica}");
+
       SharedPrefsHelper.setLogoClinica(logoClinica);
       setState(() {
 

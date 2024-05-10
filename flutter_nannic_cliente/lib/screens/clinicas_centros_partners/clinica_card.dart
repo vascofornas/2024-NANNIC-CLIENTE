@@ -38,7 +38,7 @@ class _ClinicaCardState extends State<ClinicaCard> {
 
     return GestureDetector(
       onTap: (){
-        print("he pulsado la clinica ${widget.clinica.id}");
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => DetalleClinicaScreen(clinicaId: widget.clinica.id!,clinicaTel: widget.clinica.tel_clinica!,clinicaPais: widget.clinica.pais_clinica!,clinicaNombre: widget.clinica.nombre_clinica!,clinicaLogo: widget.clinica.logo_clinica!,clinicaEmail: widget.clinica.email_clinica!,clinicaDireccion: widget.clinica.direccion_clinica!,)),

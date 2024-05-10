@@ -108,7 +108,7 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
       );
 
       if (response.statusCode == 200) {
-        print("respuesta nuevo usuario ${response.body}");
+
         if(response.body == "Email existente"){
           showDialog(
             context: context,

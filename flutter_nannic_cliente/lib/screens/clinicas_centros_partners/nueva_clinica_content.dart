@@ -113,7 +113,7 @@ class _NuevaClinicaContentState extends State<NuevaClinicaContent> {
       );
 
       if (response.statusCode == 200) {
-        print("respuesta nuevo clinica ${response.body}");
+
         if(response.body == "Email existente"){
           showDialog(
             context: context,

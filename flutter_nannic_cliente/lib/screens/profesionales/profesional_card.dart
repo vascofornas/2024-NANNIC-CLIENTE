@@ -177,11 +177,11 @@ class _ProfesionalCardState extends State<ProfesionalCard> {
                     setState(() {
                       usuarioActivo = !usuarioActivo;
                       if(usuarioActivo == false){
-                        print("guardar usuario no activo en BBDD ");
+
                         ApiService().cambiarActivoProfesional(widget.profesional.id!, "0");
                       }
                       else {
-                        print("guardar usuario  activo en BBDD ");
+
                         ApiService().cambiarActivoProfesional(widget.profesional.id!, "1");
 
                       }

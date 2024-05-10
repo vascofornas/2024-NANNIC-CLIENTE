@@ -46,19 +46,18 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
 
       // Aquí puedes usar los datos obtenidos como desees
 
-      print(
-          'Tipo de userData[\'nivelUsuario\']: ${userData['nivelUsuario'].runtimeType}');
+
 
 
       if (userData['activo'] != 1) {
         usuarioBloqueado = true;
-        print("EL USUARIO ESTA BLOQUEADO");
+
       } else {
         usuarioBloqueado = false;
-        print("EL USUARIO NO ESTA BLOQUEADO");
+
       }
     } catch (e) {
-      print('Error al obtener datos del usuario: $e');
+
     }
     if (mounted) {
       if (usuarioBloqueado == false ) {
@@ -81,7 +80,7 @@ class _UsuarioBloqueadoScreenState extends State<UsuarioBloqueadoScreen> {
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
     nivelUsuario = datos.nivel_usuario;
     idUsuario = datos.id;

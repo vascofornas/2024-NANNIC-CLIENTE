@@ -50,9 +50,9 @@ Future<dynamic> buildCambiarPassProfesionalDialog(BuildContext context,
             onPressed: () {
               String newPassword = passwordController.text;
               // Aquí puedes manejar la lógica para cambiar la contraseña
-              print("nueva pass ${newPassword}");
+
               if(newPassword.isEmpty || newPassword.length < 8) {
-                print("pass muy corta");
+
                 Fluttertoast.showToast(
                   msg: 'passmuycorta'.tr(),
                   toastLength: Toast.LENGTH_LONG,

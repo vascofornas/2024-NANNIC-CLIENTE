@@ -68,13 +68,13 @@ class _PerfilContentState extends State<PerfilContent> {
       );
 
       if (response.statusCode == 200) {
-        print("respuesta actualizar ${response.body}");
+
         Fluttertoast.showToast(
           msg: "datosactualizados".tr(),
           toastLength: Toast.LENGTH_LONG,
           fontSize: 18.0,
         );
-        print("nuevo nombre en actualizaravatar $nuevoNombre");
+
 
         SharedPrefsHelper.setFoto(nuevoNombre);
 
@@ -89,7 +89,7 @@ class _PerfilContentState extends State<PerfilContent> {
   Future<void> actualizarCampos() async {
     const String url =
         URLProyecto + APICarpeta + "actualizar_datos_usuario_dos.php";
-    print("pulsado actualizar campos");
+
     if (_nameController.text.isEmpty ||
         _phoneController.text.isEmpty ||
         _lastNameController.text.isEmpty) {
@@ -115,7 +115,7 @@ class _PerfilContentState extends State<PerfilContent> {
       );
 
       if (response.statusCode == 200) {
-        print("respuesta actualizar ${response.body}");
+
         Fluttertoast.showToast(
           msg: "datosactualizados".tr(),
           toastLength: Toast.LENGTH_LONG,
@@ -163,7 +163,7 @@ class _PerfilContentState extends State<PerfilContent> {
     _lastNameController.text = apellidosUsuario;
 
     imagenUsuario = datos.imagen;
-    print("imagenUsuario en capturarDatosUsuario perfil $imagenUsuario");
+
     telUsuario = datos.tel;
     _phoneController.text = telUsuario;
 
@@ -198,10 +198,10 @@ class _PerfilContentState extends State<PerfilContent> {
 
     // Verificar si la carga fue exitosa
     if (response.statusCode == 200) {
-      print('Imagen cargada correctamente');
+
       actualizarAvatar(idUsuario + "_" + nombreArchivo);
     } else {
-      print('Error al cargar la imagen: ${response.reasonPhrase}');
+
     }
   }
 

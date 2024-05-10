@@ -30,7 +30,7 @@ class _PlantillaScreenState extends State<PlantillaScreen> {
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es en perfil: ${datos.email}');
+
     emailUsuario = datos.email;
   }
   @override

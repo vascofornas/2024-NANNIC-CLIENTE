@@ -29,11 +29,12 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("clinicaId en profesionalesAnalytic ${widget.clinicaId}");
+
     obtenerNumeroProfesionales ();
     obtenerNumeroProfesionalesAdministradores ();
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
      obtenerNumeroProfesionales();
+     obtenerNumeroProfesionalesAdministradores();
      setState(() {
 
      });
@@ -44,19 +45,27 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
   obtenerNumeroProfesionales () async {
 
       numeroProfesionales = await ApiService.obtenerNumeroProfesionalesClinica(widget.clinicaId);
-     print("numero profesionales ${numeroProfesionales}");
+      if(mounted){
+        Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesState(numeroProfesionales);
+      }
 
 
-       Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesState(numeroProfesionales);
+
+
   }
   obtenerNumeroProfesionalesAdministradores () async {
 
-    numeroProfesionalesAdministradores = await ApiService.obtenerNumeroProfesionalesAdministradores();
-    print("numero profesionales adm ${numeroProfesionalesAdministradores}");
+
+    numeroProfesionalesAdministradores = await ApiService.obtenerNumeroProfesionalesAdministradoresClinica(widget.clinicaId);
+
+    if(mounted){
+      Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesAdministradoresState(numeroProfesionalesAdministradores);
 
 
-    Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesAdministradoresState(numeroProfesionalesAdministradores);
-  }
+    }
+
+
+     }
 
 
   @override

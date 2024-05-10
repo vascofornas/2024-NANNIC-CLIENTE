@@ -32,7 +32,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
+
     emailUsuario = datos.email;
 
 
