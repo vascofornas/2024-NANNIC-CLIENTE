@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
   }
   Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
     // URL del script PHP en el servidor remoto
-    print("idClinica en obtenerDatosClinica ${idClinica}");
+  ;
     String url = URLProyecto+APICarpeta+'obtener_datos_clinica.php?idClinica=$idClinica';
 
 
@@ -259,13 +259,13 @@ class _LoginPageState extends State<LoginPage> {
 
           print("············································");
           String idUsuario = await SharedPrefsHelper.getId() as String;
-          print("idusuario en login ${idUsuario}");
+
           idClinica = await SharedPrefsHelper.getIdClinica() as String;
-          print("idClinica en login ${idClinica}");
+
           nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-          print("nombre Clinica en login ${nombreClinica}");
+
           logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-          print("logo Clinica en login ${logoClinica}");
+
           print("············································");
 
           setState(() {

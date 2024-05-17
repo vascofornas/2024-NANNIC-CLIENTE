@@ -67,14 +67,14 @@ class _DashboardContentState extends State<DashboardContent> {
 
     print("············································");
     idUsuario = await SharedPrefsHelper.getId() as String;
-    print("idusuario en login ${idUsuario}");
+
     idClinica = await SharedPrefsHelper.getIdClinica() as String;
-    print("idClinica en login ${idClinica}");
+
     nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-    print("nombre Clinica en login ${nombreClinica}");
+
     logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-    print("logo Clinica en login ${logoClinica}");
-    print("············································");
+
+
     setState(() {
 
     });

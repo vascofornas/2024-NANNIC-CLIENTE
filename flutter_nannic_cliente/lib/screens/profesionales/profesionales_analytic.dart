@@ -12,7 +12,7 @@ import 'package:flutter_nannic_cliente/screens/components/analytic_info_card.dar
 import 'package:provider/provider.dart';
 
 class ProfesionalesAnalytic extends StatefulWidget {
-   ProfesionalesAnalytic({super.key, required this.clinicaId});
+  ProfesionalesAnalytic({super.key, required this.clinicaId});
   final String clinicaId;
 
   @override
@@ -20,7 +20,6 @@ class ProfesionalesAnalytic extends StatefulWidget {
 }
 
 class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
-
   int numeroProfesionales = 0;
   int numeroProfesionalesAdministradores = 0;
   late Timer _timer;
@@ -30,43 +29,35 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
     // TODO: implement initState
     super.initState();
 
-    obtenerNumeroProfesionales ();
-    obtenerNumeroProfesionalesAdministradores ();
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
-     obtenerNumeroProfesionales();
-     obtenerNumeroProfesionalesAdministradores();
-     setState(() {
-
-     });
+    obtenerNumeroProfesionales();
+    obtenerNumeroProfesionalesAdministradores();
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      obtenerNumeroProfesionales();
+      obtenerNumeroProfesionalesAdministradores();
 
     });
   }
 
-  obtenerNumeroProfesionales () async {
-
-      numeroProfesionales = await ApiService.obtenerNumeroProfesionalesClinica(widget.clinicaId);
-      if(mounted){
-        Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesState(numeroProfesionales);
-      }
-
-
-
-
-  }
-  obtenerNumeroProfesionalesAdministradores () async {
-
-
-    numeroProfesionalesAdministradores = await ApiService.obtenerNumeroProfesionalesAdministradoresClinica(widget.clinicaId);
-
-    if(mounted){
-      Provider.of<UsuarioProvider>(context,listen:false).cambiarNumProfesionalesAdministradoresState(numeroProfesionalesAdministradores);
-
-
+  obtenerNumeroProfesionales() async {
+    numeroProfesionales =
+        await ApiService.obtenerNumeroProfesionalesClinica(widget.clinicaId);
+    if (mounted) {
+      Provider.of<UsuarioProvider>(context, listen: false)
+          .cambiarNumProfesionalesState(numeroProfesionales);
     }
+  }
 
+  obtenerNumeroProfesionalesAdministradores() async {
+    numeroProfesionalesAdministradores =
+        await ApiService.obtenerNumeroProfesionalesAdministradoresClinica(
+            widget.clinicaId);
 
-     }
-
+    if (mounted) {
+      Provider.of<UsuarioProvider>(context, listen: false)
+          .cambiarNumProfesionalesAdministradoresState(
+              numeroProfesionalesAdministradores);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,15 +70,15 @@ class _ProfesionalesAnalyticState extends State<ProfesionalesAnalytic> {
         ),
         tablet: AnalyticProfesionalesCardGridView(),
         desktop: AnalyticProfesionalesCardGridView(
-
           childAspectRatio: size.width < 1400 ? 1.5 : 2.1,
         ),
       ),
     );
   }
 }
+
 class AnalyticProfesionalesCardGridView extends StatefulWidget {
-   AnalyticProfesionalesCardGridView({
+  AnalyticProfesionalesCardGridView({
     Key? key,
     this.crossAxisCount = 4,
     this.childAspectRatio = 1.4,
@@ -96,27 +87,21 @@ class AnalyticProfesionalesCardGridView extends StatefulWidget {
   final int crossAxisCount;
   final double childAspectRatio;
 
-
   @override
-  State<AnalyticProfesionalesCardGridView> createState() => _AnalyticProfesionalesCardGridViewState();
+  State<AnalyticProfesionalesCardGridView> createState() =>
+      _AnalyticProfesionalesCardGridViewState();
 }
 
-class _AnalyticProfesionalesCardGridViewState extends State<AnalyticProfesionalesCardGridView> {
-
-
-
+class _AnalyticProfesionalesCardGridViewState
+    extends State<AnalyticProfesionalesCardGridView> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
-
     var provider = Provider.of<UsuarioProvider>(context);
 
     List analyticProfesionalesData = [
@@ -132,7 +117,6 @@ class _AnalyticProfesionalesCardGridViewState extends State<AnalyticProfesionale
         svgSrc: "assets/icons/administrator.svg",
         color: textColor,
       ),
-
     ];
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),

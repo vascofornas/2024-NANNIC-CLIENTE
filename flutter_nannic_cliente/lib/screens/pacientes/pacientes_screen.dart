@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/responsive.dart';
 import 'package:flutter_nannic_cliente/funciones/obtener_datos_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/on_will_pop.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_menu.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/pacientes_content.dart';
@@ -11,8 +12,8 @@ import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_conte
 import 'package:provider/provider.dart';
 
 class PacientesScreen extends StatefulWidget {
-  const PacientesScreen({Key? key, required this.clinicaId}) : super(key: key);
-  final String clinicaId;
+  const PacientesScreen({Key? key, }) : super(key: key);
+
 
   @override
   State<PacientesScreen> createState() => _PacientesScreenState();
@@ -21,11 +22,34 @@ class PacientesScreen extends StatefulWidget {
 class _PacientesScreenState extends State<PacientesScreen> {
 
   late String emailUsuario = "";
+  late String idUsuario ="";
+  late String idClinica ="";
+  late String nombreClinica ="";
+  late String logoClinica ="";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getDatosUsuario();
+
+  }
+  getDatosUsuario() async {
+
+    print("············································");
+    idUsuario = await SharedPrefsHelper.getId() as String;
+
+    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+
+    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+
+    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+    ;
+    print("············································");
+    setState(() {
+
+    });
+
   }
 
   void capturarDatosUsuario() async {
@@ -39,16 +63,16 @@ class _PacientesScreenState extends State<PacientesScreen> {
       onWillPop:  () => onWillPop(context),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: widget.clinicaId,),
+          drawer: DrawerMenu(emailUsuario: emailUsuario,clinicaId: idClinica,),
           body: SafeArea(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (Responsive.isDesktop(context)) Expanded(child: DrawerMenu(emailUsuario: emailUsuario,
-                clinicaId: widget.clinicaId,),),
+                clinicaId: idClinica,),),
                 Expanded(
                   flex: 5,
-                  child: PacientesContent(clinicaId: widget.clinicaId ,),
+                  child: PacientesContent(clinicaId: idClinica ,),
                 )
               ],
             ),

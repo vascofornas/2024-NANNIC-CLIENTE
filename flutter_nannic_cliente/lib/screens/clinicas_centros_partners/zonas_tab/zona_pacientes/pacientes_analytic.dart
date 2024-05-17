@@ -29,12 +29,10 @@ class _PacientesAnalyticState extends State<PacientesAnalytic> {
     // TODO: implement initState
     super.initState();
     obtenerNumeroPacientes ();
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
       obtenerNumeroPacientes ();
 
-      setState(() {
 
-      });
 
     });
 
@@ -42,7 +40,7 @@ class _PacientesAnalyticState extends State<PacientesAnalytic> {
   }
 
   obtenerNumeroPacientes () async {
-    print("estoy en obtener numero pacientes clinica");
+
 
       numeroPacientes = await ApiService.obtenerNumeroPacientesClinica(widget.clinicaId);
       if(mounted){

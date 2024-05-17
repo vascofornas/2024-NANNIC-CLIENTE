@@ -20,7 +20,7 @@ class ApiService {
     }
   }
   static Future<int> obtenerNumeroProfesionalesClinica(String idClinica) async {
-    print("idCLinica profesionales ${idClinica}");
+
 
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_clinica.php?id_clinica=$idClinica"));
 
@@ -46,7 +46,7 @@ class ApiService {
     }
   }
   static Future<int> obtenerNumeroPacientesClinica(String idClinica) async {
-    print("obtener numero pacientes clinica ${idClinica}");
+
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_pacientes_clinica.php?id_clinica=$idClinica"));
 
     if (response.statusCode == 200) {
@@ -96,7 +96,7 @@ class ApiService {
   }
   static Future<int> obtenerNumeroProfesionalesAdministradoresClinica(String idClinica) async {
 
-    print("idClinica en obtenerNumeroProfesionalesAdministradoresClinica ${idClinica} ");
+
 
 
     final response = await http.get(Uri.parse(URLProyecto + APICarpeta + "admin_obtener_numero_profesionales_administradores_clinica.php?id_clinica=$idClinica"));

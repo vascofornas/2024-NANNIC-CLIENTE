@@ -3,55 +3,67 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
+import 'package:flutter_nannic_cliente/models/paciente_modelo.dart';
 import 'package:flutter_nannic_cliente/models/profesional_modelo.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/paciente_card.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesional_card.dart';
 import 'package:http/http.dart' as http;
 
 class ZonaPacientes extends StatefulWidget {
-  const ZonaPacientes({Key? key}) : super(key: key);
+  const ZonaPacientes({Key? key, }) : super(key: key);
+
 
   @override
   _ZonaPacientesState createState() => _ZonaPacientesState();
 }
 
 class _ZonaPacientesState extends State<ZonaPacientes> {
-  List<Profesional> _profesionales = [];
-  List<Profesional> _filteredProfesionales = [];
+
+  List<Paciente> _pacientes = [];
+  List<Paciente> _filteredPacientes = [];
+  String idClinica = "";
+
 
   @override
   void initState() {
     super.initState();
-    obtenerProfesionales();
+    cargarPacientes();
+
   }
 
-  Future<void> obtenerProfesionales() async {
+  cargarPacientes() async {
+
+     idClinica = (await SharedPrefsHelper.getIdClinica())! ;
+
+    obtenerPacientes(idClinica as String);
+  }
+
+  Future<void> obtenerPacientes(String clinicaId) async {
+
     String urlAPI =
-        URLProyecto + APICarpeta + "admin_obtener_profesionales_todos.php";
+        URLProyecto + APICarpeta + "obtener_pacientes_clinica_actual.php?clinicaId=${clinicaId}";
     final url = Uri.parse(urlAPI);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
       setState(() {
-        _profesionales =
-            jsonResponse.map((data) => Profesional.fromJson(data)).toList();
-        _filteredProfesionales = _profesionales;
+        _pacientes =
+            jsonResponse.map((data) => Paciente.fromJson(data)).toList();
+        _filteredPacientes = _pacientes;
       });
     } else {
-      throw Exception('Error al obtener los profesionales');
+      throw Exception('Error al obtener los pacientes');
     }
   }
 
-  void filtrarProfesionales(String query) {
+  void filtrarPacientes(String query) {
     setState(() {
-      _filteredProfesionales = _profesionales
-          .where((profesional) =>
-              profesional.nombre!.toLowerCase().contains(query.toLowerCase()) ||
-              profesional.apellidos!.toLowerCase().contains(query.toLowerCase()) ||
-              profesional.email!.toLowerCase().contains(query.toLowerCase()) ||
-                  profesional.so_dispositivo!.toLowerCase().contains(query.toLowerCase()) ||
-                  profesional.version_app!.toLowerCase().contains(query.toLowerCase()) ||
-              (profesional.tel?.toLowerCase() ?? '').contains(query.toLowerCase())
+      _filteredPacientes = _pacientes
+          .where((paciente) =>
+              paciente.nombre!.toLowerCase().contains(query.toLowerCase()) ||
+                  paciente.email_paciente!.toLowerCase().contains(query.toLowerCase())
       ).toList();
     });
   }
@@ -70,7 +82,7 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "ZonaPacientes".tr(),
+            "zonapacientes".tr(),
             style: AppFonts.nannic(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -81,7 +93,7 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
           SizedBox(height: 16),
           // Campo de búsqueda
           TextField(
-            onChanged: filtrarProfesionales,
+            onChanged: filtrarPacientes,
             style: AppFonts.nannic(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -89,7 +101,7 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
 
             ),
             decoration: InputDecoration(
-              labelText: 'buscarprofesionales'.tr(),
+              labelText: 'buscarpacientes'.tr(),
               labelStyle: AppFonts.nannic(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -101,13 +113,13 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
           ),
           SizedBox(height: 16),
           Expanded(
-            child: _filteredProfesionales.isEmpty
+            child: _filteredPacientes.isEmpty
                 ? Center(child: CircularProgressIndicator())
                 : ListView.builder(
-                    itemCount: _filteredProfesionales.length,
+                    itemCount: _filteredPacientes.length,
                     itemBuilder: (context, index) {
-                      final profesional = _filteredProfesionales[index];
-                      return ProfesionalCard(profesional: profesional);
+                      final paciente = _filteredPacientes[index];
+                      return PacienteCard(paciente: paciente);
                     },
                   ),
           ),

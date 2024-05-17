@@ -98,5 +98,13 @@
   "dispositivoretirado": "Nannic device out of service",
   "pacientes": "Patients",
   "sinpacientes": "There are no patients",
-  "buscarpacientes": "Search patients"
+  "buscarpacientes": "Search patients",
+  "zonapacientes": "Patient area",
+  "buscarpacientes": "Search patients",
+  "datosnuevopaciente": "New patient information",
+  "pacienteemail": "Patient email",
+  "pacientenombre": "Name of patient",
+  "pacientetel": "Patient's telephone number (including national prefix +34 123123123)",
+  "pacientenuevo": "Publish data of the new patient"
+
 }

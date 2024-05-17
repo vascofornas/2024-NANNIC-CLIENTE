@@ -7,6 +7,7 @@ import 'package:flutter_nannic_cliente/funciones/obtener_datos_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/on_will_pop.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_menu.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/nuevo_paciente_content.dart';
 import 'package:flutter_nannic_cliente/screens/perfil/perfil_content.dart';
 import 'package:flutter_nannic_cliente/screens/plantilla/plantilla_content.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_content.dart';
@@ -57,10 +58,10 @@ class _NuevoPacientePageState extends State<NuevoPacientePage> {
                         Navigator.of(context).pop();
                       }, icon: Icon( Icons.arrow_back_ios),),
                       SizedBox(width: appPadding,),
-                      MiTextoSimple(texto: "datosprofesionalnuevo".tr(), color: Colors.grey, fontWeight: FontWeight.bold, fontsize: 20)
+                      MiTextoSimple(texto: "datosnuevopaciente".tr(), color: Colors.grey, fontWeight: FontWeight.bold, fontsize: 20)
                     ],
                   ),
-                  NuevoProfesionalContent(clinicaId:  widget.clinicaId,),
+                  NuevoPacienteContent(clinicaId:  widget.clinicaId,),
                 ],
               ),
             ),

@@ -51,6 +51,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
   String nombreClinica = "AAA";
   String logoClinica = "logo_clinica.png";
   String tipoUsuario = "?";
+
+
+  String idClinica ="";
+  String idUsuario ="";
+
   late Timer _timer;
   bool _isVisible = false;
 
@@ -70,67 +75,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
   }
 
-  getDatosClinica() async {
-    if(mounted){
-
-      nombreClinica = (await SharedPrefsHelper.getNombreClinica())!;
-
-      logoClinica = (await SharedPrefsHelper.getLogoClinica())!;
-      if(SharedPrefsHelper.getAdministradorClinica()== true){
-        tipoUsuario = "Administrador";
-      }
-      if(SharedPrefsHelper.getProfesionalClinica()== true){
-        tipoUsuario = "Profesional";
-      }
-
-      setState(() {
-
-      });
-    }
+  getDatosUsuario() async {
 
 
+    idUsuario = await SharedPrefsHelper.getId() as String;
+
+    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+
+    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+
+    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+
+
+    setState(() {
+
+    });
 
   }
 
-  Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
-    // URL del script PHP en el servidor remoto
-    String url = URLProyecto+APICarpeta+'obtener_datos_clinica.php?idClinica=$idClinica';
 
 
-    // Realizar la solicitud HTTP
-    final response = await http.get(Uri.parse(url));
-    print("responsebody ${response.body}");
 
-
-    // Verificar si la solicitud fue exitosa
-    if (response.statusCode == 200) {
-      // Decodificar la respuesta JSON
-      Map<String, dynamic> data = jsonDecode(response.body);
-      print("json recibido ${jsonDecode(response.body)}");
-
-      // Obtener el nombre y el logo de la clínica
-      String nombreClinica = data['nombre_clinica'];
-
-      SharedPrefsHelper.setNombreClinica(nombreClinica);
-      String logoClinica = data['logo_clinica'];
-
-      SharedPrefsHelper.setLogoClinica(logoClinica);
-      setState(() {
-
-      });
-
-
-      // Devolver los datos de la clínica como un mapa
-      return {
-        'nombreClinica': nombreClinica,
-        'logoClinica': logoClinica,
-      };
-    } else {
-      // Si la solicitud falla, lanzar una excepción o devolver null
-      throw Exception('Error al obtener los datos de la clínica.');
-      // return null;
-    }
-  }
 
 
 
@@ -140,18 +105,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
     // TODO: implement initState
     super.initState();
     capturarDatosUsuario();
-      obtenerInfoPaquete();
-    // Esperar 3 segundos antes de mostrar el Row
-    Future.delayed(Duration(seconds: 3), ()
-    {
-      if (mounted) {
-        setState(() {
-          obtenerDatosClinica(widget.clinicaId);
-          _isVisible = true;
-          getDatosClinica();
-        });
-      };
-    });
+    obtenerInfoPaquete();
+    getDatosUsuario();
+
 
 
   }
@@ -192,7 +148,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ),
           //zona superior Clinica
           Visibility(
-            visible: _isVisible,
+            visible: true,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -339,7 +295,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   final nextScreen =
                   pantallaSeleccionada.pantallaSeleccionada !=
                       "pacientes"
-                      ? PacientesScreen(clinicaId: widget.clinicaId)
+                      ? PacientesScreen()
                       : DashBoardScreen();
 
                   Navigator.pushAndRemoveUntil(

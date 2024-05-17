@@ -98,7 +98,15 @@
   "dispositivoretirado": "Nannic-enhet ur drift",
   "pacientes": "Pacientes",
   "sinpacientes": "Det finns inga patienter",
-  "buscarpacientes": "Sök efter patienter"
+  "buscarpacientes": "Sök efter patienter",
+  "zonapacientes": "Patientområdet",
+  "buscarpacientes": "Sök efter patienter",
+  "datosnuevopaciente": "Ny patientinformation",
+  "pacienteemail": "Patient e-post",
+  "pacientenombre": "Patientens namn",
+  "pacientetel": "Patientens telefonnummer (inklusive nationellt prefix +34 123123123)",
+  "pacientenuevo": "Publicera data om den nya patienten",
+
 
 
 

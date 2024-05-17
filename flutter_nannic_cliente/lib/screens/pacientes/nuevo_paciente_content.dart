@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/pacientes_screen.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_screen.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -43,15 +45,15 @@ class NuevoPacienteContent extends StatefulWidget {
 
 class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   late TextEditingController _nameController = TextEditingController();
-  late TextEditingController _lastNameController = TextEditingController();
+
   late TextEditingController _phoneController = TextEditingController();
   late TextEditingController _emailController = TextEditingController();
 
   String emailUsuario = "";
   String nombreUsuario = "";
-  String apellidosUsuario = "";
+
   String telUsuario = "";
-  String imagenUsuario = "";
+  String imagenUsuario = "paciente.jpg";
   String idUsuario = "";
 
 
@@ -64,15 +66,14 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   }
 
 
-  Future<void> registrarUsuario() async {
+  Future<void> registrarPaciente() async {
     const String url =
-        URLProyecto + APICarpeta + "registrar_nuevo_profesional.php";
+        URLProyecto + APICarpeta + "registrar_nuevo_paciente_clinica.php";
 
     //verificar que estan todos los campos
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
-        _phoneController.text.isEmpty ||
-        _lastNameController.text.isEmpty) {
+        _phoneController.text.isEmpty ) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -96,18 +97,29 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
     }
 
     try {
+      print("nombre paciente ${_nameController.text}");
+      print("email paciente ${_emailController.text}");
+      print("tel paciente ${_phoneController.text}");
+      print("imagen paciente ${imagenUsuario}");
+      print("id clinica paciente ${widget.clinicaId}");
+
       final response = await http.post(
         Uri.parse(url),
         body: {
+          'id_clinica': widget.clinicaId,
           'nombre': _nameController.text,
-          'apellidos': _lastNameController.text,
-          'tel': _phoneController.text,
-          'email': _emailController.text,
+
+          'tel_paciente': _phoneController.text,
+          'email_paciente': _emailController.text,
+          'imagen_paciente': imagenUsuario
+
 
         },
       );
+      print("respuesta1 servidor ${response.body}");
 
       if (response.statusCode == 200) {
+        print("respuesta2 servidor ${response.body}");
 
         if(response.body == "Email existente"){
           showDialog(
@@ -127,7 +139,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
           Navigator.of(context).pop();
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>  ProfesionalesScreen(clinicaId: widget.clinicaId ,)),
+            MaterialPageRoute(builder: (context) =>  PacientesScreen( )),
           );
         }
 
@@ -138,12 +150,150 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   @override
   void dispose() {
     _nameController.dispose();
-    _lastNameController.dispose();
     _phoneController.dispose();
     _emailController.dispose();
 
     super.dispose();
   }
+
+  //para la imagen del paciente
+  File? _image;
+
+  final picker = ImagePicker();
+
+
+
+  Future<void> uploadImageToServer(File imageFile) async {
+    // URL del servidor donde se subirá la imagen
+    var url = Uri.parse(URLProyecto + APICarpeta + 'publicar_avatar_paciente.php');
+
+    // Crear una solicitud de tipo multipart para enviar la imagen
+    var request = http.MultipartRequest('POST', url);
+    var nombreArchivo = randomAlpha(12) + '.jpg';
+
+    // Añadir la imagen al cuerpo de la solicitud
+    request.files.add(
+      http.MultipartFile(
+        'file',
+        imageFile.readAsBytes().asStream(),
+        imageFile.lengthSync(),
+        filename:
+            nombreArchivo, // Nombre del archivo en el servidor
+      ),
+    );
+
+    // Enviar la solicitud al servidor
+    var response = await http.Response.fromStream(await request.send());
+
+    // Verificar si la carga fue exitosa
+    if (response.statusCode == 200) {
+      print("nombre archivo ${nombreArchivo}");
+      imagenUsuario = nombreArchivo;
+
+
+    } else {
+
+    }
+  }
+
+  Future<void> uploadImageToServerWeb(
+      String fileName, html.Blob fileBlob) async {
+    // Convertir el Blob en una lista de enteros
+    var reader = html.FileReader();
+    reader.readAsArrayBuffer(fileBlob);
+    reader.onLoadEnd.listen((e) async {
+      if (reader.readyState == html.FileReader.DONE) {
+        List<int> bytes = List<int>.from(reader.result as List<int>);
+
+        // URL del servidor donde se subirá la imagen
+        var url = Uri.parse(URLProyecto + APICarpeta + 'publicar_avatar_paciente.php');
+
+        // Crear una solicitud de tipo multipart para enviar la imagen
+        var request = http.MultipartRequest('POST', url);
+        var nombreArchivo = randomAlpha(12) + '.jpg';
+
+        // Añadir la imagen al cuerpo de la solicitud
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+            bytes,
+            filename:
+                nombreArchivo, // Nombre del archivo en el servidor
+          ),
+        );
+
+        // Enviar la solicitud al servidor
+        var response = await http.Response.fromStream(await request.send());
+
+        // Verificar si la carga fue exitosa
+        if (response.statusCode == 200) {
+          print('Imagen cargada correctamente');
+          imagenUsuario = nombreArchivo;
+
+        } else {
+          print('Error al cargar la imagen: ${response.reasonPhrase}');
+        }
+      }
+    });
+  }
+
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        uploadImageToServer(
+            _image!); // Llamar a la función para cargar la imagen al servidor
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        uploadImageToServer(
+            _image!); // Llamar a la función para cargar la imagen al servidor
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> getImageFromFolder() async {
+    final html.InputElement input = html.InputElement(type: 'file');
+    input.accept = 'image/*';
+    input.click();
+
+    input.onChange.listen((event) {
+      final files = input.files;
+      if (files!.length == 1) {
+        final file = files[0];
+        final reader = html.FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onLoadEnd.listen((e) async {
+          if (reader.readyState == html.FileReader.DONE) {
+            final bytes = reader.result as List<int>;
+            final blob = html.Blob([bytes]);
+            final fileName = file.name;
+            uploadImageToServerWeb(fileName, blob);
+          }
+        });
+      }
+    });
+  }
+
+
+
+
+
+
+
 
 
 
@@ -163,8 +313,99 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
               height:
                   appPadding, // Espacio adicional entre la barra de aplicación y el contenido
             ),
+            //capturar imagen del profesional
+
             Column(
               children: [
+                //imagen del paciente
+
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        // Mostrar la imagen seleccionada (si existe)
+                        if (_image != null)
+                          Image.file(
+                            _image!,
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          )
+                        else
+                        // Mostrar la imagen de usuario actual
+                          AvatarFromUrlGrande(
+                            imagenUsuario: imagenUsuario,
+                          ),
+                        SizedBox(
+                          height:
+                          appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
+                        ),
+
+                        !kIsWeb
+                            ? Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.center,
+                          children: [
+                            // Botón para seleccionar imagen desde la cámara
+                            ElevatedButton(
+                              onPressed: getImageFromCamera,
+                              child: MiTextoSimple(
+                                color: Colors.grey,
+                                fontsize: 14,
+                                fontWeight: FontWeight.bold,
+                                texto: 'camara'.tr(),
+
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+
+                            // Botón para seleccionar imagen desde la galería
+                            ElevatedButton(
+                              onPressed:
+                              getImageFromGallery,
+                              child: MiTextoSimple(
+                                color: Colors.grey,
+                                fontsize: 14,
+                                fontWeight: FontWeight.bold,
+                                texto: 'galeria'.tr(),
+                              ),
+                            ),
+                          ],
+                        )
+                            : SizedBox(
+                          height:
+                          appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
+                        ),
+                        Visibility(
+                          visible: false,
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
+                            children: [
+                              // Botón para seleccionar imagen desde la cámara
+                              ElevatedButton(
+                                onPressed: getImageFromFolder,
+                                child: MiTextoSimple(
+                                  color: Colors.grey,
+                                  fontsize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  texto: 'cambiarimagenperfil'.tr(),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 // Primera fila de widgets
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,7 +425,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                                 height:
                                 appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
-                              Text('profesionalemail'.tr(),
+                              Text('pacienteemail'.tr(),
                                   textAlign: TextAlign.center,
                                   style: AppFonts.nannic(
                                       color: Colors.grey,
@@ -196,7 +437,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                               ),
                               MyTextField(
                                 controller: _emailController,
-                                hintText: 'profesionalemail'.tr(),
+                                hintText: 'pacienteemail'.tr(),
                                 obscureText: false,
                               ),
                               SizedBox(
@@ -205,7 +446,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                               ),
 
 
-                              Text('profesionalnombre'.tr(),
+                              Text('pacientenombre'.tr(),
                                   textAlign: TextAlign.center,
                                   style: AppFonts.nannic(
                                       color: Colors.grey,
@@ -217,33 +458,19 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                               ),
                               MyTextField(
                                 controller: _nameController,
-                                hintText: 'profesionalnombre'.tr(),
+                                hintText: 'pacientenombre'.tr(),
                                 obscureText: false,
                               ),
                               SizedBox(
                                 height:
                                     appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
-                              Text('profesionalapellido'.tr(),
-                                  textAlign: TextAlign.center,
-                                  style: AppFonts.nannic(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
+
                               SizedBox(
                                 height:
                                     appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
-                              MyTextField(
-                                controller: _lastNameController,
-                                hintText: 'profesionalapellido'.tr(),
-                                obscureText: false,
-                              ),
-                              SizedBox(
-                                height:
-                                    appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
-                              ),
-                              Text('profesionaltel'.tr(),
+                              Text('pacientetel'.tr(),
                                   textAlign: TextAlign.center,
                                   style: AppFonts.nannic(
                                       color: Colors.grey,
@@ -255,7 +482,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                               ),
                               MyTextField(
                                 controller: _phoneController,
-                                hintText: 'profesionaltel'.tr(),
+                                hintText: 'pacientetel'.tr(),
                                 obscureText: false,
                               ),
                               SizedBox(
@@ -263,8 +490,8 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                                     appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
                               MyButton(
-                                onTap: registrarUsuario,
-                                text: "profesionalnuevo".tr(),
+                                onTap: registrarPaciente,
+                                text: "pacientenuevo".tr(),
                               ),
                               SizedBox(
                                 height:

@@ -98,7 +98,15 @@
   "dispositivoretirado": "Nannic-apparaat buiten dienst",
   "pacientes": "Patiënten",
   "sinpacientes": "Er zijn geen patiënten",
-  "buscarpacientes": "Patiënten zoeken"
+  "buscarpacientes": "Patiënten zoeken",
+  "zonapacientes": "Patiëntengebied",
+  "buscarpacientes": "Patiënten zoeken",
+  "datosnuevopaciente": "Nieuwe patiëntinformatie",
+  "pacienteemail": "E-mail van de patiënt",
+  "pacientenombre": "Naam patiënt",
+   "pacientetel": "Telefoonnummer van de patiënt (inclusief nationaal kengetal +34 123123123)",
+  "pacientenuevo": "Publiceer gegevens van de nieuwe patiënt"
+
 
 
 
