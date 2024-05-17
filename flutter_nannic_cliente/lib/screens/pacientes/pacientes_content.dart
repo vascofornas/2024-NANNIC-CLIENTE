@@ -5,6 +5,7 @@ import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:flutter_nannic_cliente/screens/components/custom_appbar/custom_appbar.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/page_route_builder.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/nuevo_paciente_screen.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/zona_pacientes.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_screen.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_analytic.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.dart';
@@ -14,8 +15,8 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 
-class ProfesionalesContent extends StatelessWidget {
-  const ProfesionalesContent({Key? key, required this.clinicaId}) : super(key: key);
+class PacientesContent extends StatelessWidget {
+  const PacientesContent({Key? key, required this.clinicaId}) : super(key: key);
 
   final String clinicaId;
 
@@ -30,7 +31,7 @@ class ProfesionalesContent extends StatelessWidget {
           children: [
             Column(
               children: [
-                CustomAppbar(titulo: 'profesionales'.tr(),),
+                CustomAppbar(titulo: 'pacientes'.tr(),),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +72,7 @@ class ProfesionalesContent extends StatelessWidget {
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),
-                          ZonaProfesionales(), // Widget para mostrar información de usuarios
+                          ZonaPacientes(), // Widget para mostrar información de usuarios
                           // Espacio adicional si el dispositivo es móvil y se muestra la sección de discusiones
 
                         ],

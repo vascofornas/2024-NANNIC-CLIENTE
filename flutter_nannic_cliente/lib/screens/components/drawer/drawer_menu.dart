@@ -1,9 +1,16 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/auth_shared_preferences/auth_manager.dart';
+import 'package:flutter_nannic_cliente/components/my_texto_simple.dart';
+import 'package:flutter_nannic_cliente/components/my_texto_simple_dos_lineas.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:flutter_nannic_cliente/funciones/obtener_datos_usuario.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/inicio_total.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/providers/usuario_provider.dart';
@@ -15,12 +22,15 @@ import 'package:flutter_nannic_cliente/screens/components/profile_info.dart';
 import 'package:flutter_nannic_cliente/screens/dashboard/dash_board_screen.dart';
 import 'package:flutter_nannic_cliente/screens/equipos/equipos_screen.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/page_route_builder.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/pacientes_screen.dart';
 import 'package:flutter_nannic_cliente/screens/perfil/perfil_screen.dart';
 import 'package:flutter_nannic_cliente/screens/plantilla/plantilla_screen.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({Key? key, required this.emailUsuario, required this.clinicaId}) : super(key: key);
@@ -38,6 +48,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
   late String emailUsuario = '';
   late String avatarUsuario = '';
 
+  String nombreClinica = "AAA";
+  String logoClinica = "logo_clinica.png";
+  String tipoUsuario = "?";
+  late Timer _timer;
+  bool _isVisible = false;
+
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
     print('El email del usuario es: ${datos.email}');
@@ -54,13 +70,93 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
   }
 
+  getDatosClinica() async {
+    if(mounted){
+
+      nombreClinica = (await SharedPrefsHelper.getNombreClinica())!;
+
+      logoClinica = (await SharedPrefsHelper.getLogoClinica())!;
+      if(SharedPrefsHelper.getAdministradorClinica()== true){
+        tipoUsuario = "Administrador";
+      }
+      if(SharedPrefsHelper.getProfesionalClinica()== true){
+        tipoUsuario = "Profesional";
+      }
+
+      setState(() {
+
+      });
+    }
+
+
+
+  }
+
+  Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
+    // URL del script PHP en el servidor remoto
+    String url = URLProyecto+APICarpeta+'obtener_datos_clinica.php?idClinica=$idClinica';
+
+
+    // Realizar la solicitud HTTP
+    final response = await http.get(Uri.parse(url));
+    print("responsebody ${response.body}");
+
+
+    // Verificar si la solicitud fue exitosa
+    if (response.statusCode == 200) {
+      // Decodificar la respuesta JSON
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print("json recibido ${jsonDecode(response.body)}");
+
+      // Obtener el nombre y el logo de la clínica
+      String nombreClinica = data['nombre_clinica'];
+
+      SharedPrefsHelper.setNombreClinica(nombreClinica);
+      String logoClinica = data['logo_clinica'];
+
+      SharedPrefsHelper.setLogoClinica(logoClinica);
+      setState(() {
+
+      });
+
+
+      // Devolver los datos de la clínica como un mapa
+      return {
+        'nombreClinica': nombreClinica,
+        'logoClinica': logoClinica,
+      };
+    } else {
+      // Si la solicitud falla, lanzar una excepción o devolver null
+      throw Exception('Error al obtener los datos de la clínica.');
+      // return null;
+    }
+  }
+
+
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     capturarDatosUsuario();
       obtenerInfoPaquete();
+    // Esperar 3 segundos antes de mostrar el Row
+    Future.delayed(Duration(seconds: 3), ()
+    {
+      if (mounted) {
+        setState(() {
+          obtenerDatosClinica(widget.clinicaId);
+          _isVisible = true;
+          getDatosClinica();
+        });
+      };
+    });
+
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +167,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
       backgroundColor: Theme.of(context).colorScheme.background,
       child: ListView(
         children: [
+          //zona superior Nannic
           Container(
             width: 140,
             height: 140,
@@ -92,6 +189,34 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
                   ),
                 )),
+          ),
+          //zona superior Clinica
+          Visibility(
+            visible: _isVisible,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AvatarFromUrl(
+                    imageUrl:
+                    '${carpetaAdminClinicas}${logoClinica ?? ''}',
+                    size: 55,
+                  ),
+                  SizedBox(width: appPadding,),
+                  SizedBox(
+                    width: 200,
+                    height: 65,
+                    child: MiTextoSimpleDosLineas(
+                      texto: nombreClinica!,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                      fontsize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           //Dashboard
           Padding(
@@ -186,35 +311,35 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
-          //clinicas / centros
+          //pacientes
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
                     color: pantallaSeleccionada.pantallaSeleccionada ==
-                        "clinicas"
+                        "pacientes"
                         ? Theme.of(context).colorScheme.primary
                         : Colors.white),
                 color:
-                pantallaSeleccionada.pantallaSeleccionada == "clinicas"
+                pantallaSeleccionada.pantallaSeleccionada == "pacientes"
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: DrawerListTile(
-                title: 'clinicascentrospartners'.tr(),
+                title: 'pacientes'.tr(),
                 color:
-                pantallaSeleccionada.pantallaSeleccionada == "clinicas"
+                pantallaSeleccionada.pantallaSeleccionada == "pacientes"
                     ? Colors.white
                     : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/clinicas.svg',
+                svgSrc: 'assets/icons/pacientes.svg',
                 tap: () {
                   // Navegar a ProfesionalesScreen o a DashBoardScreen
                   final nextScreen =
                   pantallaSeleccionada.pantallaSeleccionada !=
-                      "clinicas"
-                      ? ClinicasScreen(clinicaId: widget.clinicaId,)
+                      "pacientes"
+                      ? PacientesScreen(clinicaId: widget.clinicaId)
                       : DashBoardScreen();
 
                   Navigator.pushAndRemoveUntil(
@@ -224,10 +349,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   );
 
                   // Actualizar el estado de pantalla seleccionada
-                  pantallaSeleccionada.pantallaSeleccionada == "clinicas"
+                  pantallaSeleccionada.pantallaSeleccionada == "pacientes"
                       ? pantallaSeleccionada.cambiarPantallaState("dashboard")
                       : pantallaSeleccionada
-                      .cambiarPantallaState("clinicas");
+                      .cambiarPantallaState("pacientes");
                 },
               ),
             ),

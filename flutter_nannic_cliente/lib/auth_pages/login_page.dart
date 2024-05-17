@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/auth_pages/recuperar_pass_login.dart';
 import 'package:flutter_nannic_cliente/auth_shared_preferences/auth_manager.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_nannic_cliente/components/my_textfield.dart';
 import 'package:flutter_nannic_cliente/components/my_textfield_pass.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/providers/usuario_provider.dart';
 import 'package:flutter_nannic_cliente/screens/components/flutter_toast/flutter_toast_widget.dart';
 import 'package:flutter_nannic_cliente/screens/dashboard/dash_board_screen.dart';
@@ -31,6 +33,11 @@ class _LoginPageState extends State<LoginPage> {
 
   late Locale _selectedLocale;
 
+  String nombreClinica = "AAA";
+  String logoClinica = "logo_clinica.png";
+  String idClinica ="";
+  String tipoUsuario = "?";
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -45,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
   bool _isHidden = true;
+  bool ocultarBoton = false;
 
   final AuthManager _authManager = AuthManager();
 
@@ -69,6 +77,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> iniciarSesion() async {
     const String url = URLProyecto + APICarpeta + "login_nannic.php";
+    setState(() {
+      ocultarBoton = !ocultarBoton;
+    });
 
     try {
       final response = await http.post(
@@ -85,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
           // Convertir la respuesta JSON a un mapa
           Map<String, dynamic> responseData = json.decode(response.body);
           final Map parsed = json.decode(response.body);
+          print("datos recibidos al hacer login ${parsed.toString()}");
 
 
           // Verificar si la respuesta contiene un mensaje de error
@@ -117,13 +129,12 @@ class _LoginPageState extends State<LoginPage> {
             userData = responseData;
             _saveDataToSharedPreferences();
 
+            fetchDataClinica();
+
 
             //PROCESAMOS ESTADO LOGGED IN
             _authManager.login();
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext ctx) => const DashBoardScreen()));
+
           }
         }
       }
@@ -145,6 +156,140 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isHidden = !_isHidden;
     });
+  }
+
+  Future<void> fetchDataClinica() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('id') ?? '';
+    print("userId en login fetchDataClinica ${userId}");
+    // Si el ID del usuario no está presente, no se realiza la solicitud al servidor
+    if (userId.isEmpty) {
+      return;
+    }
+
+    // Realizamos la solicitud HTTP al script PHP
+    final response = await http.get(Uri.parse(URLProyecto+APICarpeta+'obtener_clinica_profesional_administrador.php?idUsuario=$userId'));
+
+    // Verificamos si la solicitud fue exitosa (código 200)
+    if (response.statusCode == 200) {
+      // Convertimos la respuesta JSON en un mapa
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<String> profesionales = [];
+      List<String> administradores = [];
+      String? idClinicaActual;
+      String? tipoUsuarioActual;
+
+      if (data.containsKey('profesional')) {
+        if (data['profesional'].isNotEmpty) {
+          idClinicaActual = data['profesional'][0]; // Suponemos que el usuario es profesional de una sola clínica
+          tipoUsuarioActual = 'profesional';
+
+        }
+      }
+
+      if (data.containsKey('administrador')) {
+        if (data['administrador'].isNotEmpty) {
+          idClinicaActual = data['administrador'][0]; // Suponemos que el usuario es administrador de una sola clínica
+          tipoUsuarioActual = 'administrador';
+        }
+
+      }
+      print("tipo usuario actual ${tipoUsuarioActual}");
+
+
+      // Actualizamos el estado de la aplicación con los datos obtenidos
+
+        idClinica = idClinicaActual!;
+        tipoUsuario = tipoUsuarioActual!;
+        print("id de la clinica en login ${idClinicaActual!}");
+        print("tipo de usuario en login ${tipoUsuarioActual}");
+
+        //actualizamos SP con los datos obtenidos
+      if(mounted) {
+        setState(() {
+          if (tipoUsuarioActual == "profesional") {
+            SharedPrefsHelper.setEsProfesionalClinica(true);
+            SharedPrefsHelper.setEsAdministradorClinica(false);
+            SharedPrefsHelper.setIdClinica(idClinicaActual!);
+          }
+          if (tipoUsuarioActual == "administrador") {
+            SharedPrefsHelper.setEsProfesionalClinica(false);
+            SharedPrefsHelper.setEsAdministradorClinica(true);
+            SharedPrefsHelper.setIdClinica(idClinicaActual!);
+          }
+          print("idClinica antes de obtenerDatosClinica ${idClinica}");
+          obtenerDatosClinica(idClinica);
+        });
+      }
+
+
+
+
+    } else {
+      // Si la solicitud falla, puedes manejar el error de alguna manera
+
+    }
+  }
+  Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
+    // URL del script PHP en el servidor remoto
+    print("idClinica en obtenerDatosClinica ${idClinica}");
+    String url = URLProyecto+APICarpeta+'obtener_datos_clinica.php?idClinica=$idClinica';
+
+
+    // Realizar la solicitud HTTP
+    final response = await http.get(Uri.parse(url));
+
+
+    // Verificar si la solicitud fue exitosa
+    if (response.statusCode == 200) {
+      // Decodificar la respuesta JSON
+      Map<String, dynamic> data = jsonDecode(response.body);
+
+      // Obtener el nombre y el logo de la clínica
+      String nombreClinica = data['nombre_clinica'];
+      print("nombre de la clinica en login ${nombreClinica}");
+
+
+      SharedPrefsHelper.setNombreClinica(nombreClinica);
+      String logoClinica = data['logo_clinica'];
+      print("logo de la clinica en login ${logoClinica}");
+
+      SharedPrefsHelper.setLogoClinica(logoClinica);
+
+
+          print("············································");
+          String idUsuario = await SharedPrefsHelper.getId() as String;
+          print("idusuario en login ${idUsuario}");
+          idClinica = await SharedPrefsHelper.getIdClinica() as String;
+          print("idClinica en login ${idClinica}");
+          nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+          print("nombre Clinica en login ${nombreClinica}");
+          logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+          print("logo Clinica en login ${logoClinica}");
+          print("············································");
+
+          setState(() {
+            ocultarBoton = !ocultarBoton;
+                 Navigator.pushReplacement(
+                     context,
+                      MaterialPageRoute(
+                        builder: (BuildContext ctx) => const DashBoardScreen()));
+          });
+
+
+
+
+
+      // Devolver los datos de la clínica como un mapa
+      return {
+        'nombreClinica': nombreClinica,
+        'logoClinica': logoClinica,
+      };
+    } else {
+      // Si la solicitud falla, lanzar una excepción o devolver null
+      throw Exception('Error al obtener los datos de la clínica.');
+      // return null;
+    }
   }
 
   @override
@@ -228,10 +373,21 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 25),
 
                   // sign in button
-                  MyButton(
-                    onTap: iniciarSesion,
-                    text: "Login".tr(),
+                  Visibility(
+                    visible: !ocultarBoton,
+                    child: MyButton(
+                      onTap: iniciarSesion,
+                      text: "Login".tr(),
+                    ),
                   ),
+                  //circular progress indicator
+                  Visibility(
+                      visible: ocultarBoton,
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        child: CircularProgressIndicator(color: Colors.black38 ,),
+                      )),
 
                   const SizedBox(height: 25),
                   CambiarIdioma(context),
