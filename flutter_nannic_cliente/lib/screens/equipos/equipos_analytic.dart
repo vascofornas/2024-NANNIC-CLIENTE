@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/api_services/api_services.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:flutter_nannic_cliente/constants/responsive.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/analytic_info_model.dart';
 import 'package:flutter_nannic_cliente/providers/usuario_provider.dart';
 import 'package:flutter_nannic_cliente/screens/components/analytic_info_card.dart';
@@ -10,7 +11,8 @@ import 'package:flutter_nannic_cliente/screens/components/analytic_info_card.dar
 import 'package:provider/provider.dart';
 
 class EquiposAnalytic extends StatefulWidget {
-  const EquiposAnalytic({super.key});
+  const EquiposAnalytic({super.key, required this.idCLinica});
+  final String idCLinica;
 
   @override
   State<EquiposAnalytic> createState() => _EquiposAnalyticState();
@@ -19,18 +21,29 @@ class EquiposAnalytic extends StatefulWidget {
 class _EquiposAnalyticState extends State<EquiposAnalytic> {
 
   int numeroEquiposNannic = 0;
+  String clinicaActual ="";
+
+  getIdClinica() async {
+    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+    setState(() {
+      obtenerNumeroEquipos ();
+    });
+
+
+
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    obtenerNumeroEquipos ();
+    getIdClinica();
 
   }
 
   obtenerNumeroEquipos () async {
 
-      numeroEquiposNannic = await ApiService.obtenerNumeroEquiposNannic();
+      numeroEquiposNannic = await ApiService.obtenerNumeroEquiposNannicClinica(clinicaActual);
 
 
 

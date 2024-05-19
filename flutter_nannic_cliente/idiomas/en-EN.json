@@ -114,5 +114,9 @@
   "confirmarborradopaciente": "Confirm patient deletion",
   "seguroconfirmarborradopaciente": "Are you sure you want to delete this patient?",
   "zonaadministradores": "Administrators area",
-  "buscaradministradores": "Search administrators"
+  "buscaradministradores": "Search administrators",
+  "fechaaltaequiponannic": "Nannic team registration date",
+  "disponibilidad": "Availability",
+  "disponible": "Available",
+  "nodisponible": "Not available"
 }

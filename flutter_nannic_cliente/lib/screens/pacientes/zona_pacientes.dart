@@ -57,11 +57,14 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
-      setState(() {
-        _pacientes =
-            jsonResponse.map((data) => Paciente.fromJson(data)).toList();
-        _filteredPacientes = _pacientes;
-      });
+      if(mounted){
+        setState(() {
+          _pacientes =
+              jsonResponse.map((data) => Paciente.fromJson(data)).toList();
+          _filteredPacientes = _pacientes;
+        });
+      }
+
     } else {
       throw Exception('Error al obtener los pacientes');
     }
@@ -75,6 +78,13 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
                   paciente.email_paciente!.toLowerCase().contains(query.toLowerCase())
       ).toList();
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _timer.cancel();
   }
 
   @override

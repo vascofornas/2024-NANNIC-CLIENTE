@@ -114,7 +114,11 @@
   "confirmarborradopaciente": "Bekräfta borttagning av patient",
   "seguroconfirmarborradopaciente": "Är du säker på att du vill ta bort den här patienten?",
   "zonaadministradores": "Administratörsområde",
-  "buscaradministradores": "Sök administratörer"
+  "buscaradministradores": "Sök administratörer",
+  "fechaaltaequiponannic": "Registreringsdatum för Nannic-laget",
+  "disponibilidad": "Tillgänglighet",
+  "disponible": "Tillgängliga",
+  "nodisponible": "Inte tillgänglig"
 
 
 

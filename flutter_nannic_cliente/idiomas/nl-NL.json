@@ -114,7 +114,11 @@
   "confirmarborradopaciente": "Bevestig de verwijdering van de patiënt",
   "seguroconfirmarborradopaciente": "Weet u zeker dat u deze patiënt wilt verwijderen?",
   "zonaadministradores": "Beheerdersgebied",
-  "buscaradministradores": "Zoek beheerders"
+  "buscaradministradores": "Zoek beheerders",
+  "fechaaltaequiponannic": "Inschrijvingsdatum Nannic-team",
+  "disponibilidad": "Beschikbaarheid",
+  "disponible": "Beschikbaar",
+  "nodisponible": "Niet beschikbaar"
 
 
 

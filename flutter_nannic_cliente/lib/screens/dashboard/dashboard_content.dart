@@ -22,6 +22,7 @@ import 'package:flutter_nannic_cliente/screens/components/top_referals.dart';
 import 'package:flutter_nannic_cliente/screens/components/users.dart';
 import 'package:flutter_nannic_cliente/screens/components/users_by_device.dart';
 import 'package:flutter_nannic_cliente/screens/components/viewers.dart';
+import 'package:flutter_nannic_cliente/screens/equipos/equipos_analytic.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_analytic.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -132,6 +133,8 @@ class _DashboardContentState extends State<DashboardContent> {
                           ProfesionalesAnalytic(clinicaId: this.idClinica,),
                           SizedBox(height: appPadding,),
                           PacientesAnalytic(clinicaId: this.idClinica),
+                          SizedBox(height: appPadding,),
+                          EquiposAnalytic(idCLinica: this.idClinica),
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),

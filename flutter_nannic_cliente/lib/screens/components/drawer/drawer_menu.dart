@@ -192,7 +192,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
-          //Dashboard
+          //Dashboard visible para todos
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -238,101 +238,107 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
-          //administradores
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: pantallaSeleccionada.pantallaSeleccionada ==
-                        "adaministradores"
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.white),
-                color:
-                pantallaSeleccionada.pantallaSeleccionada == "administradores"
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DrawerListTile(
-                title: 'administrators'.tr(),
-                color:
-                pantallaSeleccionada.pantallaSeleccionada == "administradores"
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/administrator.svg',
-                tap: () {
-                  // Navegar a ProfesionalesScreen o a DashBoardScreen
-                  final nextScreen =
-                  pantallaSeleccionada.pantallaSeleccionada !=
-                      "administradores"
-                      ? AdministradoresScreen(clinicaId: widget.clinicaId,)
-                      : DashBoardScreen();
-
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    buildPageRouteBuilder(nextScreen),
-                        (route) => false, // Eliminar todas las rutas anteriores
-                  );
-
-                  // Actualizar el estado de pantalla seleccionada
+          //administradores solo visible para administradores
+          Visibility(
+            visible: soyAdmin,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: pantallaSeleccionada.pantallaSeleccionada ==
+                          "adaministradores"
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.white),
+                  color:
                   pantallaSeleccionada.pantallaSeleccionada == "administradores"
-                      ? pantallaSeleccionada.cambiarPantallaState("dashboard")
-                      : pantallaSeleccionada
-                      .cambiarPantallaState("administradores");
-                },
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DrawerListTile(
+                  title: 'administrators'.tr(),
+                  color:
+                  pantallaSeleccionada.pantallaSeleccionada == "administradores"
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.primary,
+                  svgSrc: 'assets/icons/administrator.svg',
+                  tap: () {
+                    // Navegar a ProfesionalesScreen o a DashBoardScreen
+                    final nextScreen =
+                    pantallaSeleccionada.pantallaSeleccionada !=
+                        "administradores"
+                        ? AdministradoresScreen(clinicaId: widget.clinicaId,)
+                        : DashBoardScreen();
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      buildPageRouteBuilder(nextScreen),
+                          (route) => false, // Eliminar todas las rutas anteriores
+                    );
+
+                    // Actualizar el estado de pantalla seleccionada
+                    pantallaSeleccionada.pantallaSeleccionada == "administradores"
+                        ? pantallaSeleccionada.cambiarPantallaState("dashboard")
+                        : pantallaSeleccionada
+                        .cambiarPantallaState("administradores");
+                  },
+                ),
               ),
             ),
           ),
 
-          //profesionales
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: pantallaSeleccionada.pantallaSeleccionada ==
-                            "profesionales"
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.white),
-                color:
-                    pantallaSeleccionada.pantallaSeleccionada == "profesionales"
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DrawerListTile(
-                title: 'profesionales'.tr(),
-                color:
-                    pantallaSeleccionada.pantallaSeleccionada == "profesionales"
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/profesionales.svg',
-                tap: () {
-                  // Navegar a ProfesionalesScreen o a DashBoardScreen
-                  final nextScreen =
-                      pantallaSeleccionada.pantallaSeleccionada !=
+          //profesionales solo visible para administradores
+          Visibility(
+            visible: soyAdmin,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: pantallaSeleccionada.pantallaSeleccionada ==
                               "profesionales"
-                          ? ProfesionalesScreen(clinicaId: widget.clinicaId,)
-                          : DashBoardScreen();
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.white),
+                  color:
+                      pantallaSeleccionada.pantallaSeleccionada == "profesionales"
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DrawerListTile(
+                  title: 'profesionales'.tr(),
+                  color:
+                      pantallaSeleccionada.pantallaSeleccionada == "profesionales"
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.primary,
+                  svgSrc: 'assets/icons/profesionales.svg',
+                  tap: () {
+                    // Navegar a ProfesionalesScreen o a DashBoardScreen
+                    final nextScreen =
+                        pantallaSeleccionada.pantallaSeleccionada !=
+                                "profesionales"
+                            ? ProfesionalesScreen(clinicaId: widget.clinicaId,)
+                            : DashBoardScreen();
 
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    buildPageRouteBuilder(nextScreen),
-                    (route) => false, // Eliminar todas las rutas anteriores
-                  );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      buildPageRouteBuilder(nextScreen),
+                      (route) => false, // Eliminar todas las rutas anteriores
+                    );
 
-                  // Actualizar el estado de pantalla seleccionada
-                  pantallaSeleccionada.pantallaSeleccionada == "profesionales"
-                      ? pantallaSeleccionada.cambiarPantallaState("dashboard")
-                      : pantallaSeleccionada
-                          .cambiarPantallaState("profesionales");
-                },
+                    // Actualizar el estado de pantalla seleccionada
+                    pantallaSeleccionada.pantallaSeleccionada == "profesionales"
+                        ? pantallaSeleccionada.cambiarPantallaState("dashboard")
+                        : pantallaSeleccionada
+                            .cambiarPantallaState("profesionales");
+                  },
+                ),
               ),
             ),
           ),
 
-          //pacientes
+          //pacientes visible para todos
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -378,53 +384,56 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
-          //equipos
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: pantallaSeleccionada.pantallaSeleccionada ==
-                        "equipos"
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.white),
-                color:
-                pantallaSeleccionada.pantallaSeleccionada == "equipos"
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DrawerListTile(
-                title: 'equipos'.tr(),
-                color:
-                pantallaSeleccionada.pantallaSeleccionada == "equipos"
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/equipos.svg',
-                tap: () {
-                  // Navegar a ProfesionalesScreen o a DashBoardScreen
-                  final nextScreen =
-                  pantallaSeleccionada.pantallaSeleccionada !=
-                      "equipos"
-                      ? EquiposScreen(clinicaId: widget.clinicaId,)
-                      : DashBoardScreen();
-
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    buildPageRouteBuilder(nextScreen),
-                        (route) => false, // Eliminar todas las rutas anteriores
-                  );
-
-                  // Actualizar el estado de pantalla seleccionada
+          //equipos solo visible para administradores
+          Visibility(
+            visible: soyAdmin,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: pantallaSeleccionada.pantallaSeleccionada ==
+                          "equipos"
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.white),
+                  color:
                   pantallaSeleccionada.pantallaSeleccionada == "equipos"
-                      ? pantallaSeleccionada.cambiarPantallaState("dashboard")
-                      : pantallaSeleccionada
-                      .cambiarPantallaState("equipos");
-                },
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DrawerListTile(
+                  title: 'equipos'.tr(),
+                  color:
+                  pantallaSeleccionada.pantallaSeleccionada == "equipos"
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.primary,
+                  svgSrc: 'assets/icons/equipos.svg',
+                  tap: () {
+                    // Navegar a ProfesionalesScreen o a DashBoardScreen
+                    final nextScreen =
+                    pantallaSeleccionada.pantallaSeleccionada !=
+                        "equipos"
+                        ? EquiposScreen(clinicaId: widget.clinicaId,)
+                        : DashBoardScreen();
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      buildPageRouteBuilder(nextScreen),
+                          (route) => false, // Eliminar todas las rutas anteriores
+                    );
+
+                    // Actualizar el estado de pantalla seleccionada
+                    pantallaSeleccionada.pantallaSeleccionada == "equipos"
+                        ? pantallaSeleccionada.cambiarPantallaState("dashboard")
+                        : pantallaSeleccionada
+                        .cambiarPantallaState("equipos");
+                  },
+                ),
               ),
             ),
           ),
-          //perfil
+          //perfil visible para todos
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -465,44 +474,47 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
-          //plantilla
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color:
-                        pantallaSeleccionada.pantallaSeleccionada == "plantilla"
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.white),
-                color: pantallaSeleccionada.pantallaSeleccionada == "plantilla"
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: DrawerListTile(
-                title: 'Plantilla',
-                color: pantallaSeleccionada.pantallaSeleccionada == "plantilla"
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/Subscribers.svg',
-                tap: () {
-                  // Navegar a ProfesionalesScreen o a DashBoardScreen
-                  final nextScreen =
-                      pantallaSeleccionada.pantallaSeleccionada != "plantilla"
-                          ? PlantillaScreen(clinicaid: widget.clinicaId,)
-                          : DashBoardScreen();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    buildPageRouteBuilder(nextScreen),
-                    (route) => false, // Eliminar todas las rutas anteriores
-                  );
+          //plantilla solo visible para administradores
+          Visibility(
+            visible: soyAdmin,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color:
+                          pantallaSeleccionada.pantallaSeleccionada == "plantilla"
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.white),
+                  color: pantallaSeleccionada.pantallaSeleccionada == "plantilla"
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.background,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: DrawerListTile(
+                  title: 'Plantilla',
+                  color: pantallaSeleccionada.pantallaSeleccionada == "plantilla"
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.primary,
+                  svgSrc: 'assets/icons/Subscribers.svg',
+                  tap: () {
+                    // Navegar a ProfesionalesScreen o a DashBoardScreen
+                    final nextScreen =
+                        pantallaSeleccionada.pantallaSeleccionada != "plantilla"
+                            ? PlantillaScreen(clinicaid: widget.clinicaId,)
+                            : DashBoardScreen();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      buildPageRouteBuilder(nextScreen),
+                      (route) => false, // Eliminar todas las rutas anteriores
+                    );
 
-                  // Actualizar el estado de pantalla seleccionada
-                  pantallaSeleccionada.pantallaSeleccionada == "plantilla"
-                      ? pantallaSeleccionada.cambiarPantallaState("dashboard")
-                      : pantallaSeleccionada.cambiarPantallaState("plantilla");
-                },
+                    // Actualizar el estado de pantalla seleccionada
+                    pantallaSeleccionada.pantallaSeleccionada == "plantilla"
+                        ? pantallaSeleccionada.cambiarPantallaState("dashboard")
+                        : pantallaSeleccionada.cambiarPantallaState("plantilla");
+                  },
+                ),
               ),
             ),
           ),

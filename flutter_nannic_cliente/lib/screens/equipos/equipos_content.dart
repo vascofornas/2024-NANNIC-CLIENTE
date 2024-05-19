@@ -14,6 +14,8 @@ import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_s
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_analytic.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.dart';
 
+import '../../funciones/shared_prefs_helper.dart';
+
 
 
 
@@ -31,10 +33,13 @@ class EquiposContent extends StatefulWidget {
 
 class _EquiposContentState extends State<EquiposContent> {
 
+  String clinicaActual = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getIdClinica();
 
   }
   actualizar(){
@@ -42,6 +47,16 @@ class _EquiposContentState extends State<EquiposContent> {
 
 
     });
+  }
+
+  getIdClinica() async {
+    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+    setState(() {
+
+    });
+
+
+
   }
   @override
   Widget build(BuildContext context) {
@@ -55,26 +70,7 @@ class _EquiposContentState extends State<EquiposContent> {
             Column(
               children: [
                 CustomAppbar(titulo: 'equipos'.tr(),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        // Action to be performed on FAB tap
-                        //abrir pantalla nueva clinica
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => NuevoEquipoPage(clinicaId: widget.clinicaId,)),
-                        );
-                      },
-                      child: Icon(Icons.add),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      splashColor: Colors.white,
-                    ),
-                  ],
-                )
+
               ],
             ), // Widget de barra de aplicación personalizada
             SizedBox(
@@ -90,11 +86,11 @@ class _EquiposContentState extends State<EquiposContent> {
                       flex: 5,
                       child: Column(
                         children: [
-                          EquiposAnalytic(), // Widget para mostrar tarjetas analíticas
+                          EquiposAnalytic(idCLinica: clinicaActual,), // Widget para mostrar tarjetas analíticas
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),
-                          ZonaEquipos(onActualizarEstado: actualizar,clinicaId: widget.clinicaId,), // Widget para mostrar información de usuarios
+                          ZonaEquipos(onActualizarEstado: actualizar,clinicaId: clinicaActual,), // Widget para mostrar información de usuarios
                           // Espacio adicional si el dispositivo es móvil y se muestra la sección de discusiones
 
                         ],

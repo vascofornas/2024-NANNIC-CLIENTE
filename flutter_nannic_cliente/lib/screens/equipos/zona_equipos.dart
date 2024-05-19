@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/clinica_modelo.dart';
 import 'package:flutter_nannic_cliente/models/equipo_modelo.dart';
 import 'package:flutter_nannic_cliente/models/profesional_modelo.dart';
@@ -28,32 +29,42 @@ class ZonaEquipos extends StatefulWidget {
 class _ZonaEquiposState extends State<ZonaEquipos> {
   List<Equipo> _equipos = [];
   List<Equipo> _filteredEquipos = [];
-  late Timer _timer;
+  String clinicaActual = "";
+
 
   @override
   void initState() {
     super.initState();
-    obtenerEquipos();
+    getIdClinica();
   }
 
   actualizarEquipos(){
-    obtenerEquipos();
+    getIdClinica();
+  }
+  getIdClinica() async {
+    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+
+
+    obtenerEquipos(clinicaActual);
   }
 
-  Future<void> obtenerEquipos() async {
+  Future<void> obtenerEquipos(String id_clinica) async {
+    print("estoy actualizando equipos en zona equipos");
     String urlAPI =
-        URLProyecto + APICarpeta + "admin_obtener_equipos_todos.php";
+        URLProyecto + APICarpeta + "admin_obtener_equipos_todos_clinica.php?id_clinica=$id_clinica";
+    print("url obtener equipos ${urlAPI}");
     final url = Uri.parse(urlAPI);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = json.decode(response.body);
+      print("lista equipos ${jsonResponse}");
       setState(() {
         _equipos = jsonResponse.map((data) => Equipo.fromJson(data)).toList();
         _filteredEquipos = _equipos;
       });
     } else {
-      throw Exception('Error al obtener las clinicas');
+      throw Exception('Error al obtener los equipos');
     }
   }
 
@@ -61,16 +72,17 @@ class _ZonaEquiposState extends State<ZonaEquipos> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _timer.cancel();
+
   }
 
-  void filtrarClinicas(String query) {
+  void filtrarEquipos(String query) {
     setState(() {
-      _filteredEquipos = _equipos
-          .where((equipos) => equipos.nombre_equipo!
-              .toLowerCase()
-              .contains(query.toLowerCase()))
-          .toList();
+      _filteredEquipos = _equipos.where((equipo) {
+        final nombreMatch = equipo.nombre_equipo?.toLowerCase().contains(query.toLowerCase()) ?? false;
+        final numSerieMatch = equipo.num_serie?.toLowerCase().contains(query.toLowerCase()) ?? false;
+
+        return nombreMatch || numSerieMatch ;
+      }).toList();
     });
   }
 
@@ -95,7 +107,7 @@ class _ZonaEquiposState extends State<ZonaEquipos> {
           SizedBox(height: 16),
           // Campo de búsqueda
           TextField(
-            onChanged: filtrarClinicas,
+            onChanged: filtrarEquipos,
             style: AppFonts.nannic(
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey),
             decoration: InputDecoration(
@@ -115,7 +127,10 @@ class _ZonaEquiposState extends State<ZonaEquipos> {
                     itemCount: _filteredEquipos.length,
                     itemBuilder: (context, index) {
                       final equipo = _filteredEquipos[index];
-                      return EquipoCard(equipo: equipo,onActualizarEstado: actualizarEquipos,clinicaid: widget.clinicaId,);
+                      return EquipoCard(
+                        equipo: equipo,
+                        onActualizarEstado: actualizarEquipos,
+                        clinicaid: widget.clinicaId,);
                     },
                   ),
           ),
