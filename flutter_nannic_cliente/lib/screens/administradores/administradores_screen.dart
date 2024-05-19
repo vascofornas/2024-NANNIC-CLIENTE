@@ -4,21 +4,22 @@ import 'package:flutter_nannic_cliente/funciones/obtener_datos_usuario.dart';
 import 'package:flutter_nannic_cliente/funciones/on_will_pop.dart';
 import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
+import 'package:flutter_nannic_cliente/screens/administradores/administradores_content.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_menu.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_content.dart';
 
 
 import 'package:provider/provider.dart';
 
-class ProfesionalesScreen extends StatefulWidget {
-  const ProfesionalesScreen({Key? key, required this.clinicaId}) : super(key: key);
+class AdministradoresScreen extends StatefulWidget {
+  const AdministradoresScreen({Key? key, required this.clinicaId}) : super(key: key);
   final String clinicaId;
 
   @override
-  State<ProfesionalesScreen> createState() => _ProfesionalesScreenState();
+  State<AdministradoresScreen> createState() => _AdministradoresScreenState();
 }
 
-class _ProfesionalesScreenState extends State<ProfesionalesScreen> {
+class _AdministradoresScreenState extends State<AdministradoresScreen> {
 
   late String emailUsuario = "";
   String clinicaActual = "";
@@ -55,7 +56,7 @@ class _ProfesionalesScreenState extends State<ProfesionalesScreen> {
                 clinicaId: widget.clinicaId,),),
                 Expanded(
                   flex: 5,
-                  child: ProfesionalesContent(clinicaId: clinicaActual ,),
+                  child: AdministradoresContent(clinicaId: clinicaActual ,),
                 )
               ],
             ),

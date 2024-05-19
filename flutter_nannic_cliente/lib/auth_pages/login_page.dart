@@ -37,6 +37,8 @@ class _LoginPageState extends State<LoginPage> {
   String logoClinica = "logo_clinica.png";
   String idClinica ="";
   String tipoUsuario = "?";
+  String idClinicaActual ="";
+  String tipoUsuarioActual ="";
 
   @override
   void didChangeDependencies() {
@@ -66,19 +68,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  _saveDataToSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userData.forEach((key, value) {
-      prefs.setString(key, value.toString());
-   ;
-    });
 
-  }
 
   Future<void> iniciarSesion() async {
     const String url = URLProyecto + APICarpeta + "login_nannic.php";
     setState(() {
-      ocultarBoton = !ocultarBoton;
+      ocultarBoton = true;
     });
 
     try {
@@ -95,9 +90,8 @@ class _LoginPageState extends State<LoginPage> {
         if (response.body.isNotEmpty) {
           // Convertir la respuesta JSON a un mapa
           Map<String, dynamic> responseData = json.decode(response.body);
-          final Map parsed = json.decode(response.body);
-          print("datos recibidos al hacer login ${parsed.toString()}");
 
+          print("datos recibidos al hacer login ${responseData.toString()}");
 
           // Verificar si la respuesta contiene un mensaje de error
           if (responseData.containsKey('error')) {
@@ -122,25 +116,38 @@ class _LoginPageState extends State<LoginPage> {
             );
           } else {
             // La autenticación fue exitosa, puedes procesar los datos del usuario aquí
-            // Por ejemplo, guardar los datos del usuario en el almacenamiento local
-
-
-
             userData = responseData;
-            _saveDataToSharedPreferences();
+            await _saveDataToSharedPreferences(userData);
 
-            fetchDataClinica();
-
+            await fetchDataClinica();
 
             //PROCESAMOS ESTADO LOGGED IN
             _authManager.login();
-
           }
         }
+      } else {
+        throw Exception('Error al obtener los profesionales');
       }
-    } catch (e) {}
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      setState(() {
+        ocultarBoton = false;
+      });
+    }
   }
 
+  Future<void> _saveDataToSharedPreferences(Map<String, dynamic> userData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('id', userData['id'].toString());
+    await prefs.setString('email', userData['email']);
+    await prefs.setString('imagen', userData['imagen']);
+    await prefs.setString('nombre', userData['nombre']);
+    await prefs.setString('apellidos', userData['apellidos']);
+    await prefs.setString('nivel_usuario', userData['nivel_usuario']);
+    await prefs.setString('tel', userData['tel']);
+    // Guardar otros datos necesarios del usuario en SharedPreferences
+  }
   // forgot password
   void forgotPw() {
     showDialog(
@@ -161,75 +168,58 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> fetchDataClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId = prefs.getString('id') ?? '';
-    print("userId en login fetchDataClinica ${userId}");
-    // Si el ID del usuario no está presente, no se realiza la solicitud al servidor
+    print("userId en login fetchDataClinica $userId");
+
     if (userId.isEmpty) {
       return;
     }
 
-    // Realizamos la solicitud HTTP al script PHP
-    final response = await http.get(Uri.parse(URLProyecto+APICarpeta+'obtener_clinica_profesional_administrador.php?idUsuario=$userId'));
+    final response = await http.get(Uri.parse(URLProyecto + APICarpeta + 'obtener_clinica_profesional_administrador.php?idUsuario=$userId'));
 
-    // Verificamos si la solicitud fue exitosa (código 200)
+    print("response.body ${response.body}");
+
     if (response.statusCode == 200) {
-      // Convertimos la respuesta JSON en un mapa
       Map<String, dynamic> data = jsonDecode(response.body);
-      List<String> profesionales = [];
-      List<String> administradores = [];
       String? idClinicaActual;
       String? tipoUsuarioActual;
 
-      if (data.containsKey('profesional')) {
-        if (data['profesional'].isNotEmpty) {
-          idClinicaActual = data['profesional'][0]; // Suponemos que el usuario es profesional de una sola clínica
-          tipoUsuarioActual = 'profesional';
-
-        }
+      if (data.containsKey('profesional') && data['profesional'] != null && (data['profesional'] as List).isNotEmpty) {
+        idClinicaActual = (data['profesional'] as List).first.toString();
+        tipoUsuarioActual = 'profesional';
       }
 
-      if (data.containsKey('administrador')) {
-        if (data['administrador'].isNotEmpty) {
-          idClinicaActual = data['administrador'][0]; // Suponemos que el usuario es administrador de una sola clínica
-          tipoUsuarioActual = 'administrador';
-        }
-
+      if (data.containsKey('administrador') && data['administrador'] != null && (data['administrador'] as List).isNotEmpty) {
+        idClinicaActual = (data['administrador'] as List).first.toString();
+        tipoUsuarioActual = 'administrador';
       }
-      print("tipo usuario actual ${tipoUsuarioActual}");
 
+      print("tipo usuario actual $tipoUsuarioActual");
 
-      // Actualizamos el estado de la aplicación con los datos obtenidos
-
-        idClinica = idClinicaActual!;
-        tipoUsuario = tipoUsuarioActual!;
-        print("id de la clinica en login ${idClinicaActual!}");
-        print("tipo de usuario en login ${tipoUsuarioActual}");
-
-        //actualizamos SP con los datos obtenidos
-      if(mounted) {
+      if (idClinicaActual != null && tipoUsuarioActual != null) {
         setState(() {
+          idClinica = idClinicaActual!;
+          tipoUsuario = tipoUsuarioActual!;
+          print("id de la clinica en login $idClinicaActual");
+          print("tipo de usuario en login $tipoUsuarioActual");
+
+          // Actualizar SharedPreferences
+          SharedPrefsHelper.setIdClinica(idClinicaActual);
           if (tipoUsuarioActual == "profesional") {
             SharedPrefsHelper.setEsProfesionalClinica(true);
             SharedPrefsHelper.setEsAdministradorClinica(false);
-            SharedPrefsHelper.setIdClinica(idClinicaActual!);
-          }
-          if (tipoUsuarioActual == "administrador") {
+          } else if (tipoUsuarioActual == "administrador") {
             SharedPrefsHelper.setEsProfesionalClinica(false);
             SharedPrefsHelper.setEsAdministradorClinica(true);
-            SharedPrefsHelper.setIdClinica(idClinicaActual!);
           }
-          print("idClinica antes de obtenerDatosClinica ${idClinica}");
+
           obtenerDatosClinica(idClinica);
         });
       }
-
-
-
-
     } else {
-      // Si la solicitud falla, puedes manejar el error de alguna manera
-
+      print('Error: ${response.statusCode}');
     }
   }
+
   Future<Map<String, String>> obtenerDatosClinica(String idClinica) async {
     // URL del script PHP en el servidor remoto
   ;
@@ -241,6 +231,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
     // Verificar si la solicitud fue exitosa
+  print("he llegado hasta aqui");
     if (response.statusCode == 200) {
       // Decodificar la respuesta JSON
       Map<String, dynamic> data = jsonDecode(response.body);

@@ -5,17 +5,18 @@ import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/models/profesional_modelo.dart';
+import 'package:flutter_nannic_cliente/screens/administradores/administrator_card.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesional_card.dart';
 import 'package:http/http.dart' as http;
 
-class ZonaProfesionales extends StatefulWidget {
-  const ZonaProfesionales({Key? key}) : super(key: key);
+class ZonaAdministradores extends StatefulWidget {
+  const ZonaAdministradores({Key? key}) : super(key: key);
 
   @override
-  _ZonaProfesionalesState createState() => _ZonaProfesionalesState();
+  _ZonaAdministradoresState createState() => _ZonaAdministradoresState();
 }
 
-class _ZonaProfesionalesState extends State<ZonaProfesionales> {
+class _ZonaAdministradoresState extends State<ZonaAdministradores> {
   List<Profesional> _profesionales = [];
   List<Profesional> _filteredProfesionales = [];
 
@@ -30,12 +31,12 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
   getIdClinica() async {
     clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
 
-    print("clinica actual en zona profesionales ${clinicaActual}");
-    obtenerProfesionales(clinicaActual);
+
+    obtenerAdministradores(clinicaActual);
   }
 
 
-  Future<void> obtenerProfesionales(String clinica) async {
+  Future<void> obtenerAdministradores(String clinica) async {
     // Obtener id_clinica desde SharedPrefsHelper
     final String? idClinica = await SharedPrefsHelper.getIdClinica();
     print("idClinica en profesionales $idClinica");
@@ -43,7 +44,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
     // Verificar que id_clinica no esté vacío
     if (idClinica != null && idClinica.isNotEmpty) {
       // Construir URL de la API
-      String urlAPI = URLProyecto+APICarpeta+"admin_obtener_profesionales_todos_clinica.php?id_clinica=$clinica";
+      String urlAPI = URLProyecto+APICarpeta+"admin_obtener_administradores_todos_clinica.php?id_clinica=$clinica";
       print("urlAPI ${urlAPI}");
       final url = Uri.parse(urlAPI);
 
@@ -118,7 +119,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "zonaprofesionales".tr(),
+            "zonaadministradores".tr(),
             style: AppFonts.nannic(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -137,7 +138,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
 
             ),
             decoration: InputDecoration(
-              labelText: 'buscarprofesionales'.tr(),
+              labelText: 'buscaradministradores'.tr(),
               labelStyle: AppFonts.nannic(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -155,7 +156,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
                     itemCount: _filteredProfesionales.length,
                     itemBuilder: (context, index) {
                       final profesional = _filteredProfesionales[index];
-                      return ProfesionalCard(profesional: profesional);
+                      return AdministratorCard(profesional: profesional);
                     },
                   ),
           ),

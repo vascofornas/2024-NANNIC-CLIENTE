@@ -106,6 +106,15 @@
   "pacientenombre": "Patientens namn",
   "pacientetel": "Patientens telefonnummer (inklusive nationellt prefix +34 123123123)",
   "pacientenuevo": "Publicera data om den nya patienten",
+  "datospaciente": "Patientens data",
+  "imagenactualpaciente": "Aktuell bild av patienten",
+  "nuevaimagenpaciente": "Ny bild av patienten",
+  "pacienteeditado": "Publicera nya patientdata",
+  "datospacienteactualizados": "Patientdata har uppdaterats",
+  "confirmarborradopaciente": "Bekräfta borttagning av patient",
+  "seguroconfirmarborradopaciente": "Är du säker på att du vill ta bort den här patienten?",
+  "zonaadministradores": "Administratörsområde",
+  "buscaradministradores": "Sök administratörer"
 
 
 

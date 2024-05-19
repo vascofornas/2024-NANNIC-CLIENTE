@@ -105,6 +105,14 @@
   "pacienteemail": "Patient email",
   "pacientenombre": "Name of patient",
   "pacientetel": "Patient's telephone number (including national prefix +34 123123123)",
-  "pacientenuevo": "Publish data of the new patient"
-
+  "pacientenuevo": "Publish data of the new patient",
+  "datospaciente": "Patient's data",
+  "imagenactualpaciente": "Current image of the patient",
+  "nuevaimagenpaciente": "New image of the patient",
+  "pacienteeditado": "Publish new patient data",
+  "datospacienteactualizados": "Patient data has been updated",
+  "confirmarborradopaciente": "Confirm patient deletion",
+  "seguroconfirmarborradopaciente": "Are you sure you want to delete this patient?",
+  "zonaadministradores": "Administrators area",
+  "buscaradministradores": "Search administrators"
 }

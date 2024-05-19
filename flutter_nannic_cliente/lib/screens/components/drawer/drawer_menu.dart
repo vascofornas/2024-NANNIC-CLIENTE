@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/inicio_total.dart';
 import 'package:flutter_nannic_cliente/models/usuario_model.dart';
 import 'package:flutter_nannic_cliente/providers/usuario_provider.dart';
+import 'package:flutter_nannic_cliente/screens/administradores/administradores_screen.dart';
 import 'package:flutter_nannic_cliente/screens/clinicas_centros_partners/clinicas_screen.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_divider.dart';
 import 'package:flutter_nannic_cliente/screens/components/drawer/drawer_list_tile.dart';
@@ -56,16 +57,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
   String idClinica ="";
   String idUsuario ="";
 
+  bool soyAdmin = false;
+
   late Timer _timer;
   bool _isVisible = false;
 
-  void capturarDatosUsuario() async {
-    DatosUsuario datos = await obtenerDatosUsuario();
-    print('El email del usuario es: ${datos.email}');
-    emailUsuario = datos.email;
-    avatarUsuario = datos.imagen;
-    setState(() {});
-  }
+
 
   Future obtenerInfoPaquete() async {
     PackageInfo.fromPlatform().then((value) {
@@ -80,11 +77,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
     idUsuario = await SharedPrefsHelper.getId() as String;
 
+    emailUsuario = (await SharedPrefsHelper.getEmail())!;
+
     idClinica = await SharedPrefsHelper.getIdClinica() as String;
 
     nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
 
     logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+    soyAdmin = (await SharedPrefsHelper.getAdministradorClinica())!;
+    avatarUsuario = (await SharedPrefsHelper.getFoto())!;
 
 
     setState(() {
@@ -104,7 +105,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    capturarDatosUsuario();
+
     obtenerInfoPaquete();
     getDatosUsuario();
 
@@ -124,14 +125,31 @@ class _DrawerMenuState extends State<DrawerMenu> {
       child: ListView(
         children: [
           //zona superior Nannic
-          Container(
-            width: 140,
-            height: 140,
-            padding: EdgeInsets.all(appPadding),
-            child: Image.asset(
-              "assets/images/nannic.png",
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              soyAdmin?Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/admin.png")
+                  )
+                ),
+                child: Text(""),
+              ):SizedBox(width: 0,height: 0,),
+
+              Container(
+                width: 140,
+                height: 140,
+                padding: EdgeInsets.all(appPadding),
+                child: Image.asset(
+                  "assets/images/nannic.png",
+                ),
+              ),
+            ],
           ),
+
           Center(
             child: Container(
                 padding: EdgeInsets.all(appPadding),
@@ -220,6 +238,52 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
+          //administradores
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: pantallaSeleccionada.pantallaSeleccionada ==
+                        "adaministradores"
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.white),
+                color:
+                pantallaSeleccionada.pantallaSeleccionada == "administradores"
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.background,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: DrawerListTile(
+                title: 'administrators'.tr(),
+                color:
+                pantallaSeleccionada.pantallaSeleccionada == "administradores"
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.primary,
+                svgSrc: 'assets/icons/administrator.svg',
+                tap: () {
+                  // Navegar a ProfesionalesScreen o a DashBoardScreen
+                  final nextScreen =
+                  pantallaSeleccionada.pantallaSeleccionada !=
+                      "administradores"
+                      ? AdministradoresScreen(clinicaId: widget.clinicaId,)
+                      : DashBoardScreen();
+
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    buildPageRouteBuilder(nextScreen),
+                        (route) => false, // Eliminar todas las rutas anteriores
+                  );
+
+                  // Actualizar el estado de pantalla seleccionada
+                  pantallaSeleccionada.pantallaSeleccionada == "administradores"
+                      ? pantallaSeleccionada.cambiarPantallaState("dashboard")
+                      : pantallaSeleccionada
+                      .cambiarPantallaState("administradores");
+                },
+              ),
+            ),
+          ),
 
           //profesionales
           Padding(
@@ -243,7 +307,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     pantallaSeleccionada.pantallaSeleccionada == "profesionales"
                         ? Colors.white
                         : Theme.of(context).colorScheme.primary,
-                svgSrc: 'assets/icons/Pages.svg',
+                svgSrc: 'assets/icons/profesionales.svg',
                 tap: () {
                   // Navegar a ProfesionalesScreen o a DashBoardScreen
                   final nextScreen =
@@ -267,6 +331,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               ),
             ),
           ),
+
           //pacientes
           Padding(
             padding: const EdgeInsets.all(8.0),

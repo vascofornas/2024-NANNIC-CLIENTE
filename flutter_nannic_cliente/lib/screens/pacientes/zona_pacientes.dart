@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,20 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
   List<Paciente> _pacientes = [];
   List<Paciente> _filteredPacientes = [];
   String idClinica = "";
+  late Timer _timer;
 
 
   @override
   void initState() {
     super.initState();
     cargarPacientes();
+
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      cargarPacientes();
+      print("actualizando pacientes");
+
+
+    });
 
   }
 

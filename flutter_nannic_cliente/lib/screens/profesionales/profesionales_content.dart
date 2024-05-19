@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:flutter_nannic_cliente/screens/components/custom_appbar/custom_appbar.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/page_route_builder.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/nuevo_paciente_screen.dart';
@@ -14,13 +15,51 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 
-class ProfesionalesContent extends StatelessWidget {
+class ProfesionalesContent extends StatefulWidget {
   const ProfesionalesContent({Key? key, required this.clinicaId}) : super(key: key);
 
   final String clinicaId;
 
   @override
+  State<ProfesionalesContent> createState() => _ProfesionalesContentState();
+}
+
+class _ProfesionalesContentState extends State<ProfesionalesContent> {
+
+  String nombreClinica = "AAA";
+  String logoClinica = "logo_clinica.png";
+  String idClinica ="";
+  String idUsuario ="";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDatosUsuario();
+  }
+
+
+  getDatosUsuario() async {
+
+    print("············································");
+    idUsuario = await SharedPrefsHelper.getId() as String;
+
+    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+
+    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+
+    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+
+
+    setState(() {
+
+    });
+
+  }
+  @override
   Widget build(BuildContext context) {
+
+
 
 
     return  SafeArea(
@@ -41,7 +80,7 @@ class ProfesionalesContent extends StatelessWidget {
                         //abrir pantalla nuevo profesional
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>NuevoPacientePage(clinicaId: this.clinicaId,)),
+                          MaterialPageRoute(builder: (context) =>NuevoPacientePage(clinicaId: this.widget.clinicaId,)),
                         );
                       },
                       child: Icon(Icons.add),
@@ -67,7 +106,7 @@ class ProfesionalesContent extends StatelessWidget {
                       flex: 5,
                       child: Column(
                         children: [
-                           ProfesionalesAnalytic(clinicaId: this.clinicaId ,), // Widget para mostrar tarjetas analíticas
+                          ProfesionalesAnalytic(clinicaId: this.idClinica ,), // Widget para mostrar tarjetas analíticas
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),

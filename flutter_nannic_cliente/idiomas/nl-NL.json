@@ -105,7 +105,16 @@
   "pacienteemail": "E-mail van de patiënt",
   "pacientenombre": "Naam patiënt",
    "pacientetel": "Telefoonnummer van de patiënt (inclusief nationaal kengetal +34 123123123)",
-  "pacientenuevo": "Publiceer gegevens van de nieuwe patiënt"
+  "pacientenuevo": "Publiceer gegevens van de nieuwe patiënt",
+  "datospaciente": "Gegevens van de patiënt",
+  "imagenactualpaciente": "Huidig beeld van de patiënt",
+  "nuevaimagenpaciente": "Nieuw beeld van de patiënt",
+  "pacienteeditado": "Publiceer nieuwe patiëntgegevens",
+  "datospacienteactualizados": "Patiëntgegevens zijn bijgewerkt",
+  "confirmarborradopaciente": "Bevestig de verwijdering van de patiënt",
+  "seguroconfirmarborradopaciente": "Weet u zeker dat u deze patiënt wilt verwijderen?",
+  "zonaadministradores": "Beheerdersgebied",
+  "buscaradministradores": "Zoek beheerders"
 
 
 

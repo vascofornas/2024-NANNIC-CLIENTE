@@ -47,19 +47,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   List<String> administradores = [];
   String idClinica ="";
   String tipoUsuario = "";
+  bool soyAdministrador = false;
+  bool soyProfesional = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getVersionInfo();
-    capturarDatosUsuario();
+
     obtenerDatosDispositivo();
 
     // Llama a la función verificarEstadoUsuario después de 5 segundos
 
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       verificarEstadoUsuario(idUsuario);
+      detectarTipoUsuario ();
 
     });
   }
@@ -69,6 +72,23 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     setState(() {
       version_app = packageInfo.version;
     });
+  }
+
+  detectarTipoUsuario () async {
+
+    bool? soyAdmin = await SharedPrefsHelper.getAdministradorClinica();
+    bool? soyProfesional = await SharedPrefsHelper.getProfesionalClinica();
+
+    if (soyAdmin!){
+      print ("SOY ADMINISTRADOR");
+
+    }
+    if(soyProfesional!){
+      print("SOY PROFESIOnAL");
+
+    }
+
+
   }
 
   Future<void> obtenerDatosDispositivo() async {
@@ -117,20 +137,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     }
   }
 
-  void capturarDatosUsuario() async {
-    DatosUsuario datos = await obtenerDatosUsuario();
 
-    emailUsuario = datos.email;
-    nivelUsuario = datos.nivel_usuario;
-    idUsuario = datos.id;
-
-    SharedPrefsHelper.setId(idUsuario);
-    // get id usuario desde SP
-    String? idUser = await SharedPrefsHelper.getId();
-    print("id user from SP ${idUser}");
-
-
-  }
 
 
 

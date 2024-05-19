@@ -43,7 +43,6 @@ class _DashboardContentState extends State<DashboardContent> {
   String idClinica ="";
   String idUsuario ="";
   String tipoUsuario = "?";
-  late Timer _timer;
   List<String> profesionales = [];
   List<String> administradores = [];
 

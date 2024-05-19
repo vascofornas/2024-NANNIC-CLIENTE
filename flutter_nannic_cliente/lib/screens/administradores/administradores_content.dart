@@ -1,14 +1,12 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
-import 'package:flutter_nannic_cliente/screens/clinicas_centros_partners/zonas_tab/zona_pacientes/pacientes_analytic.dart';
+import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
+import 'package:flutter_nannic_cliente/screens/administradores/zona_administradores.dart';
 import 'package:flutter_nannic_cliente/screens/components/custom_appbar/custom_appbar.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/page_route_builder.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/nuevo_paciente_screen.dart';
-import 'package:flutter_nannic_cliente/screens/pacientes/zona_pacientes.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/nuevo_profesional_screen.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_analytic.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.dart';
@@ -18,28 +16,50 @@ import 'package:flutter_nannic_cliente/screens/profesionales/zona_profesionales.
 
 
 
-class PacientesContent extends StatefulWidget {
-  const PacientesContent({Key? key, required this.clinicaId}) : super(key: key);
+class AdministradoresContent extends StatefulWidget {
+  const AdministradoresContent({Key? key, required this.clinicaId}) : super(key: key);
 
   final String clinicaId;
 
   @override
-  State<PacientesContent> createState() => _PacientesContentState();
+  State<AdministradoresContent> createState() => _AdministradoresContentState();
 }
 
-class _PacientesContentState extends State<PacientesContent> {
+class _AdministradoresContentState extends State<AdministradoresContent> {
 
-  late Timer _timer;
+  String nombreClinica = "AAA";
+  String logoClinica = "logo_clinica.png";
+  String idClinica ="";
+  String idUsuario ="";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("clinica Id en pacientes Content ${this.widget.clinicaId}");
+    getDatosUsuario();
+  }
+
+
+  getDatosUsuario() async {
+
+    print("············································");
+    idUsuario = await SharedPrefsHelper.getId() as String;
+
+    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+
+    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+
+    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+
+
+    setState(() {
+
+    });
 
   }
   @override
   Widget build(BuildContext context) {
+
 
 
 
@@ -50,28 +70,9 @@ class _PacientesContentState extends State<PacientesContent> {
           children: [
             Column(
               children: [
-                CustomAppbar(titulo: 'pacientes'.tr(),),
+                CustomAppbar(titulo: 'administrators'.tr(),),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        // Action to be performed on FAB tap
-                        //abrir pantalla nuevo profesional
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>NuevoPacientePage(clinicaId: this.widget.clinicaId,)),
-                        );
-                      },
-                      child: Icon(Icons.add),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      splashColor: Colors.white,
-                    ),
-                  ],
-                )
+
               ],
             ), // Widget de barra de aplicación personalizada
             SizedBox(
@@ -87,11 +88,11 @@ class _PacientesContentState extends State<PacientesContent> {
                       flex: 5,
                       child: Column(
                         children: [
-                           PacientesAnalytic(clinicaId: widget.clinicaId), // Widget para mostrar tarjetas analíticas
+                          ProfesionalesAnalytic(clinicaId: this.idClinica ,), // Widget para mostrar tarjetas analíticas
                           SizedBox(
                             height: appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                           ),
-                          ZonaPacientes(), // Widget para mostrar información de usuarios
+                          ZonaAdministradores(), // Widget para mostrar información de usuarios
                           // Espacio adicional si el dispositivo es móvil y se muestra la sección de discusiones
 
                         ],

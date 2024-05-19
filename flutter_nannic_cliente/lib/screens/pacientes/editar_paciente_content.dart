@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
+import 'package:flutter_nannic_cliente/models/paciente_modelo.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/pacientes_screen.dart';
 import 'package:flutter_nannic_cliente/screens/profesionales/profesionales_screen.dart';
 import 'package:universal_html/html.dart' as html;
@@ -35,15 +36,17 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:random_string/random_string.dart';
 
-class NuevoPacienteContent extends StatefulWidget {
-  const NuevoPacienteContent({Key? key, required this.clinicaId}) : super(key: key);
-  final String clinicaId;
+class EditarPacienteContent extends StatefulWidget {
+  const EditarPacienteContent({Key? key, required this.paciente, }) : super(key: key);
+
+  final Paciente paciente;
+
 
   @override
-  State<NuevoPacienteContent> createState() => _NuevoPacienteContentState();
+  State<EditarPacienteContent> createState() => _EditarPacienteContentState();
 }
 
-class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
+class _EditarPacienteContentState extends State<EditarPacienteContent> {
   late TextEditingController _nameController = TextEditingController();
 
   late TextEditingController _phoneController = TextEditingController();
@@ -56,6 +59,34 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   String imagenUsuario = "paciente.jpg";
   String idUsuario = "";
 
+  //para la imagen del paciente
+  File? _image;
+
+  final picker = ImagePicker();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   cargarDatosActualesPaciente();
+  }
+
+  cargarDatosActualesPaciente(){
+
+    if (mounted){
+      imagenUsuario = widget.paciente.imagen_paciente!;
+      nombreUsuario = widget.paciente.nombre!;
+      _nameController.text = nombreUsuario;
+
+      telUsuario = widget.paciente.tel_paciente!;
+      _phoneController.text = telUsuario;
+      emailUsuario = widget.paciente.email_paciente!;
+      _emailController.text = emailUsuario;
+      idUsuario = widget.paciente.id_paciente!;
+
+    }
+
+  }
 
 
   bool validarFormatoEmail(String email) {
@@ -66,9 +97,11 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   }
 
 
-  Future<void> registrarPaciente() async {
+
+
+  Future<void> registrarCambiosPaciente() async {
     const String url =
-        URLProyecto + APICarpeta + "registrar_nuevo_paciente_clinica.php";
+        URLProyecto + APICarpeta + "actualizar_datos_paciente.php";
 
     //verificar que estan todos los campos
     if (_nameController.text.isEmpty ||
@@ -101,17 +134,18 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
       print("email paciente ${_emailController.text}");
       print("tel paciente ${_phoneController.text}");
       print("imagen paciente ${imagenUsuario}");
-      print("id clinica paciente ${widget.clinicaId}");
+
 
       final response = await http.post(
         Uri.parse(url),
         body: {
-          'id_clinica': widget.clinicaId,
+
           'nombre': _nameController.text,
 
           'tel_paciente': _phoneController.text,
           'email_paciente': _emailController.text,
-          'imagen_paciente': imagenUsuario
+          'imagen_paciente': imagenUsuario,
+          'id': widget.paciente.id_paciente
 
 
         },
@@ -156,10 +190,7 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
     super.dispose();
   }
 
-  //para la imagen del paciente
-  File? _image;
 
-  final picker = ImagePicker();
 
 
 
@@ -289,17 +320,6 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -325,7 +345,52 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                   children: [
                     Column(
                       children: [
+                        //imagaen actual del paciente
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('imagenactualpaciente'.tr(),
+                                textAlign: TextAlign.center,
+                                style: AppFonts.nannic(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        SizedBox(
+                          height:
+                          appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
+                        ),
+
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(URLProyecto+APICarpeta+"pacientes/${widget.paciente.imagen_paciente}")
+                            )
+                          ),
+                        ),
                         // Mostrar la imagen seleccionada (si existe)
+                        SizedBox(
+                          height:
+                          appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('nuevaimagenpaciente'.tr(),
+                                textAlign: TextAlign.center,
+                                style: AppFonts.nannic(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        SizedBox(
+                          height:
+                          appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
+                        ),
                         if (_image != null)
                           Image.file(
                             _image!,
@@ -490,8 +555,8 @@ class _NuevoPacienteContentState extends State<NuevoPacienteContent> {
                                     appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
                               MyButton(
-                                onTap: registrarPaciente,
-                                text: "pacientenuevo".tr(),
+                                onTap: registrarCambiosPaciente,
+                                text: "pacienteeditado".tr(),
                               ),
                               SizedBox(
                                 height:
