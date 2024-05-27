@@ -118,5 +118,11 @@
   "fechaaltaequiponannic": "Nannic team registration date",
   "disponibilidad": "Availability",
   "disponible": "Available",
-  "nodisponible": "Not available"
+  "nodisponible": "Not available",
+  "tratamientos": "Treatments",
+  "Datosbasicospaciente": "Basic data",
+  "consentimientospaciente": "Consent data",
+  "datosmedicospaciente": "Medical data",
+  "datoshabitospaciente": "Patient habits",
+  "datospielpaciente": "Patient's skin"
 }

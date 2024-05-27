@@ -118,7 +118,13 @@
   "fechaaltaequiponannic": "Registreringsdatum för Nannic-laget",
   "disponibilidad": "Tillgänglighet",
   "disponible": "Tillgängliga",
-  "nodisponible": "Inte tillgänglig"
+  "nodisponible": "Inte tillgänglig",
+  "tratamientos": "Behandlingar",
+  "Datosbasicospaciente": "Grundläggande information",
+  "consentimientospaciente": "Samtyckesdata",
+  "datosmedicospaciente": "Medicinska data",
+  "datoshabitospaciente": "Patientvanor",
+  "datospielpaciente": "Patientens hud"
 
 
 

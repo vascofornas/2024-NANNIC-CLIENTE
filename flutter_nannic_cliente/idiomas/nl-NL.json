@@ -118,7 +118,13 @@
   "fechaaltaequiponannic": "Inschrijvingsdatum Nannic-team",
   "disponibilidad": "Beschikbaarheid",
   "disponible": "Beschikbaar",
-  "nodisponible": "Niet beschikbaar"
+  "nodisponible": "Niet beschikbaar",
+  "tratamientos": "Behandelingen",
+  "Datosbasicospaciente": "Basis data",
+  "consentimientospaciente": "Toestemmingsgegevens",
+  "datosmedicospaciente": "Medische gegevens",
+  "datoshabitospaciente": "Patiëntgewoonten",
+  "datospielpaciente": "De huid van de patiënt"
 
 
 

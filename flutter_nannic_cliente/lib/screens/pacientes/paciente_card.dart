@@ -10,6 +10,7 @@ import 'package:flutter_nannic_cliente/models/paciente_modelo.dart';
 import 'package:flutter_nannic_cliente/models/profesional_modelo.dart';
 import 'package:flutter_nannic_cliente/screens/components/imagenes/avatar_from_url.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/cambiar_pass_profesional_icon_button.dart';
+import 'package:flutter_nannic_cliente/screens/pacientes/datos_paciente/paciente_datos.dart';
 import 'package:flutter_nannic_cliente/screens/pacientes/editar_paciente_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -97,7 +98,7 @@ class _PacienteCardState extends State<PacienteCard> {
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>EditarPacientePage(paciente: widget.paciente,)),
+          MaterialPageRoute(builder: (context) =>DatosPaciente(paciente: widget.paciente,)),
         );
       },
       child: Card(
@@ -173,24 +174,51 @@ class _PacienteCardState extends State<PacienteCard> {
 
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  //editar paciente
+                  GestureDetector(
+                    onTap: (){
+                      //alert dialog para borrar paciente(pasar a activo=0)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>EditarPacientePage(paciente: widget.paciente,)),
+                      );
 
-              //borrar paciente
-              GestureDetector(
-                onTap: (){
-                  //alert dialog para borrar paciente(pasar a activo=0)
-                  _showDeleteConfirmationDialog(context);
-
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(Icons.delete,size: 40,color: Colors.red,),
-                    SizedBox(
-                      width: appPadding,
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.edit,size: 40,color: Colors.grey,),
+                        SizedBox(
+                          width: appPadding,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                  //borrar paciente
+                  GestureDetector(
+                    onTap: (){
+                      //alert dialog para borrar paciente(pasar a activo=0)
+                      _showDeleteConfirmationDialog(context);
+
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.delete,size: 40,color: Colors.red,),
+                        SizedBox(
+                          width: appPadding,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              )
+
+
 
 
 
