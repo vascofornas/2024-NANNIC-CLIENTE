@@ -64,9 +64,9 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
   }
 
 
-  Future<void> registrarUsuario() async {
+  Future<void> registrarProfesional() async {
     const String url =
-        URLProyecto + APICarpeta + "registrar_nuevo_profesional.php";
+        URLProyecto + APICarpeta + "registrar_nuevo_profesional_clinica.php";
 
     //verificar que estan todos los campos
     if (_nameController.text.isEmpty ||
@@ -103,6 +103,7 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
           'apellidos': _lastNameController.text,
           'tel': _phoneController.text,
           'email': _emailController.text,
+          'id_clinica': widget.clinicaId,
 
         },
       );
@@ -180,6 +181,7 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+
                               SizedBox(
                                 height:
                                 appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
@@ -263,7 +265,7 @@ class _NuevoProfesionalContentState extends State<NuevoProfesionalContent> {
                                     appPadding, // Espacio adicional entre las tarjetas analíticas y el siguiente widget
                               ),
                               MyButton(
-                                onTap: registrarUsuario,
+                                onTap: registrarProfesional,
                                 text: "profesionalnuevo".tr(),
                               ),
                               SizedBox(

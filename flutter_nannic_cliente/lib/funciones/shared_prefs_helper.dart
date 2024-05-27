@@ -4,201 +4,273 @@ class SharedPrefsHelper {
   String nombreClinica = "NoNameClinic";
   String logoClinica = "logo_clinica.png";
 
-  //id
-  static Future<String?> getId() async {
+  // id
+  Future<String?> getId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('id');
   }
-  static Future<String?> setId(String id) async {
+
+  Future<void> setId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', id);
+    await prefs.setString('id', id);
   }
-  //email
-  static Future<String?> getEmail() async {
+
+  // email
+  Future<String?> getEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('email');
   }
-  static Future<String?> setEmail(String email) async {
+
+  Future<void> setEmail(String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', email);
+    await prefs.setString('email', email);
   }
-  //created at
-  static Future<String?> getCreatedAt() async {
+
+  // created at
+  Future<String?> getCreatedAt() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('created_at');
   }
-  static Future<String?> setCreatedAt(String created_at) async {
+
+  Future<void> setCreatedAt(String created_at) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('created_at', created_at);
+    await prefs.setString('created_at', created_at);
   }
-  //updated_at
-  static Future<String?> getUpdatedAt() async {
+
+  // updated_at
+  Future<String?> getUpdatedAt() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('updated_at');
   }
-  static Future<String?> setUpdatedAt(String updated_at) async {
+
+  Future<void> setUpdatedAt(String updated_at) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('updated_at', updated_at);
+    await prefs.setString('updated_at', updated_at);
   }
-  //imagen
-  static Future<String?> getFoto() async {
+
+  // imagen
+  Future<String?> getFoto() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('imagen');
   }
-  static Future<String?> setFoto(String imagen) async {
+
+  Future<void> setFoto(String imagen) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('imagen', imagen);
+    await prefs.setString('imagen', imagen);
   }
-  //verified
-  static Future<String?> getVerified() async {
+
+  // verified
+  Future<String?> getVerified() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('verified');
   }
-  static Future<String?> setVerified(String verified) async {
+
+  Future<void> setVerified(String verified) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('verified', verified);
+    await prefs.setString('verified', verified);
   }
-  //nombre
-    static Future<String?> getNombre() async {
+
+  // nombre
+  Future<String?> getNombre() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('nombre');
   }
-  static Future<String?> setNombre(String nombre) async {
+
+  Future<void> setNombre(String nombre) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nombre', nombre);
+    await prefs.setString('nombre', nombre);
   }
-  //apellidos
-  static Future<String?> getApellidos() async {
+
+  // apellidos
+  Future<String?> getApellidos() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('apellidos');
   }
-  static Future<String?> setApellidos(String apellidos) async {
+
+  Future<void> setApellidos(String apellidos) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('apellidos', apellidos);
+    await prefs.setString('apellidos', apellidos);
   }
-  //nivel_usuario
-  static Future<String?> getNivelUsuario() async {
+
+  // nivel_usuario
+  Future<String?> getNivelUsuario() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('nivel_usuario');
   }
-  static Future<String?> setNivelUsuario(String nivelUsuario) async {
+
+  Future<void> setNivelUsuario(String nivelUsuario) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nivel_usuario', nivelUsuario);
+    await prefs.setString('nivel_usuario', nivelUsuario);
   }
-  //activo
-  static Future<String?> getActivo() async {
+
+  // activo
+  Future<String?> getActivo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('activo');
   }
-  static Future<String?> setActivo(String activo) async {
+
+  Future<void> setActivo(String activo) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('activo', activo);
+    await prefs.setString('activo', activo);
   }
-  //tel
-  static Future<String?> getTel() async {
+
+  // tel
+  Future<String?> getTel() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('tel');
   }
-  static Future<String?> setTel(String tel) async {
+
+  Future<void> setTel(String tel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('tel', tel);
+    await prefs.setString('tel', tel);
   }
-  //token FB
-  static Future<String?> getTokenFB() async {
+
+  // token FB
+  Future<String?> getTokenFB() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token_firebase');
   }
-  static Future<String?> setTokenFB(String tokenFB) async {
+
+  Future<void> setTokenFB(String tokenFB) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token_firebase', tokenFB);
+    await prefs.setString('token_firebase', tokenFB);
   }
-  //cel_verificado
-  static Future<String?> getCelVerificado() async {
+
+  // cel_verificado
+  Future<String?> getCelVerificado() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('cel_verificado');
   }
-  static Future<String?> setCelVerificado(String celVerificado) async {
+
+  Future<void> setCelVerificado(String celVerificado) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('cel_verificado', celVerificado);
+    await prefs.setString('cel_verificado', celVerificado);
   }
-//terms
-  static Future<String?> getTerms() async {
+
+  // terms
+  Future<String?> getTerms() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('terms');
   }
-  static Future<String?> setTerms(String terms) async {
+
+  Future<void> setTerms(String terms) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('terms', terms);
+    await prefs.setString('terms', terms);
   }
-//tel_country
-  static Future<String?> getTelCountry() async {
+
+  // sistema operativo
+  Future<String?> getSOApp() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('tel_country');
+    return prefs.getString('so_app');
   }
-  static Future<String?> setTelCountry(String telCountry) async {
+
+  Future<void> setSOApp(String versionApp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('tel_country', telCountry);
+    await prefs.setString('so_app', versionApp);
   }
-//version_app
-  static Future<String?> getVersionApp() async {
+
+  // version_app
+  Future<String?> getVersionApp() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('version_app');
   }
-  static Future<String?> setVersionApp(String versionApp) async {
+
+  Future<void> setVersionApp(String versionApp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('version_app', versionApp);
+    await prefs.setString('version_app', versionApp);
   }
 
-  //es profesional de clinica
-  static Future<bool?> getProfesionalClinica() async {
+  // modelo_dispositivo
+  Future<String?> getModeloDisp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('modelo_dispositivo');
+  }
+
+  Future<void> setModeloDisp(String modelo) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('modelo_dispositivo', modelo);
+  }
+
+  // es profesional de clinica
+  Future<bool?> getProfesionalClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('esProfesionalClinica');
   }
-  static Future<bool?> setEsProfesionalClinica(bool esProfesionalClinica) async {
+
+  Future<void> setEsProfesionalClinica(bool esProfesionalClinica) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('esProfesionalClinica', esProfesionalClinica);
+    await prefs.setBool('esProfesionalClinica', esProfesionalClinica);
   }
 
-  //es administrador de clinica
-  static Future<bool?> getAdministradorClinica() async {
+  // es administrador de clinica
+  Future<bool?> getAdministradorClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('esAdministradorClinica');
   }
-  static Future<bool?> setEsAdministradorClinica(bool esAdministradorClinica) async {
+
+  Future<void> setEsAdministradorClinica(bool esAdministradorClinica) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('esAdministradorClinica', esAdministradorClinica);
+    await prefs.setBool('esAdministradorClinica', esAdministradorClinica);
   }
-  //id clinica del usuario de la app
-  static Future<String?> getIdClinica() async {
+
+  // id clinica del usuario de la app
+  Future<String?> getIdClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('id_clinica');
   }
-  static Future<String?> setIdClinica(String idClinica) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id_clinica', idClinica);
 
+  Future<void> setIdClinica(String idClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('id_clinica', idClinica);
   }
-  //nombre clinica del usuario de la app
-  static Future<String?> getNombreClinica() async {
+
+  // nombre clinica del usuario de la app
+  Future<String?> getNombreClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('nombre_clinica');
   }
-  static Future<String?> setNombreClinica(String nombreClinica) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('nombre_clinica', nombreClinica);
 
+  Future<void> setNombreClinica(String nombreClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('nombre_clinica', nombreClinica);
   }
-  //logo clinica del usuario de la app
-  static Future<String?> getLogoClinica() async {
+
+  // logo clinica del usuario de la app
+  Future<String?> getLogoClinica() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('logo_clinica');
   }
-  static Future<String?> setLogoClinica(String logoClinica) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('logo_clinica', logoClinica);
 
+  Future<void> setLogoClinica(String logoClinica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('logo_clinica', logoClinica);
   }
 
+  // usuario logeado
+  Future<bool?> getLogeado() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('logeado');
+  }
 
+  Future<void> setLogeado(bool logeado) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('logeado', logeado);
+  }
 
+  // ultimo uso
+  Future<String?> getUltimoUsoApp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("ultimo_uso_app");
+  }
+
+  Future<void> setUltimoUsoApp(String ultimoUsoApp) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('ultimo_uso_app', ultimoUsoApp);
+  }
+
+  // Clear all shared preferences
+  Future<void> clearAll() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

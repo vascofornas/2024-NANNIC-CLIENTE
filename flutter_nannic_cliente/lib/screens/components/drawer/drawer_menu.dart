@@ -72,27 +72,26 @@ class _DrawerMenuState extends State<DrawerMenu> {
     });
   }
 
-  getDatosUsuario() async {
+  Future<void> getDatosUsuario() async {
+    try {
+      idUsuario = await SharedPrefsHelper().getId() ?? "";
+      emailUsuario = (await SharedPrefsHelper().getEmail()) ?? "";
+      print("email del usuario en el drawer $emailUsuario");
+      idClinica = await SharedPrefsHelper().getIdClinica() ?? "";
+      nombreClinica = await SharedPrefsHelper().getNombreClinica() ?? "";
+      logoClinica = await SharedPrefsHelper().getLogoClinica() ?? "";
+      soyAdmin = (await SharedPrefsHelper().getAdministradorClinica()) ?? false;
+      avatarUsuario = (await SharedPrefsHelper().getFoto()) ?? "";
 
-
-    idUsuario = await SharedPrefsHelper.getId() as String;
-
-    emailUsuario = (await SharedPrefsHelper.getEmail())!;
-
-    idClinica = await SharedPrefsHelper.getIdClinica() as String;
-
-    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-
-    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-    soyAdmin = (await SharedPrefsHelper.getAdministradorClinica())!;
-    avatarUsuario = (await SharedPrefsHelper.getFoto())!;
-
-
-    setState(() {
-
-    });
-
+      setState(() {
+        // Actualizar el estado si es necesario
+      });
+    } catch (e) {
+      // Manejar cualquier excepción que ocurra durante la carga de datos
+      print('Error al obtener datos de usuario: $e');
+    }
   }
+
 
 
 

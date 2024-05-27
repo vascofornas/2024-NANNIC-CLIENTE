@@ -33,7 +33,7 @@ class _ProfesionalesScreenState extends State<ProfesionalesScreen> {
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
 
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+    clinicaActual = (await SharedPrefsHelper().getIdClinica())!;
     print("clinica actual en profesionales screen ${clinicaActual}");
 
     emailUsuario = datos.email;

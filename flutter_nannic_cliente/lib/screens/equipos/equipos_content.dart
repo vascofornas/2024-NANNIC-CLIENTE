@@ -49,15 +49,25 @@ class _EquiposContentState extends State<EquiposContent> {
     });
   }
 
-  getIdClinica() async {
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
-    setState(() {
+  void getIdClinica() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
-    });
+      // Obtener la ID de la clínica
+      clinicaActual = (await prefsHelper.getIdClinica())!;
 
-
-
+      // Actualizar el estado si es necesario
+      if (mounted) {
+        setState(() {
+          // Aquí podrías realizar cualquier otra operación necesaria después de obtener la ID de la clínica
+        });
+      }
+    } catch (e) {
+      print("Error en getIdClinica: $e");
+    }
   }
+
   @override
   Widget build(BuildContext context) {
 

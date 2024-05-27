@@ -30,16 +30,23 @@ class _CustomAppbarState extends State<CustomAppbar> {
   }
 
   void cargarDatosUsuario() async {
-    String? nombreUsuario = await SharedPrefsHelper.getNombre();
-    String? fotoUsuario = await SharedPrefsHelper.getFoto();
-    String? emailUsuario = await SharedPrefsHelper.getEmail();
-    print("avatar ${fotoUsuario}");
-    setState(() {
-      nombre = nombreUsuario ?? "";
-      foto = fotoUsuario ?? "";
-      email = emailUsuario ?? "";
-    });
+    try {
+      String? nombreUsuario = await SharedPrefsHelper().getNombre();
+      String? fotoUsuario = await SharedPrefsHelper().getFoto();
+      String? emailUsuario = await SharedPrefsHelper().getEmail();
+      print("avatar $fotoUsuario");
+      setState(() {
+        nombre = nombreUsuario ?? "";
+        foto = fotoUsuario ?? "";
+        email = emailUsuario ?? "";
+      });
+    } catch (e) {
+      // Manejar cualquier excepción que ocurra durante la carga de datos
+      print('Error al cargar datos de usuario: $e');
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

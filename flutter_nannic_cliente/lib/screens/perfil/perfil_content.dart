@@ -76,7 +76,7 @@ class _PerfilContentState extends State<PerfilContent> {
         );
 
 
-        SharedPrefsHelper.setFoto(nuevoNombre);
+        SharedPrefsHelper().setFoto(nuevoNombre);
 
         // Agrega setState aquí para reconstruir los widgets dependientes
         setState(() {
@@ -122,9 +122,9 @@ class _PerfilContentState extends State<PerfilContent> {
           fontSize: 18.0,
         );
         //actualizamos shared preferences
-        SharedPrefsHelper.setNombre(_nameController.text);
-        SharedPrefsHelper.setApellidos(_lastNameController.text);
-        SharedPrefsHelper.setTel(_phoneController.text);
+        SharedPrefsHelper().setNombre(_nameController.text);
+        SharedPrefsHelper().setApellidos(_lastNameController.text);
+        SharedPrefsHelper().setTel(_phoneController.text);
       }
     } catch (e) {}
   }

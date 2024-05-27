@@ -23,15 +23,24 @@ class _EquiposAnalyticState extends State<EquiposAnalytic> {
   int numeroEquiposNannic = 0;
   String clinicaActual ="";
 
-  getIdClinica() async {
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
-    setState(() {
-      obtenerNumeroEquipos ();
-    });
+  void getIdClinica() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
+      // Obtener la ID de la clínica
+      clinicaActual = (await prefsHelper.getIdClinica())!;
 
-
+      // Actualizar el estado y llamar a la función obtenerNumeroEquipos()
+      setState(() {
+        obtenerNumeroEquipos();
+      });
+    } catch (e) {
+      print("Error en getIdClinica: $e");
+    }
   }
+
+
 
   @override
   void initState() {

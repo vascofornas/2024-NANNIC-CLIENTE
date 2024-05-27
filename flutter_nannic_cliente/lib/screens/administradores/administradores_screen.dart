@@ -31,14 +31,15 @@ class _AdministradoresScreenState extends State<AdministradoresScreen> {
     capturarDatosUsuario();
   }
 
-  void capturarDatosUsuario() async {
+  Future<void> capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();
 
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
-    print("clinica actual en profesionales screen ${clinicaActual}");
+    clinicaActual = await SharedPrefsHelper().getIdClinica() ?? "";
+    print("clinica actual en profesionales screen $clinicaActual");
 
     emailUsuario = datos.email;
   }
+
   @override
   Widget build(BuildContext context) {
 

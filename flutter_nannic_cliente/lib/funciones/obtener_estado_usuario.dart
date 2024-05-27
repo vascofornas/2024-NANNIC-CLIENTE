@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:flutter_nannic_cliente/funciones/shared_prefs_helper.dart';
 import 'package:http/http.dart' as http;
-
 Future<Map<String, dynamic>> obtenerDatosEstadoUsuario(String id) async {
-  final url = Uri.parse(URLProyecto + APICarpeta +'obtener_datos_estado_usuario.php');
-
+  final url = Uri.parse(URLProyecto + APICarpeta + 'obtener_datos_estado_usuario.php');
 
   final response = await http.post(
     url,
@@ -15,78 +13,82 @@ Future<Map<String, dynamic>> obtenerDatosEstadoUsuario(String id) async {
   if (response.statusCode == 200) {
     final Map<String, dynamic> responseBody = json.decode(response.body);
 
-
-
     // Convertir los valores de String a int
     final nivelUsuario = int.tryParse(responseBody['nivel_usuario']) ?? 0;
     final activo = int.tryParse(responseBody['activo']) ?? 0;
 
     //id
-    final id_usuario = responseBody['id'];
+    final idUsuario = responseBody['id'];
+    await SharedPrefsHelper().setId(idUsuario);
 
-    SharedPrefsHelper.setId(id_usuario);
     //email
-    final email_usuario = responseBody['email'];
+    final emailUsuario = responseBody['email'];
+    await SharedPrefsHelper().setEmail(emailUsuario);
 
-    SharedPrefsHelper.setEmail(email_usuario);
     //created_at
-    final created_at_usuario = responseBody['created_at'];
+    final createdAtUsuario = responseBody['created_at'];
+    await SharedPrefsHelper().setCreatedAt(createdAtUsuario);
 
-    SharedPrefsHelper.setCreatedAt(created_at_usuario);
     //imagen
-    final imagen_usuario = responseBody['imagen'];
+    final imagenUsuario = responseBody['imagen'];
+    await SharedPrefsHelper().setFoto(imagenUsuario);
 
-    SharedPrefsHelper.setFoto(imagen_usuario);
-    //recibida 75_HAdlzckRaPlQ.jpg
     //verified
-    final verified_usuario = responseBody['verified'];
+    final verifiedUsuario = responseBody['verified'];
+    await SharedPrefsHelper().setVerified(verifiedUsuario);
 
-    SharedPrefsHelper.setVerified(verified_usuario);
     //updated_at
-    final updated_at_usuario = responseBody['updated_at'];
+    final updatedAtUsuario = responseBody['updated_at'];
+    await SharedPrefsHelper().setUpdatedAt(updatedAtUsuario);
 
-    SharedPrefsHelper.setUpdatedAt(updated_at_usuario);
     //nombre
-    final nombre_usuario = responseBody['nombre'];
+    final nombreUsuario = responseBody['nombre'];
+    await SharedPrefsHelper().setNombre(nombreUsuario);
 
-    SharedPrefsHelper.setNombre(nombre_usuario);
     //apellidos
-    final apellidos_usuario = responseBody['apellidos'];
+    final apellidosUsuario = responseBody['apellidos'];
+    await SharedPrefsHelper().setApellidos(apellidosUsuario);
 
-    SharedPrefsHelper.setApellidos(apellidos_usuario);
     //nivel_usuario
-    final nivel_usuario_usuario = responseBody['nivel_usuario'];
+    final nivelUsuarioUsuario = responseBody['nivel_usuario'];
+    await SharedPrefsHelper().setNivelUsuario(nivelUsuarioUsuario);
 
-    SharedPrefsHelper.setNivelUsuario(nivel_usuario_usuario);
     //activo
-    final activo_usuario = responseBody['activo'];
+    final activoUsuario = responseBody['activo'];
+    print("valor activo_usuario en obtener_estado_usuario ${activoUsuario}");
+    await SharedPrefsHelper().setActivo(activoUsuario);
 
-    SharedPrefsHelper.setActivo(activo_usuario);
     //tel
-    final tel_usuario = responseBody['tel'];
+    final telUsuario = responseBody['tel'];
+    await SharedPrefsHelper().setTel(telUsuario);
 
-    SharedPrefsHelper.setTel(tel_usuario);
     //token_firebase
-    final token_firebase_usuario = responseBody['token_firebase'];
+    final tokenFirebaseUsuario = responseBody['token_firebase'];
+    await SharedPrefsHelper().setTokenFB(tokenFirebaseUsuario);
 
-    SharedPrefsHelper.setTokenFB(token_firebase_usuario);
     //cel_verificado
-    final cel_verificado_usuario = responseBody['cel_verificado'];
+    final celVerificadoUsuario = responseBody['cel_verificado'];
+    await SharedPrefsHelper().setCelVerificado(celVerificadoUsuario);
 
-    SharedPrefsHelper.setCelVerificado(cel_verificado_usuario);
     //terms
-    final terms_usuario = responseBody['terms'];
+    final termsUsuario = responseBody['terms'];
+    await SharedPrefsHelper().setTerms(termsUsuario);
 
-    SharedPrefsHelper.setTerms(terms_usuario);
-    //tel_country
-    final tel_country_usuario = responseBody['tel_country'];
-
-    SharedPrefsHelper.setTelCountry(tel_country_usuario);
     //version_app
-    final version_app_usuario = responseBody['version_app'];
+    final versionAppUsuario = responseBody['version_app'];
+    await SharedPrefsHelper().setVersionApp(versionAppUsuario);
 
-    SharedPrefsHelper.setVersionApp(version_app_usuario);
+    //so_dispositivo
+    final soAppUsuario = responseBody['so_dispositivo'];
+    await SharedPrefsHelper().setSOApp(soAppUsuario);
 
+    //modelo_dispositivo
+    final modeloDispositivo = responseBody['modelo_dispositivo'];
+    await SharedPrefsHelper().setModeloDisp(modeloDispositivo);
+
+    //ultimo uso app
+    final ultimoUsoApp = responseBody['ultimo_uso_app'];
+    await SharedPrefsHelper().setUltimoUsoApp(ultimoUsoApp);
 
     // Devolver los datos como un mapa
     return {

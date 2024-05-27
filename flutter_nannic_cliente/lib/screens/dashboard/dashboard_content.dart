@@ -63,23 +63,31 @@ class _DashboardContentState extends State<DashboardContent> {
 
   }
 
-  getDatosUsuario() async {
+  Future<void> getDatosUsuario() async {
+    try {
+      print("············································");
 
-    print("············································");
-    idUsuario = await SharedPrefsHelper.getId() as String;
+      // Crear una instancia de SharedPrefsHelper
+      var sharedPrefsHelper = SharedPrefsHelper();
 
-    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+      // Obtener los valores de las preferencias compartidas de manera asíncrona
+      idUsuario = await sharedPrefsHelper.getId() ?? "";
+      idClinica = await sharedPrefsHelper.getIdClinica() ?? "";
+      nombreClinica = await sharedPrefsHelper.getNombreClinica() ?? "";
+      logoClinica = await sharedPrefsHelper.getLogoClinica() ?? "";
 
-    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-
-    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-
-
-    setState(() {
-
-    });
-
+      // Actualizar el estado
+      setState(() {
+        // Aquí puedes realizar cualquier actualización de estado necesaria
+        // Si no necesitas actualizar ningún estado, puedes eliminar este bloque
+      });
+    } catch (e) {
+      print("Error en getDatosUsuario: $e");
+    }
   }
+
+
+
 
 
 

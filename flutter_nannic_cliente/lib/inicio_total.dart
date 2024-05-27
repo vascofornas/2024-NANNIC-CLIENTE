@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/auth_pages/login_page.dart';
 import 'package:flutter_nannic_cliente/auth_shared_preferences/auth_manager.dart';
+
 import 'package:flutter_nannic_cliente/screens/dashboard/dash_board_screen.dart';
 
 
 
-class MiWidget extends StatelessWidget {
+class MiWidget extends StatefulWidget {
+  @override
+  State<MiWidget> createState() => _MiWidgetState();
+}
+
+class _MiWidgetState extends State<MiWidget> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

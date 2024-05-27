@@ -34,23 +34,32 @@ class _PacientesScreenState extends State<PacientesScreen> {
     getDatosUsuario();
 
   }
-  getDatosUsuario() async {
+  void getDatosUsuario() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
-    print("············································");
-    idUsuario = await SharedPrefsHelper.getId() as String;
+      // Obtener los datos del usuario
+      idUsuario = (await prefsHelper.getId())!;
+      idClinica = (await prefsHelper.getIdClinica())!;
+      nombreClinica = (await prefsHelper.getNombreClinica())!;
+      logoClinica = (await prefsHelper.getLogoClinica())!;
 
-    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+      // Imprimir los datos para verificar
+      print("idUsuario: $idUsuario");
+      print("idClinica: $idClinica");
+      print("nombreClinica: $nombreClinica");
+      print("logoClinica: $logoClinica");
 
-    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-
-    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-    ;
-    print("············································");
-    setState(() {
-
-    });
-
+      // Actualizar el estado
+      setState(() {
+        // Aquí puedes agregar cualquier lógica adicional que necesites
+      });
+    } catch (e) {
+      print("Error en getDatosUsuario: $e");
+    }
   }
+
 
   void capturarDatosUsuario() async {
     DatosUsuario datos = await obtenerDatosUsuario();

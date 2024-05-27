@@ -28,7 +28,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
 
   }
   getIdClinica() async {
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+    clinicaActual = (await SharedPrefsHelper().getIdClinica())!;
 
     print("clinica actual en zona profesionales ${clinicaActual}");
     obtenerProfesionales(clinicaActual);
@@ -37,7 +37,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
 
   Future<void> obtenerProfesionales(String clinica) async {
     // Obtener id_clinica desde SharedPrefsHelper
-    final String? idClinica = await SharedPrefsHelper.getIdClinica();
+    final String? idClinica = await SharedPrefsHelper().getIdClinica();
     print("idClinica en profesionales $idClinica");
 
     // Verificar que id_clinica no esté vacío
@@ -117,6 +117,7 @@ class _ZonaProfesionalesState extends State<ZonaProfesionales> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           Text(
             "zonaprofesionales".tr(),
             style: AppFonts.nannic(

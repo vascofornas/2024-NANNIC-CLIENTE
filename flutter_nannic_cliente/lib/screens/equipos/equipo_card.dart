@@ -130,7 +130,7 @@ class _EquipoCardState extends State<EquipoCard> {
 
     return GestureDetector(
       onTap: (){
-        
+
 
       },
       child: Card(

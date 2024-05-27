@@ -109,7 +109,7 @@
   "datospaciente": "Patient's data",
   "imagenactualpaciente": "Current image of the patient",
   "nuevaimagenpaciente": "New image of the patient",
-  "pacienteeditado": "Publish new patient data",
+  "pacienteeditado": "Send new patient data",
   "datospacienteactualizados": "Patient data has been updated",
   "confirmarborradopaciente": "Confirm patient deletion",
   "seguroconfirmarborradopaciente": "Are you sure you want to delete this patient?",

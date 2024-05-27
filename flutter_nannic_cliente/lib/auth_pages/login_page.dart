@@ -117,6 +117,7 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             // La autenticación fue exitosa, puedes procesar los datos del usuario aquí
             userData = responseData;
+            print("userData recibidos ${responseData}");
             await _saveDataToSharedPreferences(userData);
 
             await fetchDataClinica();
@@ -138,16 +139,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _saveDataToSharedPreferences(Map<String, dynamic> userData) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('id', userData['id'].toString());
-    await prefs.setString('email', userData['email']);
-    await prefs.setString('imagen', userData['imagen']);
-    await prefs.setString('nombre', userData['nombre']);
-    await prefs.setString('apellidos', userData['apellidos']);
-    await prefs.setString('nivel_usuario', userData['nivel_usuario']);
-    await prefs.setString('tel', userData['tel']);
+    // Espera a que todos los datos se guarden en SharedPreferences
+    await SharedPrefsHelper().setId(userData['id'].toString());
+    await SharedPrefsHelper().setEmail(userData['email']);
+    await SharedPrefsHelper().setFoto(userData['imagen']);
+    await SharedPrefsHelper().setNombre(userData['nombre']);
+    await SharedPrefsHelper().setApellidos(userData['apellidos']);
+    await SharedPrefsHelper().setNivelUsuario(userData['nivel_usuario']);
+    await SharedPrefsHelper().setTel(userData['tel']);
     // Guardar otros datos necesarios del usuario en SharedPreferences
   }
+
   // forgot password
   void forgotPw() {
     showDialog(
@@ -196,25 +198,28 @@ class _LoginPageState extends State<LoginPage> {
       print("tipo usuario actual $tipoUsuarioActual");
 
       if (idClinicaActual != null && tipoUsuarioActual != null) {
+        // Realizar las operaciones asíncronas primero
+        await SharedPrefsHelper().setIdClinica(idClinicaActual);
+        if (tipoUsuarioActual == "profesional") {
+          await SharedPrefsHelper().setEsProfesionalClinica(true);
+          await SharedPrefsHelper().setEsAdministradorClinica(false);
+        } else if (tipoUsuarioActual == "administrador") {
+          await SharedPrefsHelper().setEsProfesionalClinica(false);
+          await SharedPrefsHelper().setEsAdministradorClinica(true);
+        }
+
+        // Luego actualizar el estado
         setState(() {
           idClinica = idClinicaActual!;
           tipoUsuario = tipoUsuarioActual!;
           print("id de la clinica en login $idClinicaActual");
           print("tipo de usuario en login $tipoUsuarioActual");
 
-          // Actualizar SharedPreferences
-          SharedPrefsHelper.setIdClinica(idClinicaActual);
-          if (tipoUsuarioActual == "profesional") {
-            SharedPrefsHelper.setEsProfesionalClinica(true);
-            SharedPrefsHelper.setEsAdministradorClinica(false);
-          } else if (tipoUsuarioActual == "administrador") {
-            SharedPrefsHelper.setEsProfesionalClinica(false);
-            SharedPrefsHelper.setEsAdministradorClinica(true);
-          }
-
+          // Llamar a obtenerDatosClinica después de actualizar el estado
           obtenerDatosClinica(idClinica);
         });
       }
+
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -232,51 +237,45 @@ class _LoginPageState extends State<LoginPage> {
 
     // Verificar si la solicitud fue exitosa
   print("he llegado hasta aqui");
-    if (response.statusCode == 200) {
-      // Decodificar la respuesta JSON
-      Map<String, dynamic> data = jsonDecode(response.body);
+  if (response.statusCode == 200) {
+    // Decodificar la respuesta JSON
+    Map<String, dynamic> data = jsonDecode(response.body);
 
-      // Obtener el nombre y el logo de la clínica
-      String nombreClinica = data['nombre_clinica'];
-      print("nombre de la clinica en login ${nombreClinica}");
+    // Obtener el nombre y el logo de la clínica
+    String nombreClinica = data['nombre_clinica'];
+    print("nombre de la clinica en login ${nombreClinica}");
 
+    await SharedPrefsHelper().setNombreClinica(nombreClinica);
+    String logoClinica = data['logo_clinica'];
+    print("logo de la clinica en login ${logoClinica}");
 
-      SharedPrefsHelper.setNombreClinica(nombreClinica);
-      String logoClinica = data['logo_clinica'];
-      print("logo de la clinica en login ${logoClinica}");
+    await SharedPrefsHelper().setLogoClinica(logoClinica);
 
-      SharedPrefsHelper.setLogoClinica(logoClinica);
+    print("············································");
+    String idUsuario = await SharedPrefsHelper().getId() as String;
+    String idClinica = await SharedPrefsHelper().getIdClinica() as String;
+    nombreClinica = await SharedPrefsHelper().getNombreClinica() as String;
+    logoClinica = await SharedPrefsHelper().getLogoClinica() as String;
+    print("············································");
 
+    // Actualizar el estado después de realizar las operaciones asincrónicas
+    setState(() {
+      ocultarBoton = !ocultarBoton;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext ctx) => const DashBoardScreen(),
+        ),
+      );
+    });
 
-          print("············································");
-          String idUsuario = await SharedPrefsHelper.getId() as String;
-
-          idClinica = await SharedPrefsHelper.getIdClinica() as String;
-
-          nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-
-          logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-
-          print("············································");
-
-          setState(() {
-            ocultarBoton = !ocultarBoton;
-                 Navigator.pushReplacement(
-                     context,
-                      MaterialPageRoute(
-                        builder: (BuildContext ctx) => const DashBoardScreen()));
-          });
-
-
-
-
-
-      // Devolver los datos de la clínica como un mapa
-      return {
-        'nombreClinica': nombreClinica,
-        'logoClinica': logoClinica,
-      };
-    } else {
+    // Devolver los datos de la clínica como un mapa
+    return {
+      'nombreClinica': nombreClinica,
+      'logoClinica': logoClinica,
+    };
+  }
+  else {
       // Si la solicitud falla, lanzar una excepción o devolver null
       throw Exception('Error al obtener los datos de la clínica.');
       // return null;

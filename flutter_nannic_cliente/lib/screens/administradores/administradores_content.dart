@@ -39,24 +39,18 @@ class _AdministradoresContentState extends State<AdministradoresContent> {
     getDatosUsuario();
   }
 
-
-  getDatosUsuario() async {
-
+  Future<void> getDatosUsuario() async {
     print("············································");
-    idUsuario = await SharedPrefsHelper.getId() as String;
-
-    idClinica = await SharedPrefsHelper.getIdClinica() as String;
-
-    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
-
-    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
-
+    idUsuario = await SharedPrefsHelper().getId() ?? "";
+    idClinica = await SharedPrefsHelper().getIdClinica() ?? "";
+    nombreClinica = await SharedPrefsHelper().getNombreClinica() ?? "";
+    logoClinica = await SharedPrefsHelper().getLogoClinica() ?? "";
 
     setState(() {
-
+      // Aquí puedes realizar cualquier actualización de estado necesaria
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
 

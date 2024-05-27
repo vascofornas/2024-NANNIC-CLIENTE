@@ -41,12 +41,21 @@ class _ZonaEquiposState extends State<ZonaEquipos> {
   actualizarEquipos(){
     getIdClinica();
   }
-  getIdClinica() async {
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
+  void getIdClinica() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
+      // Obtener la ID de la clínica
+      clinicaActual = (await prefsHelper.getIdClinica())!;
 
-    obtenerEquipos(clinicaActual);
+      // Llamar a la función obtenerEquipos con la ID de la clínica
+      obtenerEquipos(clinicaActual);
+    } catch (e) {
+      print("Error en getIdClinica: $e");
+    }
   }
+
 
   Future<void> obtenerEquipos(String id_clinica) async {
     print("estoy actualizando equipos en zona equipos");

@@ -34,19 +34,28 @@ class _ZonaPacientesState extends State<ZonaPacientes> {
 
     _timer = Timer.periodic(Duration(seconds: 2), (timer) {
       cargarPacientes();
-      print("actualizando pacientes");
+
 
 
     });
 
   }
 
-  cargarPacientes() async {
+  void cargarPacientes() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
-     idClinica = (await SharedPrefsHelper.getIdClinica())! ;
+      // Obtener el ID de la clínica
+      idClinica = (await prefsHelper.getIdClinica())!;
 
-    obtenerPacientes(idClinica as String);
+      // Llamar a la función para obtener pacientes
+      obtenerPacientes(idClinica);
+    } catch (e) {
+      print("Error al cargar pacientes: $e");
+    }
   }
+
 
   Future<void> obtenerPacientes(String clinicaId) async {
 

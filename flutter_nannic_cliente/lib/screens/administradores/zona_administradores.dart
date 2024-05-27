@@ -28,68 +28,59 @@ class _ZonaAdministradoresState extends State<ZonaAdministradores> {
    getIdClinica();
 
   }
-  getIdClinica() async {
-    clinicaActual = (await SharedPrefsHelper.getIdClinica())!;
-
-
+  Future<void> getIdClinica() async {
+    clinicaActual = await SharedPrefsHelper().getIdClinica() ?? "";
     obtenerAdministradores(clinicaActual);
   }
 
 
-  Future<void> obtenerAdministradores(String clinica) async {
-    // Obtener id_clinica desde SharedPrefsHelper
-    final String? idClinica = await SharedPrefsHelper.getIdClinica();
-    print("idClinica en profesionales $idClinica");
 
-    // Verificar que id_clinica no esté vacío
-    if (idClinica != null && idClinica.isNotEmpty) {
+  Future<void> obtenerAdministradores(String clinica) async {
+    try {
       // Construir URL de la API
-      String urlAPI = URLProyecto+APICarpeta+"admin_obtener_administradores_todos_clinica.php?id_clinica=$clinica";
-      print("urlAPI ${urlAPI}");
+      String urlAPI = URLProyecto + APICarpeta + "admin_obtener_administradores_todos_clinica.php?id_clinica=$clinica";
+      print("urlAPI $urlAPI");
       final url = Uri.parse(urlAPI);
 
-      try {
-        // Hacer la solicitud HTTP GET
-        final response = await http.get(url);
+      // Hacer la solicitud HTTP GET
+      final response = await http.get(url);
 
-        // Verificar el código de estado de la respuesta
-        if (response.statusCode == 200) {
-          // Decodificar la respuesta JSON
-          final dynamic jsonResponse = json.decode(response.body);
+      // Verificar el código de estado de la respuesta
+      if (response.statusCode == 200) {
+        // Decodificar la respuesta JSON
+        final jsonResponse = json.decode(response.body);
 
-          // Verificar si la respuesta es un mapa o una lista
-          if (jsonResponse is List) {
-            // Es una lista
+        // Verificar si la respuesta es un mapa o una lista
+        if (jsonResponse is List) {
+          // Es una lista
+          setState(() {
+            _profesionales = jsonResponse.map((data) => Profesional.fromJson(data)).toList();
+            _filteredProfesionales = _profesionales;
+          });
+        } else if (jsonResponse is Map<String, dynamic>) {
+          // Es un mapa, posiblemente un único objeto o un mensaje de error
+          if (jsonResponse.containsKey('error')) {
+            // Manejar el error si está presente en el JSON
+            throw Exception('Error del servidor: ${jsonResponse['error']}');
+          } else {
+            // Manejar como un mapa general, en este caso, asumimos que contiene datos de profesionales
             setState(() {
-              _profesionales = jsonResponse.map((data) => Profesional.fromJson(data as Map<String, dynamic>)).toList();
+              _profesionales = [Profesional.fromJson(jsonResponse)];
               _filteredProfesionales = _profesionales;
             });
-          } else if (jsonResponse is Map<String, dynamic>) {
-            // Es un mapa, posiblemente un único objeto o un mensaje de error
-            if (jsonResponse.containsKey('error')) {
-              // Manejar el error si está presente en el JSON
-              throw Exception('Error del servidor: ${jsonResponse['error']}');
-            } else {
-              // Manejar como un mapa general, en este caso, asumimos que contiene datos de profesionales
-              setState(() {
-                _profesionales = [Profesional.fromJson(jsonResponse)];
-                _filteredProfesionales = _profesionales;
-              });
-            }
-          } else {
-            throw Exception('Respuesta inesperada del servidor');
           }
         } else {
-          // Lanzar una excepción si la solicitud no fue exitosa
-          throw Exception('Error al obtener los profesionales');
+          throw Exception('Respuesta inesperada del servidor');
         }
-      } catch (e) {
-        // Manejar cualquier excepción que ocurra durante la solicitud
-        print('Error: $e');
+      } else {
+        // Lanzar una excepción si la solicitud no fue exitosa
+        throw Exception('Error al obtener los profesionales: ${response.reasonPhrase}');
       }
+    } catch (e) {
+      // Manejar cualquier excepción que ocurra durante la solicitud
+      print('Error: $e');
     }
   }
-
 
   void filtrarProfesionales(String query) {
     setState(() {

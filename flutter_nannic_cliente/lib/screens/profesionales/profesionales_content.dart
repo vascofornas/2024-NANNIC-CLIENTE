@@ -39,23 +39,32 @@ class _ProfesionalesContentState extends State<ProfesionalesContent> {
   }
 
 
-  getDatosUsuario() async {
+  void getDatosUsuario() async {
+    try {
+      // Crear una instancia de SharedPrefsHelper
+      SharedPrefsHelper prefsHelper = SharedPrefsHelper();
 
-    print("············································");
-    idUsuario = await SharedPrefsHelper.getId() as String;
+      // Obtener el ID de usuario
+      idUsuario = await prefsHelper.getId() as String;
 
-    idClinica = await SharedPrefsHelper.getIdClinica() as String;
+      // Obtener el ID de la clínica
+      idClinica = await prefsHelper.getIdClinica() as String;
 
-    nombreClinica = await SharedPrefsHelper.getNombreClinica() as String;
+      // Obtener el nombre de la clínica
+      nombreClinica = await prefsHelper.getNombreClinica() as String;
 
-    logoClinica = await SharedPrefsHelper.getLogoClinica() as String;
+      // Obtener el logo de la clínica
+      logoClinica = await prefsHelper.getLogoClinica() as String;
 
-
-    setState(() {
-
-    });
-
+      // Actualizar el estado
+      setState(() {
+        // Aquí puedes realizar cualquier actualización de estado necesaria
+      });
+    } catch (e) {
+      print("Error al obtener datos de usuario: $e");
+    }
   }
+
   @override
   Widget build(BuildContext context) {
 
@@ -80,7 +89,7 @@ class _ProfesionalesContentState extends State<ProfesionalesContent> {
                         //abrir pantalla nuevo profesional
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>NuevoPacientePage(clinicaId: this.widget.clinicaId,)),
+                          MaterialPageRoute(builder: (context) =>NuevoProfesionalPage(clinicaId: this.idClinica,)),
                         );
                       },
                       child: Icon(Icons.add),
