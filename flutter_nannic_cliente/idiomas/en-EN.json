@@ -124,5 +124,18 @@
   "consentimientospaciente": "Consent data",
   "datosmedicospaciente": "Medical data",
   "datoshabitospaciente": "Patient habits",
-  "datospielpaciente": "Patient's skin"
+  "datospielpaciente": "Patient's skin",
+  "direccionpacientedesc": "Patient's address unknown",
+  "generopacientedesc": "The gender of the patient is unknown",
+  "idiomapacientedesc": "Patient's language is unknown",
+  "fnpacientedesc": "The patient's date of birth is unknown",
+  "seleccionarnuevaimagenpaciente": "Select new patient image",
+  "vistapreviaimagenpaciente": "Image preview",
+  "cambiarimagenpaciente": "Change patient image",
+  "cambiarnombrepaciente": "Change patient name",
+  "nuevonombrepaciente": "New patient name",
+  "cambiaremailpaciente": "Change patient email",
+  "nuevoemailpaciente": "New patient email",
+  "cambiartelpaciente": "Change patient phone number",
+  "nuevotelpaciente": "New patient phone number"
 }

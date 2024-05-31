@@ -124,7 +124,20 @@
   "consentimientospaciente": "Samtyckesdata",
   "datosmedicospaciente": "Medicinska data",
   "datoshabitospaciente": "Patientvanor",
-  "datospielpaciente": "Patientens hud"
+  "datospielpaciente": "Patientens hud",
+  "direccionpacientedesc": "Patientens adress okänd",
+  "generopacientedesc": "Patientens kön är okänt.",
+  "idiomapacientedesc": "Patientens språk är okänt",
+  "fnpacientedesc": "The patient's date of birth is unknown",
+  "seleccionarnuevaimagenpaciente": "Välj ny patientbild",
+  "vistapreviaimagenpaciente": "Förhandsgranskning av bild",
+  "cambiarimagenpaciente": "Ändra patientbild",
+  "cambiarnombrepaciente": "Byt patientnamn",
+  "nuevonombrepaciente": "Nytt patientnamn",
+  "cambiaremailpaciente": "Ändra patientens e-postadress",
+  "nuevoemailpaciente": "Ny patientmail",
+  "cambiartelpaciente": "Byt patientnummer",
+  "nuevotelpaciente": "Nytt patientnummer"
 
 
 

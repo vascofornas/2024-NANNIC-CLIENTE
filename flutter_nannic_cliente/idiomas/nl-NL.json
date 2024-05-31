@@ -124,7 +124,20 @@
   "consentimientospaciente": "Toestemmingsgegevens",
   "datosmedicospaciente": "Medische gegevens",
   "datoshabitospaciente": "Patiëntgewoonten",
-  "datospielpaciente": "De huid van de patiënt"
+  "datospielpaciente": "De huid van de patiënt",
+  "direccionpacientedesc": "Adres patiënt onbekend",
+  "generopacientedesc": "Het geslacht van de patiënt is onbekend.",
+  "idiomapacientedesc": "De taal van de patiënt is onbekend",
+  "fnpacientedesc": "De geboortedatum van de patiënt is onbekend",
+  "seleccionarnuevaimagenpaciente": "Selecteer een nieuw patiëntbeeld",
+  "vistapreviaimagenpaciente": "Afbeeldingsvoorbeeld",
+  "cambiarimagenpaciente": "Verander het patiëntbeeld",
+  "cambiarnombrepaciente": "Wijzig de naam van de patiënt",
+  "nuevonombrepaciente": "Nieuwe patiëntnaam",
+  "cambiaremailpaciente": "Wijzig het e-mailadres van de patiënt",
+  "nuevoemailpaciente": "Nieuwe patiënt-e-mail",
+  "cambiartelpaciente": "Wijzig het telefoonnummer van de patiënt",
+  "nuevotelpaciente": "Nieuw patiënttelefoonnummer"
 
 
 
