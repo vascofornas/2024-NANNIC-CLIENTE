@@ -137,7 +137,21 @@
   "cambiaremailpaciente": "Ändra patientens e-postadress",
   "nuevoemailpaciente": "Ny patientmail",
   "cambiartelpaciente": "Byt patientnummer",
-  "nuevotelpaciente": "Nytt patientnummer"
+  "nuevotelpaciente": "Nytt patientnummer",
+  "cambiardireccionpaciente": "Ändra patientadress",
+  "nuevadireccionpaciente": "Ny patientadress",
+  "cambiargeneropaciente": "Ändra patientens kön",
+  "nuevogeneropaciente": "Nytt patientkön",
+  "male": "Manlig",
+  "female": "Kvinna",
+  "nonbynary": "Niet-binair",
+  "other": "Övrig",
+  "prefernottosay": "Föredrar att inte säga",
+  "nuevoidiomapaciente": "Nytt patientspråk",
+  "cambiaridiomapaciente": "Ändra patientens språk",
+  "nuevafechanacimientopaciente": "Nytt födelsedatum för patienten",
+  "cambiarfechanacimientopaciente": "Ändra patientens födelsedatum",
+  "seleccionarfechanacimientopaciente": "Välj patientens födelsedatum"
 
 
 

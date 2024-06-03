@@ -43,12 +43,19 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
   String telPaciente = "";
 
 
+  Locale? _selectedLocale;
+
+
+
 
 
   //otros datos basicos
 
   String _direccion = "direccionpacientedesc".tr();
   String _genero = "generopacientedesc".tr();
+
+
+
   String _idioma = "idiomapacientedesc".tr();
   String _fecha_nacimiento = "fnpacientedesc".tr();
 
@@ -56,6 +63,15 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
     // Convierte la fecha de yyyy-MM-dd a dd-MM-yyyy
     DateTime parsedDate = DateTime.parse(date);
     return DateFormat('dd-MM-yyyy').format(parsedDate);
+  }
+
+  Future<void> _init() async {
+    final locale = EasyLocalization.of(context)?.locale;
+    if (locale != null) {
+      _selectedLocale = locale;
+      setState(() {}); // Notificar a Flutter que el estado ha cambiado
+    }
+
   }
 
 
@@ -297,11 +313,14 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
         APICarpeta +
         "obtener_datos_basicos_paciente_clinica.php"; // URL de tu script PHP
 
+
     try {
       final response = await http.post(
         Uri.parse(url),
         body: {'id_paciente': idPaciente}, // Parámetros enviados al script PHP
       );
+
+      print("respuesta datos basicos paciente clinica ${response.body}");
 
       if (response.statusCode == 200) {
         // Si la solicitud es exitosa, decodifica la respuesta JSON
@@ -538,6 +557,336 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
   }
 
 
+  void mostrarDialogoCambiarDireccion(BuildContext context) {
+    String nuevaDireccion = ''; // Variable para almacenar el nuevo nombre del paciente
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cambiardireccionpaciente'.tr()),
+          content: TextField(
+            onChanged: (value) {
+              nuevaDireccion = value; // Actualiza el nuevo nombre a medida que el usuario escribe en el TextField
+            },
+            decoration: InputDecoration(hintText: 'nuevadireccionpaciente'.tr()),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el AlertDialog sin hacer cambios
+              },
+              child: Text('cancelar'.tr()),
+            ),
+            TextButton(
+              onPressed: () {
+                // Llama a la función para enviar el nuevo nombre del paciente al servidor
+                enviarNuevaDireccionPaciente(nuevaDireccion);
+                Navigator.of(context).pop(); // Cierra el AlertDialog después de aceptar los cambios
+              },
+              child: Text('cambiardireccionpaciente'.tr()),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  Future<void> enviarNuevaDireccionPaciente(String nuevaDireccion) async {
+    // URL del script PHP para actualizar el nombre del paciente en la base de datos
+    String url = URLProyecto+APICarpeta+"actualizar_direccion_paciente.php";
+    print("nueva direccion del paciente ${nuevaDireccion} id_paciente ${widget.paciente.id_paciente}");
+
+    // Datos a enviar al servidor (id_paciente y nuevo nombre del paciente)
+    Map<String, String> datos = {
+      'id_paciente': widget.paciente.id_paciente!, // Id del paciente a actualizar
+      'direccion': nuevaDireccion // Nuevo nombre del paciente
+    };
+
+    try {
+      // Realiza la solicitud POST al script PHP con los datos del nuevo nombre
+      http.Response respuesta = await http.post(Uri.parse(url), body: datos);
+
+      // Verifica si la solicitud fue exitosa (código de estado 200)
+      if (respuesta.statusCode == 200) {
+        print('direccion del paciente actualizado correctamente.');
+        setState(() {
+          _direccion = nuevaDireccion;
+        });
+      } else {
+        print('Error al actualizar la direccion del paciente: ${respuesta.statusCode}');
+      }
+    } catch (error) {
+      print('Error al enviar la nueva direccion del paciente: $error');
+    }
+  }
+  // Método para construir un RadioButton
+  String? _selectedGender;
+
+  Widget _buildRadioButton(String title, String value) {
+    return ListTile(
+      title: Text(title),
+      leading: Radio<String>(
+        value: value,
+        groupValue: _selectedGender,
+        onChanged: (String? newValue) {
+          setState(() {
+            _selectedGender = newValue;
+          });
+          print("selected gender ${_selectedGender}");
+          enviarNuevoGeneroPaciente(_selectedGender!);
+          Navigator.of(context).pop(); // Cerrar el AlertDialog después de seleccionar una opción
+        },
+      ),
+    );
+  }
+
+  void mostrarDialogoCambiarGenero(BuildContext context) {
+
+
+
+
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cambiargeneropaciente'.tr()),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildRadioButton('Male', 'male'),
+              _buildRadioButton('Female', 'female'),
+              _buildRadioButton('Non-binary', 'non-binary'),
+              _buildRadioButton('Other', 'other'),
+              _buildRadioButton('Prefer not to say', 'prefer-not-to-say'),
+            ],
+          ),
+
+
+
+
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el AlertDialog sin hacer cambios
+              },
+              child: Text('cancelar'.tr()),
+            ),
+            
+          ],
+        );
+      },
+    );
+  }
+
+
+  Future<void> enviarNuevoGeneroPaciente(String nuevoGenero) async {
+    // URL del script PHP para actualizar el nombre del paciente en la base de datos
+    String url = URLProyecto+APICarpeta+"actualizar_genero_paciente.php";
+    print("nuevo genero del paciente ${nuevoGenero} id_paciente ${widget.paciente.id_paciente}");
+
+    // Datos a enviar al servidor (id_paciente y nuevo nombre del paciente)
+    Map<String, String> datos = {
+      'id_paciente': widget.paciente.id_paciente!, // Id del paciente a actualizar
+      'genero': nuevoGenero // Nuevo nombre del paciente
+    };
+
+    try {
+      // Realiza la solicitud POST al script PHP con los datos del nuevo nombre
+      http.Response respuesta = await http.post(Uri.parse(url), body: datos);
+
+      // Verifica si la solicitud fue exitosa (código de estado 200)
+      if (respuesta.statusCode == 200) {
+        print('genero del paciente actualizado correctamente.');
+        setState(() {
+          if(nuevoGenero =="male"){
+            _genero = "male".tr();
+          }
+          if(nuevoGenero =="female"){
+            _genero = "female".tr();
+          }
+          if(nuevoGenero =="non-binary"){
+            _genero = "nonbynary".tr();
+          }
+          if(nuevoGenero =="other"){
+            _genero = "other".tr();
+          }
+          if(nuevoGenero =="prefer-not-to-say"){
+            _genero = "prefernottosay".tr();
+          }
+        });
+      } else {
+        print('Error al actualizar el genero del paciente: ${respuesta.statusCode}');
+      }
+    } catch (error) {
+      print('Error al enviar la nueva direccion del paciente: $error');
+    }
+  }
+
+  //idioma del paciente
+  void mostrarDialogoCambiarIdioma(BuildContext context) {
+    String nuevoIdioma = ''; // Variable para almacenar el nuevo nombre del paciente
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cambiaridiomapaciente'.tr()),
+          content: TextField(
+            onChanged: (value) {
+              nuevoIdioma = value; // Actualiza el nuevo nombre a medida que el usuario escribe en el TextField
+            },
+            decoration: InputDecoration(hintText: 'nuevoidiomapaciente'.tr()),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el AlertDialog sin hacer cambios
+              },
+              child: Text('cancelar'.tr()),
+            ),
+            TextButton(
+              onPressed: () {
+                // Llama a la función para enviar el nuevo nombre del paciente al servidor
+                enviarNuevoIdiomaPaciente(nuevoIdioma);
+                Navigator.of(context).pop(); // Cierra el AlertDialog después de aceptar los cambios
+              },
+              child: Text('cambiaridiomapaciente'.tr()),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  Future<void> enviarNuevoIdiomaPaciente(String nuevoIdioma) async {
+    // URL del script PHP para actualizar el nombre del paciente en la base de datos
+    String url = URLProyecto+APICarpeta+"actualizar_idioma_paciente.php";
+    print("nueva direccion del paciente ${nuevoIdioma} id_paciente ${widget.paciente.id_paciente}");
+
+    // Datos a enviar al servidor (id_paciente y nuevo nombre del paciente)
+    Map<String, String> datos = {
+      'id_paciente': widget.paciente.id_paciente!, // Id del paciente a actualizar
+      'idioma': nuevoIdioma // Nuevo nombre del paciente
+    };
+
+    try {
+      // Realiza la solicitud POST al script PHP con los datos del nuevo nombre
+      http.Response respuesta = await http.post(Uri.parse(url), body: datos);
+
+      // Verifica si la solicitud fue exitosa (código de estado 200)
+      if (respuesta.statusCode == 200) {
+        print('idioma del paciente actualizado correctamente.');
+        setState(() {
+          _idioma = nuevoIdioma;
+        });
+      } else {
+        print('Error al actualizar el idioma del paciente: ${respuesta.statusCode}');
+      }
+    } catch (error) {
+      print('Error al enviar el nuevo idioma del paciente: $error');
+    }
+  }
+
+//fecha nacimiento
+  void mostrarDialogoCambiarFechaNacimiento(BuildContext context) {
+    DateTime? nuevaFechaNacimiento;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text('cambiarfechanacimientopaciente'.tr()),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                        locale: _selectedLocale
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          nuevaFechaNacimiento = pickedDate;
+                          print("fecha nacimiento ${nuevaFechaNacimiento.toString()}");
+                        });
+                      }
+                    },
+                    child: Text(
+                      nuevaFechaNacimiento == null
+                          ? 'seleccionarfechanacimientopaciente'.tr()
+                          : DateFormat('dd-MM-yyyy').format(nuevaFechaNacimiento!)
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Cierra el AlertDialog sin hacer cambios
+                  },
+                  child: Text('cancelar'.tr()),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (nuevaFechaNacimiento != null) {
+                      // Llama a la función para enviar la nueva fecha de nacimiento del paciente al servidor
+
+                      enviarNuevaFNPaciente(nuevaFechaNacimiento!);
+                    }
+                    Navigator.of(context).pop(); // Cierra el AlertDialog después de aceptar los cambios
+                  },
+                  child: Text('cambiarfechanacimientopaciente'.tr()),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+  Future<void> enviarNuevaFNPaciente(DateTime nuevaFN) async {
+    // URL del script PHP para actualizar el nombre del paciente en la base de datos
+    String url = URLProyecto+APICarpeta+"actualizar_fn_paciente.php";
+    print("nueva fecha nacimiento del paciente ${nuevaFN} id_paciente ${widget.paciente.id_paciente}");
+
+    String formattedDate = DateFormat('yyyy-MM-dd').format(nuevaFN);
+    print("fn enviada ${formattedDate} paciente ${widget.paciente.id_paciente}");
+    String formattedDate2 = DateFormat('dd-MM-yyyy').format(nuevaFN);
+    // Datos a enviar al servidor (id_paciente y nuevo nombre del paciente)
+    Map<String, String> datos = {
+      'id_paciente': widget.paciente.id_paciente!, // Id del paciente a actualizar
+      'fecha_nacimiento': formattedDate // Nuevo nombre del paciente
+    };
+
+    try {
+      // Realiza la solicitud POST al script PHP con los datos del nuevo nombre
+      http.Response respuesta = await http.post(Uri.parse(url), body: datos);
+
+      // Verifica si la solicitud fue exitosa (código de estado 200)
+      if (respuesta.statusCode == 200) {
+        print('fn del paciente actualizado correctamente.');
+        setState(() {
+          _fecha_nacimiento = formattedDate2;
+        });
+      } else {
+        print('Error al actualizar el idioma del paciente: ${respuesta.statusCode}');
+      }
+    } catch (error) {
+      print('Error al fn el nuevo idioma del paciente: $error');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -547,17 +896,42 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
     emailPaciente = widget.paciente.email_paciente!;
     telPaciente = widget.paciente.tel_paciente!;
 
+    _init();
+
 
     fetchPacienteDatosBasicos(widget.paciente.id_paciente!)
         .then((pacienteDatosBasicos) {
       if (pacienteDatosBasicos == null) {
       } else {
-        // Procesar los datos del paciente normalmente
+        // Procesar los datos del paciente normalmenteç
+        print("datos basicos recicibidos ${pacienteDatosBasicos.toString()}");
+        print("direccion recibida ${pacienteDatosBasicos.direccion}");
+        print("genero recibida ${pacienteDatosBasicos.genero}");
+        print("idioma recibida ${pacienteDatosBasicos.idioma}");
+        print("fn recibida ${pacienteDatosBasicos.fecha_nacimiento}");
         setState(() {
           _direccion = pacienteDatosBasicos.direccion!;
-          _genero = pacienteDatosBasicos.genero!;
+
+          String generorec = pacienteDatosBasicos.genero!;
+          print("genero recibido ${_genero}");
+          if(generorec =="male"){
+            _genero = "male".tr();
+          }
+          if(generorec =="female"){
+            _genero = "female".tr();
+          }
+          if(generorec =="non-binary"){
+            _genero = "nonbynary".tr();
+          }
+          if(generorec =="other"){
+            _genero = "other".tr();
+          }
+          if(generorec =="prefer-not-to-say"){
+            _genero = "prefernottosay".tr();
+          }
           _idioma = pacienteDatosBasicos.idioma!;
-          _fecha_nacimiento = pacienteDatosBasicos.fecha_nacimiento!;
+
+          _fecha_nacimiento = formatDate(pacienteDatosBasicos.fecha_nacimiento!);
         });
       }
     });
@@ -678,16 +1052,53 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
                       formatDate(widget.paciente.fecha_alta!)),
                   SizedBox(height: appPadding),
                   // Dirección del paciente
-                  _buildInfoRow(Icons.pin_drop_rounded, _direccion),
+                  Row(
+                    children: [
+                      _buildInfoRow(Icons.pin_drop_rounded, _direccion),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        mostrarDialogoCambiarDireccion(context);
+
+                      }, icon: Icon(Icons.edit))
+
+                    ],
+                  ),
                   SizedBox(height: appPadding),
                   // Genero del paciente
-                  _buildInfoRow(Icons.transgender, _genero),
+                  Row(
+                    children: [
+                      _buildInfoRow(Icons.transgender, _genero),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        mostrarDialogoCambiarGenero(context);
+
+                      }, icon: Icon(Icons.edit))
+                    ],
+                  ),
                   SizedBox(height: appPadding),
                   // Idioma del paciente
-                  _buildInfoRow(Icons.language, _idioma),
+                  Row(
+                    children: [
+                      _buildInfoRow(Icons.language, _idioma),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        mostrarDialogoCambiarIdioma(context);
+
+                      }, icon: Icon(Icons.edit))
+                    ],
+                  ),
                   SizedBox(height: appPadding),
                   // fEcha de nacimiento del paciente
-                  _buildInfoRow(Icons.date_range, _fecha_nacimiento),
+                  Row(
+                    children: [
+                      _buildInfoRow(Icons.date_range,_fecha_nacimiento),
+                      Spacer(),
+                      IconButton(onPressed: (){
+                        mostrarDialogoCambiarFechaNacimiento(context);
+
+                      }, icon: Icon(Icons.edit))
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -703,16 +1114,21 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
       children: [
         Icon(icon),
         SizedBox(width: appPadding),
-        MiTextoSimple(
-          texto: info ?? 'Información no disponible',
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-          fontsize: 14,
+        Container(
+          constraints: BoxConstraints(maxWidth: 250),
+          child: MiTextoSimple(
+            texto: info ?? 'Información no disponible',
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+            fontsize: 14,
+          ),
         ),
       ],
     );
   }
 }
+
+
 
 class MiTextoSimple extends StatelessWidget {
   final String texto;
@@ -729,13 +1145,25 @@ class MiTextoSimple extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      texto,
-      style: TextStyle(
-        color: color,
-        fontWeight: fontWeight,
-        fontSize: fontsize,
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: constraints.maxWidth,
+          ),
+          child: Text(
+            texto,
+            maxLines: 3,
+            
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: color,
+              fontWeight: fontWeight,
+              fontSize: fontsize,
+            ),
+          ),
+        );
+      },
     );
   }
 }

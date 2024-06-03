@@ -25,12 +25,12 @@ class PacienteDatosBasicos {
       direccion: json['direccion'] != null ? json['direccion'] as String : null,
       genero: json['genero'] != null ? json['genero'] as String : null,
       idioma: json['idioma'] != null ? json['idioma'] as String : null,
-      fecha_nacimiento: json[' fecha_nacimiento'] != null ? json[' fecha_nacimiento'] as String : null,
-
-
-
+      fecha_nacimiento: json['fecha_nacimiento'] != null && json['fecha_nacimiento'] != '0000-00-00'
+          ? json['fecha_nacimiento'] as String
+          : 'Fecha no disponible', // O cualquier otro valor predeterminado que desees usar
     );
   }
+
 }
 
 

@@ -137,7 +137,21 @@
   "cambiaremailpaciente": "Wijzig het e-mailadres van de patiënt",
   "nuevoemailpaciente": "Nieuwe patiënt-e-mail",
   "cambiartelpaciente": "Wijzig het telefoonnummer van de patiënt",
-  "nuevotelpaciente": "Nieuw patiënttelefoonnummer"
+  "nuevotelpaciente": "Nieuw patiënttelefoonnummer",
+  "cambiardireccionpaciente": "Wijzig het patiëntadres",
+  "nuevadireccionpaciente": "Nieuw patiëntadres",
+  "cambiargeneropaciente": "Verander het geslacht van de patiënt",
+  "nuevogeneropaciente": "Nieuw geslacht van de patiënt",
+  "male": "Mannelijk",
+  "female": "Vrouwelijk",
+  "nonbynary": "Niet-binair",
+  "other": "Ander",
+  "prefernottosay": "Zeg ik liever niet",
+  "nuevoidiomapaciente": "Nieuwe patiëntentaal",
+  "cambiaridiomapaciente": "Verander de taal van de patiënt",
+  "nuevafechanacimientopaciente": "Nieuwe geboortedatum van de patiënt",
+  "cambiarfechanacimientopaciente": "Wijzig de geboortedatum van de patiënt",
+  "seleccionarfechanacimientopaciente": "Selecteer de geboortedatum van de patiënt"
 
 
 

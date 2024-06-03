@@ -137,5 +137,19 @@
   "cambiaremailpaciente": "Change patient email",
   "nuevoemailpaciente": "New patient email",
   "cambiartelpaciente": "Change patient phone number",
-  "nuevotelpaciente": "New patient phone number"
+  "nuevotelpaciente": "New patient phone number",
+  "cambiardireccionpaciente": "Change patient address",
+  "nuevadireccionpaciente": "New patient address",
+  "cambiargeneropaciente": "Change patient gender",
+  "nuevogeneropaciente": "New patient gender",
+  "male": "Male",
+  "female": "Female",
+  "nonbynary": "Non-binary",
+  "other": "Other",
+  "prefernottosay": "Prefer not to say",
+  "nuevoidiomapaciente": "New patient language",
+  "cambiaridiomapaciente": "Change patient language",
+  "nuevafechanacimientopaciente": "New date of birth of the patient",
+  "cambiarfechanacimientopaciente": "Change patient's date of birth",
+  "seleccionarfechanacimientopaciente": "Select patient's date of birth"
 }
