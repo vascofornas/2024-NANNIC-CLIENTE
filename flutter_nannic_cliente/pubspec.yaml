@@ -42,6 +42,8 @@ dependencies:
   universal_html: ^2.2.4
   #A Flutter package to use fonts from fonts.google.com. Supports HTTP fetching, caching, and asset bundling.
   google_fonts: ^6.2.1
+  #A Flutter plugin providing performance optimized signature canvas with ability to set custom style, boundaries and initial state
+  signature: ^5.5.0
 
 dev_dependencies:
   flutter_test:

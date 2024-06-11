@@ -151,7 +151,16 @@
   "cambiaridiomapaciente": "Ändra patientens språk",
   "nuevafechanacimientopaciente": "Nytt födelsedatum för patienten",
   "cambiarfechanacimientopaciente": "Ändra patientens födelsedatum",
-  "seleccionarfechanacimientopaciente": "Välj patientens födelsedatum"
+  "seleccionarfechanacimientopaciente": "Välj patientens födelsedatum",
+  "InformedConsentforTreatment": "Informerat samtycke för behandling",
+  "PrivacyPolicy": "Integritetspolicy",
+  "ConsentforScientificResearch": "Samtycke för vetenskaplig forskning",
+  "ConsentforCommercialPurposes": "Samtycke för kommersiella ändamål",
+  "StatementonHonorofNoSymptoms/Abnormalities": "Uttalande om att inga symtom/avvikelser uppfylls",
+  "GotoSignaturePad": "Gå till Signature Pad",
+  "SignaturePad": "Signatur Pad",
+  "SignatureSave": "Spara signatur",
+  "SignatureClear": "Tydlig signatur"
 
 
 

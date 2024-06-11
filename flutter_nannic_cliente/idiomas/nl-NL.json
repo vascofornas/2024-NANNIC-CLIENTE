@@ -151,7 +151,16 @@
   "cambiaridiomapaciente": "Verander de taal van de patiënt",
   "nuevafechanacimientopaciente": "Nieuwe geboortedatum van de patiënt",
   "cambiarfechanacimientopaciente": "Wijzig de geboortedatum van de patiënt",
-  "seleccionarfechanacimientopaciente": "Selecteer de geboortedatum van de patiënt"
+  "seleccionarfechanacimientopaciente": "Selecteer de geboortedatum van de patiënt",
+  "InformedConsentforTreatment": "Geïnformeerde toestemming voor behandeling",
+  "PrivacyPolicy": "Privacybeleid",
+  "ConsentforScientificResearch": "Toestemming voor Wetenschappelijk Onderzoek",
+  "ConsentforCommercialPurposes": "Toestemming voor commerciële doeleinden",
+  "StatementonHonorofNoSymptoms/Abnormalities": "Verklaring ter ere van geen symptomen/afwijkingen",
+  "GotoSignaturePad": "Ga naar het handtekeningpad",
+  "SignaturePad": "Kenmerkend kussen",
+  "SignatureSave": "Handtekening opslaan",
+  "SignatureClear": "Duidelijke handtekening"
 
 
 

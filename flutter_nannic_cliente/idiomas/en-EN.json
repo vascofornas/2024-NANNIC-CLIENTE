@@ -151,5 +151,14 @@
   "cambiaridiomapaciente": "Change patient language",
   "nuevafechanacimientopaciente": "New date of birth of the patient",
   "cambiarfechanacimientopaciente": "Change patient's date of birth",
-  "seleccionarfechanacimientopaciente": "Select patient's date of birth"
+  "seleccionarfechanacimientopaciente": "Select patient's date of birth",
+  "InformedConsentforTreatment": "Informed Consent for Treatment",
+  "PrivacyPolicy": "Privacy Policy",
+  "ConsentforScientificResearch": "Consent for Scientific Research",
+  "ConsentforCommercialPurposes": "Consent for Commercial Purposes",
+  "StatementonHonorofNoSymptoms/Abnormalities": "Statement on Honor of No Symptoms/Abnormalities",
+  "GotoSignaturePad": "Go to Signature Pad",
+  "SignaturePad": "Signature Pad",
+  "SignatureSave": "Save signature",
+  "SignatureClear": "Clear signature"
 }

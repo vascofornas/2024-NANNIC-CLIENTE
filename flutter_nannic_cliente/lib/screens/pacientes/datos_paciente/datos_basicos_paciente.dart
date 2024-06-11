@@ -226,13 +226,14 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('seleccionarnuevaimagenpaciente'.tr()),
+          title: Text('seleccionarnuevaimagenpaciente'.tr(),style: AppFonts.nannic(color: Colors.grey,
+          fontSize: 18,fontWeight: FontWeight.bold),),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
                 leading: Icon(Icons.camera),
-                title: Text('camara'.tr()),
+                title: Text('camara'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold),),
                 onTap: () async {
                   final pickedFile = await _picker.pickImage(source: ImageSource.camera);
                   if (pickedFile != null) {
@@ -248,7 +249,7 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
               ),
               ListTile(
                 leading: Icon(Icons.photo_library),
-                title: Text('galeria'.tr()),
+                title: Text('galeria'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
                 onTap: () async {
                   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
                   if (pickedFile != null) {
@@ -274,16 +275,16 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('vistapreviaimagenpaciente'.tr()),
+          title: Text('vistapreviaimagenpaciente'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
           content: _imageFile != null
               ? Image.file(_imageFile!)
-              : Text('No se seleccionó ninguna imagen'),
+              : Text('No se seleccionó ninguna imagen',style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('cancelar'.tr()),
+              child: Text('cancelar'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
             ),
            TextButton(
               onPressed: (){
@@ -299,7 +300,7 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
 
                 Navigator.of(context).pop();
               },
-              child: Text('cambiarimagenpaciente'.tr()),
+              child: Text('cambiarimagenpaciente'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 18,fontWeight: FontWeight.bold)),
             )
           ],
         );
@@ -1116,12 +1117,13 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
         SizedBox(width: appPadding),
         Container(
           constraints: BoxConstraints(maxWidth: 250),
-          child: MiTextoSimple(
-            texto: info ?? 'Información no disponible',
-            color: Colors.black54,
-            fontWeight: FontWeight.bold,
-            fontsize: 14,
-          ),
+          child: Text( info ?? 'Información no disponible',
+            style: AppFonts.nannic(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.black54),
+    ),
+
         ),
       ],
     );
@@ -1130,40 +1132,4 @@ class _DatosBasicosPacienteState extends State<DatosBasicosPaciente> {
 
 
 
-class MiTextoSimple extends StatelessWidget {
-  final String texto;
-  final Color color;
-  final FontWeight fontWeight;
-  final double fontsize;
 
-  const MiTextoSimple({
-    required this.texto,
-    required this.color,
-    required this.fontWeight,
-    required this.fontsize,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: constraints.maxWidth,
-          ),
-          child: Text(
-            texto,
-            maxLines: 3,
-            
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: color,
-              fontWeight: fontWeight,
-              fontSize: fontsize,
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
