@@ -21,11 +21,11 @@ class ConsentTexts {
     """;
   }
 
-  static String privacyPolicy() {
+  static String privacyPolicy(String clinica) {
     return """
     Privacy Policy
 
-    At [Clinic Name], we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.
+    At $clinica, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.
 
     ### Information Collection
     We collect personal information such as your name, contact details, medical history, and treatment records.
@@ -39,7 +39,7 @@ class ConsentTexts {
     ### Consent
     By signing below, you acknowledge that you have read and understood our Privacy Policy.
 
-    **Patient's Signature:** ___________________________ **Date:** _______________
+    
     """;
   }
 

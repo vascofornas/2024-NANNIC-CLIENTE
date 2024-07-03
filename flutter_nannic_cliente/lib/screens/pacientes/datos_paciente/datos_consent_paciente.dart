@@ -22,9 +22,7 @@ class DatosConsentPaciente extends StatefulWidget {
   State<DatosConsentPaciente> createState() => _DatosConsentPacienteState();
 }
 
-class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
-
-
+class _DatosConsentPacienteState extends State<DatosConsentPaciente> {
   bool ampliarInformeConsentimiento = false;
   bool ampliarPrivacyPolicy = false;
   bool ampliarCientifico = false;
@@ -36,6 +34,9 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
   bool estadoCientifico = false;
   bool estadoComercial = false;
   bool estadoHonor = false;
+  //firmas
+  String firmaInformedConsent ="";
+  String firmaPrivacyPolicy ="";
 
   String nombreArchivo = "";
   String nombreClinica = "";
@@ -48,9 +49,7 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
   Future<void> getNombreClinica() async {
     nombreClinica = await SharedPrefsHelper().getNombreClinica() ?? "";
     print("nombre clinica ${nombreClinica}");
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   Future<PacienteDatosConsentimientos?> fetchPacienteDatosConsentimientos(
@@ -59,15 +58,16 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
         APICarpeta +
         "obtener_datos_consentimientos_paciente_clinica.php"; // URL de tu script PHP
 
-
     try {
       final response = await http.post(
         Uri.parse(url),
         body: {'id_paciente': idPaciente}, // Parámetros enviados al script PHP
       );
 
-      print("respuesta datos consentimientos paciente clinica --> ${response.body}");
-      print("response.statusCode recibido en datos consentimientos paciente clinica --> ${response.statusCode}");
+      print(
+          "respuesta datos consentimientos paciente clinica --> ${response.body}");
+      print(
+          "response.statusCode recibido en datos consentimientos paciente clinica --> ${response.statusCode}");
 
       if (response.statusCode == 200) {
         // Si la solicitud es exitosa, decodifica la respuesta JSON
@@ -85,15 +85,9 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
     }
   }
 
-
-
-
-
-
   @override
   void initState() {
     super.initState();
-
 
     nombrePaciente = widget.paciente.nombre!;
     emailPaciente = widget.paciente.email_paciente!;
@@ -101,47 +95,60 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
 
     getNombreClinica();
 
-
-
-
-
-
     fetchPacienteDatosConsentimientos(widget.paciente.id_paciente!)
         .then((pacienteDatosConsentimientos) {
       if (pacienteDatosConsentimientos == null) {
       } else {
-        // Procesar los datos del paciente normalmenteç
-        print("datos consentimientos recibidos ${pacienteDatosConsentimientos.toString()}");
-        print("estado informed_consent ${pacienteDatosConsentimientos.informed_consent}");
+        // Procesar los datos del paciente en consent data
+        print(
+            "datos consentimientos recibidos ${pacienteDatosConsentimientos.toString()}");
+        print(
+            "estado informed_consent ${pacienteDatosConsentimientos.informed_consent}");
 
+        print(
+            "archivo firma informed_consent ${pacienteDatosConsentimientos.firma_consent}");
+        print(
+            "estado privacy policy ${pacienteDatosConsentimientos.privacy_policy}");
 
+        print(
+            "archivo firma privacy policy ${pacienteDatosConsentimientos.firma_privacy_policy}");
+
+        //INFORMED CONSENT FOR TREATMENT
+        if (pacienteDatosConsentimientos.informed_consent == "1") {
+          estadoInformeConsentimiento = true;
+          firmaInformedConsent = URLProyecto+APICarpeta+"firmas/"+pacienteDatosConsentimientos.firma_consent!;
+          setState(() {});
+        }
+        //FIRMA PRIVACY POLICY
+        if (pacienteDatosConsentimientos.privacy_policy == "1") {
+          estadoPrivacyPolicy = true;
+          firmaPrivacyPolicy = URLProyecto+APICarpeta+"firmas/"+pacienteDatosConsentimientos.firma_privacy_policy!;
+          setState(() {});
+        }
       }
     });
-
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    String informedConsentText = ConsentTexts.informedConsent('John Doe', nombreClinica);
-    String privacyPolicyText = ConsentTexts.privacyPolicy();
+    String informedConsentText =
+        ConsentTexts.informedConsent('John Doe', nombreClinica);
+    String privacyPolicyText = ConsentTexts.privacyPolicy(nombreClinica);
     String consentForResearchText = ConsentTexts.consentForScientificResearch();
-    String consentForCommercialText = ConsentTexts.consentForCommercialPurposes();
-    String statementOnHonorText = ConsentTexts.statementOnHonorOfNoSymptoms('Jane Doe');
+    String consentForCommercialText =
+        ConsentTexts.consentForCommercialPurposes();
+    String statementOnHonorText =
+        ConsentTexts.statementOnHonorOfNoSymptoms('Jane Doe');
 
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .background,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(appPadding),
@@ -151,62 +158,95 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
                   SizedBox(height: appPadding),
                   //informed consent
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        ampliarInformeConsentimiento = !ampliarInformeConsentimiento;
+                        ampliarInformeConsentimiento =
+                            !ampliarInformeConsentimiento;
                       });
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        estadoInformeConsentimiento?
-                        MiTextoSimple(texto: "InformedConsentforTreatment".tr(), color: Colors.black, fontWeight: FontWeight.bold, fontsize: 18):
-                        MiTextoSimple(texto: "InformedConsentforTreatment".tr(), color: Colors.red, fontWeight: FontWeight.bold, fontsize: 18)
-                        ,
+                        estadoInformeConsentimiento
+                            ? MiTextoSimple(
+                                texto: "InformedConsentforTreatment".tr(),
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                                fontsize: 18)
+                            : MiTextoSimple(
+                                texto: "InformedConsentforTreatment".tr(),
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontsize: 18),
                       ],
                     ),
                   ),
                   ////informed consent contenido
-                  ampliarInformeConsentimiento ? Column(
-                    children: [
-                      SizedBox(height: appPadding),
-                      Text(
-                          ConsentTexts.informedConsent(widget.paciente.nombre!, nombreClinica,),style: AppFonts.nannic(
-                        color: Colors.black54,fontSize: 14
-                      ) ,
-                      ),
+                  ampliarInformeConsentimiento
+                      ? Column(
+                          children: [
+                            SizedBox(height: appPadding),
+                            Text(
+                              ConsentTexts.informedConsent(
+                                widget.paciente.nombre!,
+                                nombreClinica,
+                              ),
+                              style: AppFonts.nannic(
+                                  color: Colors.black54, fontSize: 14),
+                            ),
+                            SizedBox(height: appPadding),
+                            !estadoInformeConsentimiento
+                                ? Icon(
+                                    Icons.warning,
+                                    color: Colors.red,
+                                    size: 30,
+                                  )
+                                : Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black, width: 2),
+                              ),
+                              child: Image.network(
+                                firmaInformedConsent,
+                                fit: BoxFit.fill, // Ajusta la imagen para cubrir el contenedor
+                              ),
+                            ),
 
-
-                      SizedBox(height: appPadding),
-                !estadoInformeConsentimiento?Icon(Icons.warning, color: Colors.red,size: 30,):Container(height: 0,),
-                      SizedBox(height: appPadding),
-
-                Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignaturePad(tipoFirma: 'informed_consent',)),
-                            );
-                          },
-                          child: Text('GotoSignaturePad'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
+                            SizedBox(height: appPadding),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignaturePad(
+                                              tipoFirma: 'informed_consent',
+                                              pacienteId:
+                                                  widget.paciente.id_paciente!,
+                                            )),
+                                  );
+                                },
+                                child: Text('GotoSignaturePad'.tr(),
+                                    style: AppFonts.nannic(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 0,
+                          width: 0,
                         ),
-                      ),
-              
-              
-                    ],
-                  ): Container(
-                    height: 0,
-                    width: 0,
-                  ),
-              
+
                   //privacy policy
                   SizedBox(height: appPadding),
-                  Divider(
-
-                  ),
+                  Divider(),
+                  SizedBox(height: appPadding),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         ampliarPrivacyPolicy = !ampliarPrivacyPolicy;
                       });
@@ -214,118 +254,192 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MiTextoSimple(texto: "PrivacyPolicy".tr(), color: Colors.black, fontWeight: FontWeight.bold, fontsize: 14),
+                        estadoPrivacyPolicy?MiTextoSimple(
+                            texto: "PrivacyPolicy".tr(),
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 18):
+                        MiTextoSimple(
+                            texto: "PrivacyPolicy".tr(),
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 18),
                       ],
                     ),
                   ),
-                  ampliarPrivacyPolicy ? Column(
+                  ////privacy policy contenido
+                  ampliarPrivacyPolicy
+                      ? Column(
                     children: [
-                      Text("${widget.paciente.nombre!}",),
-                      Text("mi clinica",),
+                      SizedBox(height: appPadding),
+                      Text(
+                        ConsentTexts.privacyPolicy(
+
+                          nombreClinica,
+                        ),
+                        style: AppFonts.nannic(
+                            color: Colors.black54, fontSize: 14),
+                      ),
+                      SizedBox(height: appPadding),
+                      !estadoPrivacyPolicy
+                          ? Icon(
+                        Icons.warning,
+                        color: Colors.red,
+                        size: 30,
+                      )
+                          : Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 2),
+                        ),
+                        child: Image.network(
+                          firmaPrivacyPolicy,
+                          fit: BoxFit.fill, // Ajusta la imagen para cubrir el contenedor
+                        ),
+                      ),
+
+                      SizedBox(height: appPadding),
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SignaturePad(tipoFirma: 'privacy_policy')),
+                              MaterialPageRoute(
+                                  builder: (context) => SignaturePad(
+                                    tipoFirma: 'privacy_policy',
+                                    pacienteId:
+                                    widget.paciente.id_paciente!,
+                                  )),
                             );
                           },
-                          child: Text('GotoSignaturePad'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
-              
+                          child: Text('GotoSignaturePad'.tr(),
+                              style: AppFonts.nannic(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
-              
-              
                     ],
-                  ): Container(
+                  )
+                      : Container(
                     height: 0,
                     width: 0,
                   ),
+
                   //scientic research
                   SizedBox(height: appPadding),
+                  Divider(),
+                  SizedBox(height: appPadding),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         ampliarCientifico = !ampliarCientifico;
                       });
-              
-              
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MiTextoSimple(texto: "ConsentforScientificResearch".tr(), color: Colors.black, fontWeight: FontWeight.bold, fontsize: 14),
+                        MiTextoSimple(
+                            texto: "ConsentforScientificResearch".tr(),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 14),
                       ],
                     ),
                   ),
-                  ampliarCientifico ? Column(
-                    children: [
-                      Text("${widget.paciente.nombre!}",),
-                      Text("mi clinica",),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignaturePad(tipoFirma: 'cientifico')),
-                            );
-                          },
-                            child: Text('GotoSignaturePad'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
-              
+                  ampliarCientifico
+                      ? Column(
+                          children: [
+                            Text(
+                              "${widget.paciente.nombre!}",
+                            ),
+                            Text(
+                              "mi clinica",
+                            ),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignaturePad(
+                                            tipoFirma: 'cientifico',
+                                            pacienteId:
+                                                widget.paciente.id_paciente!)),
+                                  );
+                                },
+                                child: Text('GotoSignaturePad'.tr(),
+                                    style: AppFonts.nannic(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 0,
+                          width: 0,
                         ),
-                      ),
-              
-              
-                    ],
-                  ): Container(
-                    height: 0,
-                    width: 0,
-                  ),
                   //commercial purposes
                   SizedBox(height: appPadding),
-              
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          ampliarComercial = !ampliarComercial;
-                        });
-              
-              
-                      },
+
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        ampliarComercial = !ampliarComercial;
+                      });
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MiTextoSimple(texto: "ConsentforCommercialPurposes".tr(), color: Colors.black, fontWeight: FontWeight.bold, fontsize: 14),
+                        MiTextoSimple(
+                            texto: "ConsentforCommercialPurposes".tr(),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 14),
                       ],
                     ),
                   ),
-                  ampliarComercial ? Column(
-                    children: [
-                      Text("${widget.paciente.nombre!}",),
-                      Text("mi clinica",),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignaturePad(tipoFirma: 'comercial')),
-                            );
-                          },
-                          child: Text('GotoSignaturePad'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
-              
+                  ampliarComercial
+                      ? Column(
+                          children: [
+                            Text(
+                              "${widget.paciente.nombre!}",
+                            ),
+                            Text(
+                              "mi clinica",
+                            ),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignaturePad(
+                                            tipoFirma: 'comercial',
+                                            pacienteId:
+                                                widget.paciente.id_paciente!)),
+                                  );
+                                },
+                                child: Text('GotoSignaturePad'.tr(),
+                                    style: AppFonts.nannic(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 0,
+                          width: 0,
                         ),
-                      ),
-              
-              
-                    ],
-                  ): Container(
-                    height: 0,
-                    width: 0,
-                  ),
                   //statement on honor no symptoms / abnormalities
                   SizedBox(height: appPadding),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
                         ampliarHonor = !ampliarHonor;
                       });
@@ -333,35 +447,49 @@ class _DatosConsentPacienteState extends State<DatosConsentPaciente>  {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        MiTextoSimple(texto: "StatementonHonorofNoSymptoms/Abnormalities".tr(), color: Colors.black, fontWeight: FontWeight.bold, fontsize: 14),
+                        MiTextoSimple(
+                            texto: "StatementonHonorofNoSymptoms/Abnormalities"
+                                .tr(),
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontsize: 14),
                       ],
                     ),
                   ),
-                  ampliarHonor ? Column(
-                    children: [
-                      Text("${widget.paciente.nombre!}",),
-                      Text("mi clinica",),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignaturePad(tipoFirma: 'honor')),
-                            );
-                          },
-                          child: Text('GotoSignaturePad'.tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 16,fontWeight: FontWeight.bold)),
-              
+                  ampliarHonor
+                      ? Column(
+                          children: [
+                            Text(
+                              "${widget.paciente.nombre!}",
+                            ),
+                            Text(
+                              "mi clinica",
+                            ),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignaturePad(
+                                            tipoFirma: 'honor',
+                                            pacienteId:
+                                                widget.paciente.id_paciente!)),
+                                  );
+                                },
+                                child: Text('GotoSignaturePad'.tr(),
+                                    style: AppFonts.nannic(
+                                        color: Colors.black54,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 0,
+                          width: 0,
                         ),
-                      ),
-              
-              
-                    ],
-                  ): Container(
-                    height: 0,
-                    width: 0,
-                  ),
-              
-              
                 ],
               ),
             ),

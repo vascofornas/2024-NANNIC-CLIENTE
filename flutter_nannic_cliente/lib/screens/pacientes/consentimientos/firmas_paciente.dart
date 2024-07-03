@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_informed_consent.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_privacy_policy.dart';
 import 'package:signature/signature.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -11,8 +13,9 @@ import 'package:http/http.dart' as http;
 class SignaturePad extends StatefulWidget {
 
   final String tipoFirma;
+  final String pacienteId;
 
-  const SignaturePad({super.key, required this.tipoFirma});
+  const SignaturePad({super.key, required this.tipoFirma, required this.pacienteId});
   @override
   _SignaturePadState createState() => _SignaturePadState();
 }
@@ -30,6 +33,7 @@ class _SignaturePadState extends State<SignaturePad> {
 
   Future<String> _saveSignature() async {
     if (_controller.isEmpty) {
+
       return '';
     }
 
@@ -42,6 +46,23 @@ class _SignaturePadState extends State<SignaturePad> {
     String path = directory.path;
     String fileName = 'signature_${DateTime.now().millisecondsSinceEpoch}.png';
     print("nombre del archivo con la firma ${fileName}");
+
+    final now = DateTime.now();
+    final formatter = DateFormat('yyyy-MM-dd');
+    final formattedDate = formatter.format(now);
+
+    //registramos firma de informed consent
+    if(widget.tipoFirma == 'informed_consent'){
+      String idPaciente = widget.pacienteId;
+
+      registrarConsentimiento(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
+    }
+    //registramos firma de privacy policy
+    if(widget.tipoFirma == 'privacy_policy'){
+      String idPaciente = widget.pacienteId;
+
+      registrarConsentimientoPrivacyPolicy(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
+    }
     File file = File('$path/$fileName');
     await file.writeAsBytes(data);
 
@@ -55,6 +76,8 @@ class _SignaturePadState extends State<SignaturePad> {
 
     var response = await request.send();
     if (response.statusCode == 200) {
+
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Signature uploaded successfully')),
       );
@@ -78,6 +101,10 @@ class _SignaturePadState extends State<SignaturePad> {
       tipoFirma = "InformedConsentforTreatment".tr();
     }
 
+    if(widget.tipoFirma == 'privacy_policy'){
+      tipoFirma = "PrivacyPolicy".tr();
+    }
+
   }
 
   @override
@@ -85,7 +112,7 @@ class _SignaturePadState extends State<SignaturePad> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("SignaturePad".tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.bold),),
+        title: Text("SignaturePad".tr()+" (id: ${widget.pacienteId})",style: AppFonts.nannic(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.bold),),
       ),
       body: Column(
         children: [

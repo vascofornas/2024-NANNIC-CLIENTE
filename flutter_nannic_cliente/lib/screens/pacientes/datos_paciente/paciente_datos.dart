@@ -53,7 +53,7 @@ class _DatosPacienteState extends State<DatosPaciente>
                   ),
                   SizedBox(width: appPadding),
                   MiTextoSimple(
-                    texto: "datospaciente".tr(),
+                    texto: "datospaciente".tr()+" --> ${widget.paciente.nombre}",
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     fontsize: 20,
