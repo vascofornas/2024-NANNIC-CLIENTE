@@ -4,8 +4,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/app_fonts.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_commercial_purposes.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_honor.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_informed_consent.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_privacy_policy.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_firma_scientific_research.dart';
 import 'package:signature/signature.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +31,8 @@ class _SignaturePadState extends State<SignaturePad> {
   );
 
   String tipoFirma ="";
+  //boton atras visibilidad
+  bool verBackButton = true;
 
   //guardar la firma
 
@@ -63,6 +68,25 @@ class _SignaturePadState extends State<SignaturePad> {
 
       registrarConsentimientoPrivacyPolicy(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
     }
+    //registramos firma de scientific research
+    if(widget.tipoFirma == 'scientific_research'){
+      String idPaciente = widget.pacienteId;
+
+      registrarConsentimientoScientificResearch(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
+    }
+    //registramos firma de commercial purposes
+    if(widget.tipoFirma == 'commercial_purposes'){
+      String idPaciente = widget.pacienteId;
+
+      registrarConsentimientoCommercialPurposes(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
+    }
+
+    //registramos firma de honor
+    if(widget.tipoFirma == 'honor'){
+      String idPaciente = widget.pacienteId;
+
+      registrarConsentimientoHonor(idPaciente: idPaciente, firmaConsent: fileName, fechaFirmas: formattedDate);
+    }
     File file = File('$path/$fileName');
     await file.writeAsBytes(data);
 
@@ -71,6 +95,10 @@ class _SignaturePadState extends State<SignaturePad> {
   //publicar la firma
 
   Future<void> _uploadSignature(String filePath) async {
+    setState(() {
+      verBackButton = false;
+    });
+    verBackButton = false;
     var request = http.MultipartRequest('POST', Uri.parse(URLProyecto+APICarpeta+"guardar_firma_paciente.php"));
     request.files.add(await http.MultipartFile.fromPath('signature', filePath));
 
@@ -81,6 +109,10 @@ class _SignaturePadState extends State<SignaturePad> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Signature uploaded successfully')),
       );
+      setState(() {
+        verBackButton = true;
+      });
+      Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to upload signature')),
@@ -105,6 +137,17 @@ class _SignaturePadState extends State<SignaturePad> {
       tipoFirma = "PrivacyPolicy".tr();
     }
 
+    if(widget.tipoFirma == 'scientific_research'){
+      tipoFirma = "ConsentforScientificResearch".tr();
+    }
+
+    if(widget.tipoFirma == 'commercial_purposes'){
+      tipoFirma = "ConsentforCommercialPurposes".tr();
+    }
+    if(widget.tipoFirma == 'honor'){
+      tipoFirma = "StatementonHonorofNoSymptoms/Abnormalities".tr();
+    }
+
   }
 
   @override
@@ -112,7 +155,17 @@ class _SignaturePadState extends State<SignaturePad> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("SignaturePad".tr()+" (id: ${widget.pacienteId})",style: AppFonts.nannic(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.bold),),
+        leading:
+        Visibility(
+          visible: verBackButton,
+          child: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black54), // Icono personalizado
+            onPressed: () {
+              Navigator.pop(context); // Acción personalizada, por ejemplo, regresar a la pantalla anterior
+            },
+          ),
+        ),
+        title: Text("SignaturePad".tr(),style: AppFonts.nannic(color: Colors.black54,fontSize: 20,fontWeight: FontWeight.bold),),
       ),
       body: Column(
         children: [

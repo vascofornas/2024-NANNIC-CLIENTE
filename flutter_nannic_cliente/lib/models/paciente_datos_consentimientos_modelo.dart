@@ -5,7 +5,7 @@ class PacienteDatosConsentimientos {
   final String? privacy_policy;
   final String? consent_scientific_research;
   final String? consent_commercial_purposes;
-  final String? statement_honor_no_symtoms_abnormalities;
+  final String? statement_honor_no_symptoms_abnormalities;
   final String? firma_consent;
   final String? firma_privacy_policy;
   final String? firma_statement_honor;
@@ -23,7 +23,7 @@ class PacienteDatosConsentimientos {
     this.privacy_policy,
     this.consent_scientific_research,
     this.consent_commercial_purposes,
-    this.statement_honor_no_symtoms_abnormalities,
+    this.statement_honor_no_symptoms_abnormalities,
     this.firma_consent,
     this.firma_privacy_policy,
     this.firma_statement_honor,
@@ -42,7 +42,7 @@ class PacienteDatosConsentimientos {
       privacy_policy: json['privacy_policy'] != null ? json['privacy_policy'] as String : null,
       consent_scientific_research: json['consent_scientific_research'] != null ? json['consent_scientific_research'] as String : null,
       consent_commercial_purposes: json['consent_commercial_purposes'] != null ? json['consent_commercial_purposes'] as String : null,
-      statement_honor_no_symtoms_abnormalities: json['statement_honor_no_symtoms_abnormalities'] != null ? json['statement_honor_no_symtoms_abnormalities'] as String : null,
+      statement_honor_no_symptoms_abnormalities: json['statement_honor_no_symptoms_abnormalities'] != null ? json['statement_honor_no_symptoms_abnormalities'] as String : null,
       firma_consent: json['firma_consent'] != null ? json['firma_consent'] as String : null,
       firma_privacy_policy: json['firma_privacy_policy'] != null ? json['firma_privacy_policy'] as String : null,
       firma_scientific_research: json['firma_scientific_research'] != null ? json['firma_scientific_research'] as String : null,

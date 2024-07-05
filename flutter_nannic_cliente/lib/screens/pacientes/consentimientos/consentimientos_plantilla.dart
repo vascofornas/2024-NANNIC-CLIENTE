@@ -23,7 +23,7 @@ class ConsentTexts {
 
   static String privacyPolicy(String clinica) {
     return """
-    Privacy Policy
+    
 
     At $clinica, we are committed to protecting your privacy. This Privacy Policy outlines how we collect, use, and protect your personal information.
 
@@ -43,11 +43,11 @@ class ConsentTexts {
     """;
   }
 
-  static String consentForScientificResearch() {
+  static String consentForScientificResearch(String patientName) {
     return """
-    Consent for Scientific Research
+    
 
-    I, ______________________ (patient's name), give my consent for my medical data to be used for scientific research purposes. I understand that my personal information will be anonymized to protect my identity.
+    I, $patientName, give my consent for my medical data to be used for scientific research purposes. I understand that my personal information will be anonymized to protect my identity.
 
     ### Purpose of Research
     The purpose of this research is to improve medical treatments and outcomes for future patients.
@@ -58,15 +58,15 @@ class ConsentTexts {
     ### Voluntary Participation
     Participation in this research is voluntary, and I can withdraw my consent at any time without affecting my treatment.
 
-    **Patient's Signature:** ___________________________ **Date:** _______________
+   
     """;
   }
 
-  static String consentForCommercialPurposes() {
+  static String consentForCommercialPurposes(String patientName) {
     return """
-    Consent for Commercial Purposes
+    
 
-    I, ______________________ (patient's name), give my consent for my medical data to be used for commercial purposes, including marketing and product development. I understand that my personal information will be anonymized to protect my identity.
+    I,  $patientName, give my consent for my medical data to be used for commercial purposes, including marketing and product development. I understand that my personal information will be anonymized to protect my identity.
 
     ### Purpose
     The purpose of using this data is to improve our products and services and to inform patients about relevant offerings.
@@ -77,13 +77,13 @@ class ConsentTexts {
     ### Voluntary Participation
     Participation is voluntary, and I can withdraw my consent at any time without affecting my treatment.
 
-    **Patient's Signature:** ___________________________ **Date:** _______________
+    
     """;
   }
 
   static String statementOnHonorOfNoSymptoms(String patientName) {
     return """
-    Statement on Honor of No Symptoms/Abnormalities
+    
 
     I, $patientName, hereby declare on my honor that, to the best of my knowledge, I am not experiencing any symptoms or abnormalities that could affect my physiotherapy treatment.
 
@@ -93,7 +93,7 @@ class ConsentTexts {
     ### Acknowledgment
     I understand that this declaration is important for ensuring my safety during treatment.
 
-    **Patient's Signature:** ___________________________ **Date:** _______________
+ 
     """;
   }
 }
