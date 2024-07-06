@@ -160,9 +160,24 @@
   "GotoSignaturePad": "Gå till Signature Pad",
   "SignaturePad": "Signatur Pad",
   "SignatureSave": "Spara signatur",
-  "SignatureClear": "Tydlig signatur"
-
-
-
-
+  "SignatureClear": "Tydlig signatur",
+  "altapresion": "För högt blodtryck?",
+  "bajapresion": "För lågt blodtryck?",
+  "diabetes": "Diabetes?",
+  "cardiopatias": "Någon hjärtsjukdom?",
+  "embarazada": "Gravid?",
+  "marcapasos": "Pacemaker?",
+  "lentillas": "Kontaktlinser?",
+  "epilepsia": "Epilepsi?",
+  "problemahormonales": "Hormonella problem?",
+  "implantesmetalicos": "Metallimplantat?",
+  "medicacion": "Nuvarande medicinering",
+  "observacionesdatosmedicos": "Observationer om medicinska data",
+  "alergias": "Allergier?",
+  "actualizarmedicacion": "Uppdatera patientmedicinering",
+  "actualizarobservaciones": "Uppdatera observationer till patientens medicinska data",
+  "cambiarmedicacion": "Ändra patientens nuvarande medicinering",
+  "actualizarmedicacion": "Uppdatera ny patientmedicin",
+  "cambiarobservaciones": "Ändra observationer till patientens medicinska data",
+  "actualizarobservaciones": "Uppdatera observationer till patientens medicinska data"
 }

@@ -160,7 +160,26 @@
   "GotoSignaturePad": "Ga naar het handtekeningpad",
   "SignaturePad": "Kenmerkend kussen",
   "SignatureSave": "Handtekening opslaan",
-  "SignatureClear": "Duidelijke handtekening"
+  "SignatureClear": "Duidelijke handtekening",
+  "altapresion": "Bloeddruk te hoog?",
+  "bajapresion": "Bloeddruk te laag?",
+  "diabetes": "Diabetes?",
+  "cardiopatias": "Een hartaandoening?",
+  "embarazada": "Zwanger?",
+  "marcapasos": "Pacemaker?",
+  "lentillas": "Contactlenzen?",
+  "epilepsia": "Epilepsie?",
+  "problemahormonales": "Hormonale problemen?",
+  "implantesmetalicos": "Metalen implantaten?",
+  "medicacion": "Huidige medicatie",
+  "observacionesdatosmedicos": "Observaties van medische gegevens",
+  "alergias": "Allergieën?",
+  "actualizarmedicacion": "Update patiëntmedicatie",
+  "actualizarobservaciones": "Update observaties van de medische gegevens van de patiënt",
+  "cambiarmedicacion": "Wijzig de huidige medicatie van de patiënt",
+  "actualizarmedicacion": "Update nieuwe patiëntmedicatie",
+  "cambiarobservaciones": "Wijzig observaties in de medische gegevens van de patiënt",
+  "actualizarobservaciones": "Update observaties van medische gegevens van patiënten"
 
 
 

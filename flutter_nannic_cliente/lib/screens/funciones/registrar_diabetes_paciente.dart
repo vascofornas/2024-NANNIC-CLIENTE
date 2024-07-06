@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_nannic_cliente/constants/constants.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> registrarConsentimientoCommercialPurposes({
+Future<void> registrarDiabetesPaciente({
   required String idPaciente,
-  required String firmaConsent,
-  required String fechaFirmas,
+  required String valor,
+  required String fechaActualizacion,
 }) async {
-  final url = Uri.parse(URLProyecto+APICarpeta+"registrar_firma_commercial_purposes.php");
-  print("firma consent id_paciente ${idPaciente}");
-  print("firma consent archivo ${firmaConsent}");
-  print("firma consent fecha ${fechaFirmas}");
+  final url = Uri.parse(URLProyecto+APICarpeta+"registrar_diabetes_paciente.php");
+
+  await Future.delayed(Duration(seconds: 3)); // Simula un retraso para la operación
+
+
 
   try {
     final response = await http.post(
       url,
       body: {
         'id_paciente': idPaciente,
-        'firma_consent': firmaConsent,
-        'fecha_firmas': fechaFirmas,
+        'valor': valor,
+        'fecha_actualizacion': fechaActualizacion,
       },
     );
-    print("respuesta alta presion ${response.body}");
+    print("respuesta baja presion ${response.body}");
     final responseData = json.decode(response.body);
-    print("respuesta alta presion ${responseData}");
     if (responseData['success']) {
       // Manejar éxito
       print('Datos insertados correctamente');
