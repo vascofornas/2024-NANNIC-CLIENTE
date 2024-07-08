@@ -1,16 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_alcohol_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_alergias_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_alta_presion_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_baja_presion_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_bronceado_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_cardiopatia_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_circunstancias_laborales_especificas_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_desorden_alimenticio_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_diabetes_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_embarazo_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_epilepsia_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_fumar_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_hormonal_problems_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_implantes_metalicos_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_lentillas_paciente.dart';
 import 'package:flutter_nannic_cliente/screens/funciones/registrar_marcapasos_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_suplementos_alimenticios_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_tipo_alimentacion_paciente.dart';
+import 'package:flutter_nannic_cliente/screens/funciones/registrar_trastorno_sueno_paciente.dart';
 
 class YesWidget extends StatefulWidget {
   final String pacienteId;
@@ -39,6 +47,7 @@ class _YesWidgetState extends State<YesWidget> {
           cargando = true;
         });
 
+        //datos medicos
         if (widget.variable == "alta_presion") {
           print("pulsado si  ${widget.pacienteId} ${widget.variable}");
           final now = DateTime.now();
@@ -172,6 +181,112 @@ class _YesWidgetState extends State<YesWidget> {
           widget.onRefreshData?.call();
         }
 
+        //datos habitos
+        //suplementos_alimenticios
+        if (widget.variable == "suplementos_alimenticios") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarSuplementosAlimenticiosPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //tipo_alimentacion
+        if (widget.variable == "tipo_alimentacion") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarTipoAlimentacionPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //fuma
+        if (widget.variable == "fuma") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarFumarPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //bebe_alcohol
+        if (widget.variable == "bebe_alcohol") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarAlcoholPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //desorden alimenticio
+        if (widget.variable == "desorden_alimenticio") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarDesordenAlimenticioPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //trastosno_sueno
+        if (widget.variable == "trastorno_sueno") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarTrastornoSuenoPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //bronceado
+        if (widget.variable == "bronceado") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarCircunstanciasLaboralesEspecificasPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+        //circunstancias_laborales_especificas
+        if (widget.variable == "circunstancias_laborales_especificas") {
+          print("pulsado si  ${widget.pacienteId} ${widget.variable}");
+          final now = DateTime.now();
+          final formatter = DateFormat('yyyy-MM-dd');
+          final formattedDate = formatter.format(now);
+          await registrarBronceadoPaciente(
+            idPaciente: widget.pacienteId,
+            valor: "0",
+            fechaActualizacion: formattedDate,
+          );
+          widget.onRefreshData?.call();
+        }
+
         setState(() {
           cargando = false;
         });
@@ -182,7 +297,7 @@ class _YesWidgetState extends State<YesWidget> {
         decoration: BoxDecoration(
           color: Colors.green, // Fondo verde del rectángulo
           borderRadius: BorderRadius.circular(
-              10.0), // Borde redondeado del rectángulo
+              18.0), // Borde redondeado del rectángulo
         ),
         padding: EdgeInsets.all(10.0), // Espaciado interno del rectángulo
         child: Row(
@@ -199,19 +314,19 @@ class _YesWidgetState extends State<YesWidget> {
                 child: Text(
                   'Y', // Letra Y dentro del círculo
                   style: TextStyle(
-                    fontSize: 16.0, // Tamaño de la letra
+                    fontSize: 14.0, // Tamaño de la letra
                     fontWeight: FontWeight.bold, // Negrita
                     color: Colors.black, // Color de la letra (negro)
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 10.0), // Espaciado entre el círculo y el texto
+            SizedBox(width: 5.0), // Espaciado entre el círculo y el texto
             Text(
               'Yes', // Texto "Yes"
               style: TextStyle(
                 color: Colors.white, // Color blanco del texto
-                fontSize: 16.0, // Tamaño del texto
+                fontSize: 14.0, // Tamaño del texto
                 fontWeight: FontWeight.bold, // Negrita
               ),
             ),

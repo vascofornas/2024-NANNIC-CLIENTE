@@ -179,5 +179,16 @@
   "cambiarmedicacion": "Change the patient's current medication",
   "actualizarmedicacion": "Update new patient medication",
   "cambiarobservaciones": "Change observations to the patient's medical data",
-  "actualizarobservaciones": "Update observations to patient medical data"
+  "actualizarobservaciones": "Update observations to patient medical data",
+  "suplementos": "Do you take dietary supplements?",
+  "tipoalimentacion": "Special diet type?",
+  "fuma": "Does the patient smoke?",
+  "bebealcohol": "Does the patient drink alcoholic beverages?",
+  "desordenalimenticio": "Eating disorder?",
+  "bronceado": "Is frequent sun/UVA tanning a common practice?",
+  "trastornosueno": "Sleep disorders?",
+  "circunstanciaslaborales": "Specific work circumstances?",
+  "cambiarobservacionescostumbres": "Observations on the patient's habits",
+  "actualizarobservacionescostumbres": "Update observations about the patient's habits",
+  "observacionesdatoshabitos": "Observations on the patient's habits"
 }

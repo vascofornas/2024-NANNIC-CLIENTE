@@ -179,5 +179,16 @@
   "cambiarmedicacion": "Ändra patientens nuvarande medicinering",
   "actualizarmedicacion": "Uppdatera ny patientmedicin",
   "cambiarobservaciones": "Ändra observationer till patientens medicinska data",
-  "actualizarobservaciones": "Uppdatera observationer till patientens medicinska data"
+  "actualizarobservaciones": "Uppdatera observationer till patientens medicinska data",
+  "suplementos": "Äter du kosttillskott?",
+  "tipoalimentacion": "Typ av specialkost?",
+  "fuma": "Röker patienten?",
+  "bebealcohol": "Dricker patienten alkoholhaltiga drycker?",
+  "desordenalimenticio": "Ätstörning?",
+  "bronceado": "Är frekvent sol/UVA-solning en vanlig praxis?",
+  "trastornosueno": "Sömnstörningar?",
+  "circunstanciaslaborales": "Specifika arbetsförhållanden?",
+  "cambiarobservacionescostumbres": "Observationer om patientens vanor",
+  "actualizarobservacionescostumbres": "Uppdatera observationer om patientens vanor",
+  "observacionesdatoshabitos": "Observationer om patientens vanor"
 }

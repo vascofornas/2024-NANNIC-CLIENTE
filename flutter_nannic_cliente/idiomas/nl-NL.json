@@ -179,7 +179,18 @@
   "cambiarmedicacion": "Wijzig de huidige medicatie van de patiënt",
   "actualizarmedicacion": "Update nieuwe patiëntmedicatie",
   "cambiarobservaciones": "Wijzig observaties in de medische gegevens van de patiënt",
-  "actualizarobservaciones": "Update observaties van medische gegevens van patiënten"
+  "actualizarobservaciones": "Update observaties van medische gegevens van patiënten",
+  "suplementos": "Neemt u voedingssupplementen?",
+  "tipoalimentacion": "Speciaal dieettype?",
+  "fuma": "Rookt de patiënt?",
+  "bebealcohol": "Drinkt de patiënt alcoholische dranken?",
+  "desordenalimenticio": "Eetstoornis?",
+  "bronceado": "Is veelvuldig zonnen/UVA-bruinen een gangbare praktijk?",
+  "trastornosueno": "Slaapproblemen?",
+  "circunstanciaslaborales": "Specifieke werkomstandigheden?",
+  "cambiarobservacionescostumbres": "Observaties van de gewoonten van de patiënt",
+  "actualizarobservacionescostumbres": "Update observaties over de gewoonten van de patiënt",
+  "observacionesdatoshabitos": "Observaties van de gewoonten van de patiënt"
 
 
 
