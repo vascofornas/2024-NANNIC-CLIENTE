@@ -190,7 +190,20 @@
   "circunstanciaslaborales": "Specifieke werkomstandigheden?",
   "cambiarobservacionescostumbres": "Observaties van de gewoonten van de patiënt",
   "actualizarobservacionescostumbres": "Update observaties over de gewoonten van de patiënt",
-  "observacionesdatoshabitos": "Observaties van de gewoonten van de patiënt"
+  "observacionesdatoshabitos": "Observaties van de gewoonten van de patiënt",
+  "skinanalysis": "Huid analyse",
+  "skinsensitivityUV": "Gevoeligheid van de huid voor UV-straling",
+  "skintype": "Huid type",
+  "skinpores": "Huidporiën",
+  "skinreactivity": "Reactiviteit van de huid",
+  "skinsensitivity": "Gevoeligheid van de huid",
+  "skinbloodflow": "Doorbloeding van de huid",
+  "skinexcessivehair": "Huid overmatig haar",
+  "dehydrated": "uitgedroogd",
+  "normal": "normaal",
+  "oily": "olieachtig",
+  "combination": "combinatie",
+  "localdehydrated": "plaatselijk uitgedroogd"
 
 
 

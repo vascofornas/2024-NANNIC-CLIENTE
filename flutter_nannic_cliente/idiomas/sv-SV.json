@@ -190,5 +190,18 @@
   "circunstanciaslaborales": "Specifika arbetsförhållanden?",
   "cambiarobservacionescostumbres": "Observationer om patientens vanor",
   "actualizarobservacionescostumbres": "Uppdatera observationer om patientens vanor",
-  "observacionesdatoshabitos": "Observationer om patientens vanor"
+  "observacionesdatoshabitos": "Observationer om patientens vanor",
+  "skinanalysis": "Hudanalys",
+  "skinsensitivityUV": "Hudens känslighet för UV-strålning",
+  "skintype": "Hud typ",
+  "skinpores": "Hudens porer",
+  "skinreactivity": "Hudens reaktivitet",
+  "skinsensitivity": "Hudens känslighet",
+  "skinbloodflow": "Hudens blodflöde",
+  "skinexcessivehair": "Hud överdrivet hår",
+  "dehydrated": "uttorkad",
+  "normal": "vanligt",
+  "oily": "oljig",
+  "combination": "kombination",
+  "localdehydrated": "lokal uttorkad"
 }

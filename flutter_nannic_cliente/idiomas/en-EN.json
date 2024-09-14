@@ -190,5 +190,18 @@
   "circunstanciaslaborales": "Specific work circumstances?",
   "cambiarobservacionescostumbres": "Observations on the patient's habits",
   "actualizarobservacionescostumbres": "Update observations about the patient's habits",
-  "observacionesdatoshabitos": "Observations on the patient's habits"
+  "observacionesdatoshabitos": "Observations on the patient's habits",
+  "skinanalysis": "Skin analysis",
+  "skinsensitivityUV": "Skin sensitivity to UV radiation",
+  "skintype": "Skin type",
+  "skinpores": "Skin pores",
+  "skinreactivity": "Skin reactivity",
+  "skinsensitivity": "Skin sensitivity",
+  "skinbloodflow": "Skin blood flow",
+  "skinexcessivehair": "Skin excessive hair",
+  "dehydrated": "dehydrated",
+  "normal": "normal",
+  "oily": "oily",
+  "combination": "combination",
+  "localdehydrated": "local dehydrated"
 }
